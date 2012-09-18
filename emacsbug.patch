@@ -1,0 +1,22 @@
+=== modified file 'lisp/mail/emacsbug.el'
+--- lisp/mail/emacsbug.el	2012-04-04 01:05:29 +0000
++++ lisp/mail/emacsbug.el	2012-09-10 02:19:23 +0000
+@@ -304,9 +304,14 @@
+       (insert "\n"))
+     (insert "\n")
+     (insert "Load-path shadows:\n")
+-    (message "Checking for load-path shadows...")
+-    (let ((shadows (list-load-path-shadows t)))
+-      (message "Checking for load-path shadows...done")
++    (let* ((msg "Checking for load-path shadows...")
++	   (result "done")
++	   (shadows (progn (message "%s" msg)
++			   (condition-case nil (list-load-path-shadows t)
++			     (error
++			      (setq result "error")
++			      "Error during checking")))))
++      (message "%s%s" msg result)
+       (insert (if (zerop (length shadows))
+                   "None found.\n"
+                 shadows)))
+

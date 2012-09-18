@@ -1,0 +1,8 @@
+*~
+emacs-*-*/
+old/
+save/
+emacs-*.tar.gz
+emacs-*.tar.bz2
+/build.sh
+

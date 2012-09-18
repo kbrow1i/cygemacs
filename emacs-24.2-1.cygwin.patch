@@ -1,0 +1,588 @@
+--- origsrc/emacs-24.2/CYGWIN-PATCHES/emacs-X11.README	1969-12-31 19:00:00.000000000 -0500
++++ src/emacs-24.2/CYGWIN-PATCHES/emacs-X11.README	2012-08-21 09:09:28.599836000 -0400
+@@ -0,0 +1,99 @@
++emacs-X11
++------------------------------------------
++This package contains the X11 binaries for emacs.  Install it if you
++want to run emacs using the X windows system for display.  The binaries
++also can be used in non-X11 mode.
++
++Canonical homepage:
++  http://www.gnu.org/software/emacs/
++
++Canonical download:
++  http://ftp.gnu.org/pub/gnu/emacs/
++
++License:
++  GPLv2
++
++Language:
++  C, Emacs Lisp
++
++------------------------------------
++
++Build instructions:
++  See the emacs package
++
++------------------
++
++Port Notes:
++
++----------  emacs-X11-24.2-1 -- 2012-08-27 -----------
++  * new upstream release
++
++----------  emacs-X11-23.4-3 -- 2012-08-15 -----------
++  * patch to fix emacs bug#12155 (CVE-2012-3479)
++
++----------  emacs-X11-24.1-1 -- 2012-07-17 -----------
++  * new upstream release
++
++----------  emacs-X11-23.4-2 -- 2012-05-16 -----------
++  * patch to fix emacs bug#9754
++
++----------  emacs-X11-24.0.96-2 -- 2012-05-15 -----------
++  * patch to fix emacs bug#9754
++
++----------  emacs-X11-24.0.96-1 -- 2012-04-27 -----------
++  * upstream pretest
++
++----------  emacs-X11-23.4-1 -- 2012-01-29 -----------
++  * new upstream release
++
++----------  emacs-X11-23.3-3 -- 2011-08-14 -----------
++  * patch to fix memory-allocation problem (Emacs bug#9273; see also
++    http://cygwin.com/ml/cygwin/2011-08/msg00167.html)
++  * make the executables large address aware
++
++----------  emacs-X11-23.3-2 -- 2011-03-24 -----------
++  * patch to make emacs use mmap for buffer allocation
++
++----------  emacs-X11-23.3-1 -- 2011-03-10 -----------
++  * new upstream release
++  * patch to make Dired use `ls --dired'
++
++----------  emacs-X11-23.2-3 -- 2010-10-01 -----------
++  * patch to make D-BUS support work in Cygwin
++  * use lndirs to work around build glitch (Emacs bug#7127)
++
++----------  emacs-X11-23.2-2 -- 2010-08-16 -----------
++  * rebuild with D-BUS support
++
++----------  emacs-X11-23.2-1 -- 2010-05-08 -----------
++  * new upstream release
++  * switched to GTK+ toolkit
++  * linked against libncursesw
++
++----------  emacs-X11-23.1-10 -- 2009-07-30 -----------
++  * new upstream release
++  * applied a patch to make browse-url work in cygwin
++
++----------  emacs-X11-23.0.92-10 -- 2009-06-11 -----------
++  * improved documentation
++  * promoted from "experimental" to "current"
++
++----------  emacs-X11-23.0.92-1 -- 2009-05-14 -----------
++  * new maintainer
++  * built with gcc4
++
++----------  emacs-X11-22.1-3 -- 2007-07-19 -----------
++  * hint file fixed
++  * alternative binary installation
++
++----------  emacs-X11-22.1-2 -- 2007-07-15 -----------
++
++----------  emacs-X11-22.1-1 -- 2007-07-08 -----------
++  * Initial release after maintainer change
++
++
++For more information about this package, see the upstream documentation in
++/usr/share/doc/emacs
++
++Cygwin port maintained by: Ken Brown <kbrown@cornell.edu>
++Please address all questions to the Cygwin mailing list at <cygwin@cygwin.com>
+--- origsrc/emacs-24.2/CYGWIN-PATCHES/emacs-X11.hint	1969-12-31 19:00:00.000000000 -0500
++++ src/emacs-24.2/CYGWIN-PATCHES/emacs-X11.hint	2012-08-21 09:11:51.652087300 -0400
+@@ -0,0 +1,8 @@
++sdesc: "X11 binaries for Emacs."
++ldesc: "This package contains the X11 binaries for emacs.  Install
++it if you want to run emacs using the X window system for
++display.  The binaries also can be used in non-X11 mode."
++category: Editors Interpreters
++requires: alternatives emacs font-adobe-dpi75 font-misc-misc libdbus1_3 libfontconfig1 libfreetype6 libgdk_pixbuf2.0_0 libgif4 libglib2.0_0 libgnutls26 libgtk2.0_0 libICE6 libjpeg8 libMagickCore5 libncursesw10 libpng15 librsvg2_2 libSM6 libtiff5 libX11_6 libXft2 libxml2 libXpm4 libXrender1
++external-source: emacs
++# maintainer: Ken Brown
+--- origsrc/emacs-24.2/CYGWIN-PATCHES/emacs-X11.postinstall	1969-12-31 19:00:00.000000000 -0500
++++ src/emacs-24.2/CYGWIN-PATCHES/emacs-X11.postinstall	2012-08-21 09:09:28.599836000 -0400
+@@ -0,0 +1,8 @@
++#!/bin/sh
++
++prefix=/usr
++bindir=${prefix}/bin
++sbindir=${prefix}/sbin
++
++${sbindir}/update-alternatives \
++	--install ${bindir}/emacs emacs ${bindir}/emacs-X11.exe 20
+--- origsrc/emacs-24.2/CYGWIN-PATCHES/emacs-X11.preremove	1969-12-31 19:00:00.000000000 -0500
++++ src/emacs-24.2/CYGWIN-PATCHES/emacs-X11.preremove	2012-08-21 09:09:28.599836000 -0400
+@@ -0,0 +1,8 @@
++#!/bin/sh
++
++prefix=/usr
++bindir=${prefix}/bin
++sbindir=${prefix}/sbin
++
++${sbindir}/update-alternatives \
++	--remove emacs ${bindir}/emacs-X11.exe
+--- origsrc/emacs-24.2/CYGWIN-PATCHES/emacs-debuginfo.hint	1969-12-31 19:00:00.000000000 -0500
++++ src/emacs-24.2/CYGWIN-PATCHES/emacs-debuginfo.hint	2012-08-21 09:09:28.599836000 -0400
+@@ -0,0 +1,7 @@
++category: Debug
++requires:
++sdesc: "Debug info for emacs"
++ldesc: "This package contains files necessary for debugging the
++emacs package with gdb."
++external-source: emacs
++# maintainer: Ken Brown
+--- origsrc/emacs-24.2/CYGWIN-PATCHES/emacs-el.README	1969-12-31 19:00:00.000000000 -0500
++++ src/emacs-24.2/CYGWIN-PATCHES/emacs-el.README	2012-08-21 09:09:28.599836000 -0400
+@@ -0,0 +1,95 @@
++emacs-el
++------------------------------------------
++This package contains the LISP source code for the various emacs
++addons, including code for input methods for internationalization.
++
++Canonical homepage:
++  http://www.gnu.org/software/emacs/
++
++Canonical download:
++  http://ftp.gnu.org/pub/gnu/emacs/
++
++License:
++  GPLv2
++
++Language:
++  Emacs Lisp
++
++------------------------------------
++
++Build instructions:
++  See the emacs package
++
++------------------
++
++Port Notes:
++
++----------  emacs-el-24.2-1 -- 2012-08-27 -----------
++  * new upstream release
++
++----------  emacs-el-23.4-3 -- 2012-08-15 -----------
++  * patch to fix emacs bug#12155 (CVE-2012-3479)
++
++----------  emacs-el-24.1-1 -- 2012-07-17 -----------
++  * new upstream release
++
++----------  emacs-el-23.4-2 -- 2012-05-16 -----------
++  * patch to fix emacs bug#9754
++
++----------  emacs-el-24.0.96-2 -- 2012-05-15 -----------
++  * patch to fix emacs bug#9754
++
++----------  emacs-el-24.0.96-1 -- 2012-04-27 -----------
++  * upstream pretest
++
++----------  emacs-el-23.4-1 -- 2012-01-29 -----------
++  * new upstream release
++
++----------  emacs-el-23.3-3 -- 2011-08-14 -----------
++  * patch to fix memory-allocation problem (Emacs bug#9273; see also
++    http://cygwin.com/ml/cygwin/2011-08/msg00167.html)
++  * make the executables large address aware
++
++----------  emacs-el-23.3-2 -- 2011-03-24 -----------
++  * patch to make emacs use mmap for buffer allocation
++
++----------  emacs-el-23.3-1 -- 2011-03-10 -----------
++  * new upstream release
++  * patch to make Dired use `ls --dired'
++
++----------  emacs-el-23.2-3 -- 2010-10-01 -----------
++  * patch to make D-BUS support work in Cygwin
++  * use lndirs to work around build glitch (Emacs bug#7127)
++
++----------  emacs-el-23.2-2 -- 2010-08-16 -----------
++  * rebuild with D-BUS support
++
++----------  emacs-el-23.2-1 -- 2010-05-08 -----------
++  * new upstream release
++
++----------  emacs-el-23.1-10 -- 2009-07-30 -----------
++  * new upstream release
++
++----------  emacs-el-23.0.92-10 -- 2009-06-11 -----------
++  * improved documentation
++  * promoted from "experimental" to "current"
++
++----------  emacs-el-23.0.92-1 -- 2009-05-14 -----------
++  * new maintainer
++  * built with gcc4
++
++----------  emacs-el-22.1-3 -- 2007-07-19 -----------
++  * hint file fixed
++
++----------  emacs-el-22.1-2 -- 2007-07-15 -----------
++  * packaging conflicts fixed
++
++----------  emacs-el-22.1-1 -- 2007-07-08 -----------
++  * Initial release after maintainer change
++
++
++For more information about this package, see the upstream documentation in
++/usr/share/doc/emacs
++
++Cygwin port maintained by: Ken Brown <kbrown@cornell.edu>
++Please address all questions to the Cygwin mailing list at <cygwin@cygwin.com>
+--- origsrc/emacs-24.2/CYGWIN-PATCHES/emacs-el.hint	1969-12-31 19:00:00.000000000 -0500
++++ src/emacs-24.2/CYGWIN-PATCHES/emacs-el.hint	2012-08-21 09:09:28.662236100 -0400
+@@ -0,0 +1,9 @@
++sdesc: "LISP source code for Emacs (including LEIM)."
++ldesc: "This package contains the LISP source code for the various
++emacs addons including code for input methods for
++internationalization.  Install it if you want to personalize built-in
++emacs functionality in some way on your machine."
++category: Editors Interpreters
++requires:
++external-source: emacs
++# maintainer: Ken Brown
+--- origsrc/emacs-24.2/CYGWIN-PATCHES/emacs.README	1969-12-31 19:00:00.000000000 -0500
++++ src/emacs-24.2/CYGWIN-PATCHES/emacs.README	2012-08-21 09:09:28.662236100 -0400
+@@ -0,0 +1,136 @@
++emacs
++------------------------------------------
++Emacs is a powerful, customizable, self-documenting, modeless text
++editor.  Emacs contains special code editing features, a scripting
++language (elisp), and the capability to read mail, news, and more
++without leaving the editor.  This package supplies everything needed
++for a non-X11 emacs.
++
++Some binaries normally part of the emacs distribution are separated to
++avoid conflicts with other packages.  If you need b2m or rcs-ckeckin,
++install the xemacs-emacs-common package.  If you need ctags or etags,
++install the ctags package.
++
++Usage notes:
++
++    The script /usr/bin/make-emacs-shortcut can be used to create a
++    shortcut for starting emacs.  The shortcut starts emacs under X if
++    an X server is running and in a Cygwin Terminal (running mintty)
++    otherwise.  Edit the shortcut and/or the script if you want
++    different behavior.  The script creates an xml file in
++    /usr/local/bin, so the user who runs the script needs to be able
++    to write to that directory.
++
++    You will need the cygutils package in order to run
++    make-emacs-shortcut, and you will need the run2 package to use the
++    shortcut it creates.
++
++Canonical homepage:
++  http://www.gnu.org/software/emacs/
++
++Canonical download:
++  http://ftp.gnu.org/pub/gnu/emacs/
++
++License:
++  GPLv2
++
++Language:
++  C, Emacs Lisp
++
++------------------------------------
++
++Build instructions:
++  unpack emacs-24.2-1-src.tar.bz2
++    if you use setup to install this src package, it will be
++	 unpacked under /usr/src automatically
++  cd /usr/src
++  cygport ./emacs-24.2-1.cygport all
++
++This will create:
++  /usr/src/emacs-24.2-1.tar.bz2
++  /usr/src/emacs-24.2-1-src.tar.bz2
++  /usr/src/emacs-el-24.2-1.tar.bz2
++  /usr/src/emacs-X11-24.2-1.tar.bz2
++
++Or use 'cygport ./emacs-24.2-1.cygport prep' to get
++a patched source directory.
++
++------------------
++
++Port Notes:
++
++----------  emacs-24.2-1 -- 2012-08-27 -----------
++  * new upstream release
++
++----------  emacs-23.4-3 -- 2012-08-15 -----------
++  * patch to fix emacs bug#12155 (CVE-2012-3479)
++
++----------  emacs-24.1-1 -- 2012-07-17 -----------
++  * new upstream release
++
++----------  emacs-23.4-2 -- 2012-05-16 -----------
++  * patch to fix emacs bug#9754
++
++----------  emacs-24.0.96-2 -- 2012-05-15 -----------
++  * patch to fix emacs bug#9754
++
++----------  emacs-24.0.96-1 -- 2012-04-27 -----------
++  * upstream pretest
++
++----------  emacs-23.4-1 -- 2012-01-29 -----------
++  * new upstream release
++
++----------  emacs-23.3-3 -- 2011-08-14 -----------
++  * patch to fix memory-allocation problem (Emacs bug#9273; see also
++    http://cygwin.com/ml/cygwin/2011-08/msg00167.html)
++  * make the executables large address aware
++
++----------  emacs-23.3-2 -- 2011-03-24 -----------
++  * patch to make emacs use mmap for buffer allocation
++
++----------  emacs-23.3-1 -- 2011-03-10 -----------
++  * new upstream release
++  * patch to make Dired use `ls --dired'
++
++----------  emacs-23.2-3 -- 2010-10-01 -----------
++  * patch to make D-BUS support work in Cygwin
++  * use lndirs to work around build glitch (Emacs bug#7127)
++
++----------  emacs-23.2-2 -- 2010-08-16 -----------
++  * rebuild with D-BUS support
++
++----------  emacs-23.2-1 -- 2010-05-08 -----------
++  * new upstream release
++  * added script for making a shortcut
++  * added icon for shortcut
++  * linked against libncursesw
++
++----------  emacs-23.1-10 -- 2009-07-30 -----------
++  * new upstream release
++  * applied a patch to make browse-url work in Cygwin
++
++----------  emacs-23.0.92-10 -- 2009-06-11 -----------
++  * improved documentation
++  * promoted from "experimental" to "current"
++
++----------  emacs-23.0.92-1 -- 2009-05-14 -----------
++  * new maintainer
++  * built with gcc4
++
++----------  emacs-22.1-3 -- 2007-07-19 -----------
++  * hint file fixed
++  * alternative binary installation
++
++----------  emacs-22.1-2 -- 2007-07-15 -----------
++  * packaging conflicts fixed
++
++----------  emacs-22.1-1 -- 2007-07-08 -----------
++  * Initial release after maintainer change
++  * LEIM now part of emacs package
++
++
++For more information about this package, see the upstream documentation in
++/usr/share/doc/emacs
++
++Cygwin port maintained by: Ken Brown <kbrown@cornell.edu>
++Please address all questions to the Cygwin mailing list at <cygwin@cygwin.com>
+--- origsrc/emacs-24.2/CYGWIN-PATCHES/emacs.hint	1969-12-31 19:00:00.000000000 -0500
++++ src/emacs-24.2/CYGWIN-PATCHES/emacs.hint	2012-08-21 09:09:28.677836100 -0400
+@@ -0,0 +1,9 @@
++sdesc: "The extensible, customizable, self-documenting real-time display editor."
++ldesc: "Emacs is a powerful, customizable, self-documenting, modeless text
++editor.  Emacs contains special code editing features, a scripting
++language (elisp), and the capability to read mail, news and more without
++leaving the editor.  This package supplies everything needed for a non-X11
++emacs."
++category: Editors Interpreters
++requires: xemacs-emacs-common alternatives libdbus1_3 libgnutls26 libncursesw10 libxml2 perl
++# maintainer: Ken Brown
+--- origsrc/emacs-24.2/CYGWIN-PATCHES/emacs.postinstall	1969-12-31 19:00:00.000000000 -0500
++++ src/emacs-24.2/CYGWIN-PATCHES/emacs.postinstall	2012-08-21 09:09:28.677836100 -0400
+@@ -0,0 +1,8 @@
++#!/bin/sh
++
++prefix=/usr
++bindir=${prefix}/bin
++sbindir=${prefix}/sbin
++
++${sbindir}/update-alternatives \
++	--install ${bindir}/emacs emacs ${bindir}/emacs-nox.exe 10
+--- origsrc/emacs-24.2/CYGWIN-PATCHES/emacs.preremove	1969-12-31 19:00:00.000000000 -0500
++++ src/emacs-24.2/CYGWIN-PATCHES/emacs.preremove	2012-08-21 09:09:28.677836100 -0400
+@@ -0,0 +1,8 @@
++#!/bin/sh
++
++prefix=/usr
++bindir=${prefix}/bin
++sbindir=${prefix}/sbin
++
++${sbindir}/update-alternatives \
++	--remove emacs ${bindir}/emacs-nox.exe
+--- origsrc/emacs-24.2/CYGWIN-PATCHES/make-emacs-shortcut	1969-12-31 19:00:00.000000000 -0500
++++ src/emacs-24.2/CYGWIN-PATCHES/make-emacs-shortcut	2012-08-21 09:09:28.677836100 -0400
+@@ -0,0 +1,157 @@
++#!/bin/bash
++
++# Adapted by Ken Brown from Chuck Wilson's config-run2-example.sh in
++# the run2 package.
++
++CYGUTILS_VER_REQD=1.4.2
++CYGUTILS_VER_INST=$(cygcheck -cd cygutils | grep cygutils | awk '{print $2}')
++XMLFILE=/usr/local/bin/emacs.xml
++
++
++_version_parse_pkg_major=
++_version_parse_pkg_minor=
++_version_parse_pkg_micro=
++# ======================================================================
++# Routine: version_parse
++#   safely parses a version string of the form x.y.z into three 
++#   separate values.
++# ======================================================================
++version_parse () {
++  local pkg_version="$1"
++  # remove any non-digit characters from the version numbers to permit numeric
++  _version_parse_pkg_major=`echo $pkg_version | cut -d. -f1 | sed s/[a-zA-Z\-].*//g`
++  _version_parse_pkg_minor=`echo $pkg_version | cut -d. -f2 | sed s/[a-zA-Z\-].*//g`
++  _version_parse_pkg_micro=`echo $pkg_version | cut -d. -f3 | sed s/[a-zA-Z\-].*//g`
++  test -z "$_version_parse_pkg_major" && _version_parse_pkg_major=0
++  test -z "$_version_parse_pkg_minor" && _version_parse_pkg_minor=0
++  test -z "$_version_parse_pkg_micro" && _version_parse_pkg_micro=0
++}
++readonly -f version_parse
++
++# ======================================================================
++# Routine: version_ge
++#   Compares two version strings: $1 ad $2 should both be version
++#   strings of the form x.y.z
++#   returns true if $1 >= $2, when compared as normal version strings
++#   returns false otherwise
++# ======================================================================
++version_ge() {
++  local lh_pkg_version="$1"
++  local rh_pkg_version="$2"
++  local lh_pkg_major
++  local lh_pkg_minor
++  local lh_pkg_micro
++  local rh_pkg_major
++  local rh_pkg_minor
++  local rh_pkg_micro
++
++  version_parse "$lh_pkg_version"
++  lh_pkg_major=$_version_parse_pkg_major
++  lh_pkg_minor=$_version_parse_pkg_minor
++  lh_pkg_micro=$_version_parse_pkg_micro
++
++  version_parse "$rh_pkg_version"
++  rh_pkg_major=$_version_parse_pkg_major
++  rh_pkg_minor=$_version_parse_pkg_minor
++  rh_pkg_micro=$_version_parse_pkg_micro
++
++  if [ $lh_pkg_major -gt $rh_pkg_major ]
++  then
++    return 0
++  elif [ $lh_pkg_major -eq $rh_pkg_major ]
++  then
++    if [ $lh_pkg_minor -gt $rh_pkg_minor ]
++    then
++      return 0
++    elif [ $lh_pkg_minor -eq $rh_pkg_minor ]
++    then
++      if [ $lh_pkg_micro -ge $rh_pkg_micro ]
++      then
++        return 0
++      fi
++    fi
++  fi
++  return 1
++} # === End of version_ge() === #
++readonly -f version_ge
++
++errorMsg ()
++{
++  local errorcode=$?
++  if ((errorcode == 0))
++  then
++    errorcode=1
++  fi
++  echo -e "\e[1;31m*** ERROR:\e[0;0m ${1:-no error message provided}"
++  exit ${errorcode};
++}
++warnMsg()
++{
++  echo -e "\e[1;33m*** Warning:\e[0;0m ${1}"
++}
++infoMsg()
++{
++  echo -e "\e[1;32m*** Info:\e[0;0m ${1}"
++}
++readonly -f errorMsg warnMsg infoMsg
++
++
++if version_ge "$CYGUTILS_VER_INST" "$CYGUTILS_VER_REQD"
++then
++  :
++else
++  msg="This script requires cygutils-$CYGUTILS_VER_REQD or better."
++  if cygcheck -cd cygutils | grep cygutils >/dev/null
++  then
++    msg="$msg You have $CYGUTILS_VER_INST.\n"
++  else
++    msg="$msg You don't have cygutils installed.\n"
++  fi
++  errorMsg "$msg"
++fi
++
++if [ -e $XMLFILE ]
++then
++  mv $XMLFILE $XMLFILE.bak
++  bn=${XMLFILE##*/}
++  infoMsg "Moved existing file $XMLFILE to ${bn}.bak."
++fi
++
++cat >${XMLFILE} <<"EOF"
++<?xml version="1.0" encoding="us-ascii"?>
++<Run2Config
++  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++  xsi:noNamespaceSchemaLocation="run2.xsd">
++  <SelfOptions />
++  <Global>
++    <Environment />
++  </Global>
++  <GDI>
++    <Environment />
++    <Target filename="/usr/bin/mintty.exe" startin="~">
++      <Arg>-e /bin/bash -l -c emacs</Arg>
++    </Target>
++  </GDI>
++  <X11>
++    <Environment>
++      <Set var="DISPLAY" value="127.0.0.1:0.0"/>
++    </Environment>
++    <Target filename="/usr/bin/bash.exe" startin="~">
++      <Arg>-l</Arg>
++      <Arg>-c emacs</Arg>
++    </Target>
++  </X11>
++</Run2Config>
++EOF
++infoMsg "Created ${XMLFILE}."
++
++mkshortcut --desc="Emacs" \
++  --icon="/usr/bin/emacs.ico" \
++  --arguments="--display 127.0.0.1:0.0 ${XMLFILE}" \
++  --name="emacs" \
++  /usr/bin/run2.exe
++
++infoMsg "Created ${PWD}/emacs.lnk."
++infoMsg "You should move it to the desired location."
++infoMsg "Feel free to edit its properties"
++infoMsg "or the contents of ${XMLFILE}."

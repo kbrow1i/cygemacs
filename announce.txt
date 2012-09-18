@@ -1,0 +1,40 @@
+The following packages have been updated in the Cygwin distribution:
+
+*** emacs-24.1-1
+*** emacs-X11-24.1-1
+*** emacs-el-24.1-1
+
+In addition, I have added the package
+
+*** emacs-debuginfo-24.1-1
+
+for users who want to debug emacs with gdb.
+
+Emacs is a powerful, customizable, self-documenting, modeless text editor.  Emacs contains special code editing features, a scripting language (elisp), and the capability to read mail, news, and more without leaving the editor.
+
+This is a new upstream release.  See http://www.gnu.org/software/emacs/ for a summary of the new features in Emacs 24.  You can also use the command 'C-h n' within emacs to browse the NEWS file.  Note, in particular, that there have been some changes in the handling of selections; search for "Selection changes" in the NEWS file.
+
+CYGWIN NOTES
+============
+Install the emacs-X11 package if you want to use the X11 GUI.  You can then type 'emacs&' in an xterm window, and emacs will start in a new window.  If you have sshd running and want to be able to run the GUI version of emacs from a remote machine, you need to enable X11 forwarding by adding the following line to /etc/sshd_config:
+
+  X11Forwarding yes
+
+The script /usr/bin/make-emacs-shortcut can be used to create a shortcut for starting emacs.  The shortcut starts emacs under X if an X server is running and in a mintty window otherwise.  Edit the shortcut and/or the script if you want different behavior.
+
+You will need the cygutils package to run the script, and you will need mintty and run2 to use the shortcut.  In addition, the user who runs the script needs to be able to write to /usr/local/bin.
+
+Ken Brown
+Cygwin emacs maintainer
+
+                   *** CYGWIN-ANNOUNCE UNSUBSCRIBE INFO ***
+
+If you want to unsubscribe from the cygwin-announce mailing list, look at the "List-Unsubscribe: " tag in the email header of this message.  Send email to the address specified there.  It will be in the format:
+
+       cygwin-announce-unsubscribe-you=yourdomain.com@cygwin.com
+
+If you need more information on unsubscribing, start reading here:
+
+       http://sourceware.org/lists.html#unsubscribe-simple
+
+Please read *all* of the information on unsubscribing that is available starting at the above URL.

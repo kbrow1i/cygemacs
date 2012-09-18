@@ -1,0 +1,18 @@
+D=http://sanibeltranquility.com/cygwin/release/emacs
+wget -x -nH --cut-dirs=2 \
+  ${D}/emacs-24.1-1-src.tar.bz2 \
+  ${D}/emacs-24.1-1.tar.bz2 \
+  ${D}/setup.hint \
+  ${D}/emacs-X11/emacs-X11-24.1-1.tar.bz2 \
+  ${D}/emacs-X11/setup.hint \
+  ${D}/emacs-el/emacs-el-24.1-1.tar.bz2 \
+  ${D}/emacs-el/setup.hint \
+  ${D}/emacs-debuginfo/emacs-debuginfo-24.1-1.tar.bz2 \
+  ${D}/emacs-debuginfo/setup.hint
+
+find emacs -name '*23.3-3*' | xargs rm
+find emacs -name '*24.0.96-2*' | xargs rm
+
+Thanks.
+
+Ken

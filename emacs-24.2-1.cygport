@@ -1,0 +1,107 @@
+DESCRIPTION="Emacs is the extensible, customizable, self-documenting real-time display editor."
+
+HOMEPAGE="http://www.gnu.org/software/emacs/"
+SRC_URI="mirror://gnu/emacs/${P}.tar.gz"
+# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}-rc1.tar.gz"
+# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.gz"
+
+DEPEND="libtiff-devel
+	libgif-devel
+	libjpeg-devel
+	pkgconfig(dbus-1)
+	pkgconfig(fontconfig)
+	pkgconfig(freetype2)
+	pkgconfig(gio-2.0)
+	pkgconfig(glib-2.0)
+	pkgconfig(gnutls)
+	pkgconfig(gtk+-2.0)
+	pkgconfig(librsvg-2.0)
+	pkgconfig(libxml-2.0)
+	pkgconfig(libpng15)
+	pkgconfig(ncursesw)
+	pkgconfig(sm)
+	pkgconfig(Wand)
+	pkgconfig(x11)
+	pkgconfig(xft)
+	pkgconfig(xpm)
+	pkgconfig(xrender)"
+
+PATCH_URI="
+	adapt_to_new_cygstart.patch
+	cygwin.h.patch
+	xgselect-24.0.97.patch
+"
+
+PKG_NAMES="${PN} ${PN}-el ${PN}-X11"
+PKG_HINTS="${PN} ${PN}-el ${PN}-X11"
+CPPFLAGS=-I/usr/include/ncursesw
+LDFLAGS=-L/usr/lib/ncursesw
+
+emacs_CONTENTS="
+	--exclude=usr/share/${PN}/${PV}/lisp*el.gz
+	--exclude=usr/share/${PN}/${PV}/leim*el.gz
+	--exclude=usr/bin/emacs-X11.exe
+	--exclude=etc/postinstall/emacs-X11.sh
+	--exclude=etc/preremove/emacs-X11.sh
+	--exclude=usr/share/doc/Cygwin/emacs-X11.README
+	--exclude=usr/share/doc/Cygwin/emacs-el.README
+	etc/
+	usr/"
+emacs_el_CONTENTS="
+	--exclude=usr/share/${PN}/${PV}/lisp*el
+	--exclude=usr/share/${PN}/${PV}/leim*el
+	--exclude=usr/share/${PN}/${PV}/lisp*elc
+	--exclude=usr/share/${PN}/${PV}/leim*elc
+	--exclude=usr/share/${PN}/${PV}/lisp/COPYING
+	--exclude=usr/share/${PN}/${PV}/lisp/README
+	--exclude=usr/share/${PN}/${PV}/lisp/calc/README
+	--exclude=usr/share/${PN}/${PV}/lisp/calc/README.prev
+	--exclude=usr/share/${PN}/${PV}/lisp/international/README
+	--exclude=usr/share/${PN}/${PV}/lisp/term/README
+	--exclude=usr/share/${PN}/${PV}/lisp/nxml/TODO
+	--exclude=usr/share/${PN}/${PV}/lisp/forms-d2.dat
+	usr/share/${PN}/${PV}/lisp
+	usr/share/${PN}/${PV}/leim
+	usr/share/doc/Cygwin/emacs-el.README"
+emacs_X11_CONTENTS="
+	usr/bin/emacs-X11.exe
+	etc/postinstall/emacs-X11.sh
+	etc/preremove/emacs-X11.sh
+	usr/share/doc/Cygwin/emacs-X11.README"
+
+DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~"
+ACLOCAL_FLAGS='-I m4'
+
+src_compile() {
+	cd ${S}
+	cygautoreconf
+	cd ${B}
+	cygconf --with-x=no
+	cygmake
+	cp -v src/emacs.exe emacs-nox.exe
+	make distclean
+	cygconf --without-gsettings --without-gconf
+	cygmake
+	mv -v emacs-nox.exe src/emacs-nox.exe
+	cp -v src/emacs.exe src/emacs-X11.exe
+}
+
+src_install() {
+	cd ${B}
+	cyginstall
+	dobin src/emacs-nox.exe
+	dobin src/emacs-X11.exe
+	dobin ${C}/make-emacs-shortcut
+	insinto /usr/bin
+	doins ${S}/nt/icons/emacs.ico
+	cd ${D}
+	rm -fv \
+		usr/bin/${P}.exe \
+		usr/bin/emacs.exe \
+		usr/bin/b2m.exe \
+		usr/bin/rcs-checkin \
+		usr/bin/ctags.exe \
+		usr/bin/etags.exe \
+		usr/share/man/man1/ctags* \
+		usr/share/man/man1/etags*
+}

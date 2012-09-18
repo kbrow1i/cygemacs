@@ -1,0 +1,25 @@
+=== modified file 'src/s/cygwin.h'
+--- src/s/cygwin.h	2011-11-10 08:14:27 +0000
++++ src/s/cygwin.h	2012-01-02 18:20:53 +0000
+@@ -58,7 +58,8 @@
+       if (-1 == openpty (&fd, &dummy, pty_name, 0, 0))	\
+ 	fd = -1;					\
+       sigsetmask (mask);				\
+-      emacs_close (dummy);				\
++      if (fd >= 0)					\
++	emacs_close (dummy);				\
+     }							\
+   while (0)
+ 
+@@ -81,10 +82,6 @@
+ 
+ #define HAVE_SOCKETS
+ 
+-/* vfork() interacts badly with setsid(), causing ptys to fail to
+-   change their controlling terminal */
+-#define vfork fork
+-
+ /* This should work (at least when compiling with gcc).  But I have no way
+    or intention to verify or even test it.  If you encounter a problem with
+    it, feel free to change this setting, but please add a comment here about
+
