@@ -1,9 +1,43 @@
-DESCRIPTION="Emacs is the extensible, customizable, self-documenting real-time display editor."
-
+NAME="emacs"
+VERSION=24.2
+RELEASE=1
 HOMEPAGE="http://www.gnu.org/software/emacs/"
-SRC_URI="mirror://gnu/emacs/${P}.tar.gz"
+CATEGORY="Editors Interpreters"
+PKG_NAMES="${PN} ${PN}-el ${PN}-X11"
+# PKG_HINTS="${PN} ${PN}-el ${PN}-X11"
+
+emacs_SUMMARY="The extensible, customizable, self-documenting real-time display editor."
+emacs_X11_SUMMARY="X11 binaries for Emacs."
+emacs_el_SUMMARY="LISP source code for Emacs (including LEIM)."
+
+emacs_DESCRIPTION="Emacs is a powerful, customizable, self-documenting, modeless text
+editor.  Emacs contains special code editing features, a scripting
+language (elisp), and the capability to read mail, news and more without
+leaving the editor.  This package supplies everything needed for a non-X11
+emacs."
+emacs_X11_DESCRIPTION="This package contains the X11 binaries for emacs.  Install
+it if you want to run emacs using the X window system for
+display.  The binaries also can be used in non-X11 mode."
+emacs_el_DESCRIPTION="This package contains the LISP source code for the various
+emacs addons including code for input methods for
+internationalization.  Install it if you want to personalize built-in
+emacs functionality in some way on your machine."
+
+emacs_REQUIRES="xemacs-emacs-common alternatives"
+emacs_X11_REQUIRES="alternatives emacs font-adobe-dpi75 font-misc-misc"
+
+SRC_URI="mirror://gnu/emacs/${P}.tar.gz make-emacs-shortcut README.Cygwin"
 # SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}-rc1.tar.gz"
 # SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.gz"
+
+PATCH_URI="
+	adapt_to_new_cygstart.patch
+	cygwin.h.patch
+	xgselect-24.0.97.patch
+	emacsbug.patch
+"
+
+DOCS="README.Cygwin"
 
 DEPEND="libtiff-devel
 	libgif-devel
@@ -26,27 +60,15 @@ DEPEND="libtiff-devel
 	pkgconfig(xpm)
 	pkgconfig(xrender)"
 
-PATCH_URI="
-	adapt_to_new_cygstart.patch
-	cygwin.h.patch
-	xgselect-24.0.97.patch
-"
-
-PKG_NAMES="${PN} ${PN}-el ${PN}-X11"
-PKG_HINTS="${PN} ${PN}-el ${PN}-X11"
-CPPFLAGS=-I/usr/include/ncursesw
-LDFLAGS=-L/usr/lib/ncursesw
-
 emacs_CONTENTS="
 	--exclude=usr/share/${PN}/${PV}/lisp*el.gz
 	--exclude=usr/share/${PN}/${PV}/leim*el.gz
 	--exclude=usr/bin/emacs-X11.exe
 	--exclude=etc/postinstall/emacs-X11.sh
 	--exclude=etc/preremove/emacs-X11.sh
-	--exclude=usr/share/doc/Cygwin/emacs-X11.README
-	--exclude=usr/share/doc/Cygwin/emacs-el.README
 	etc/
 	usr/"
+
 emacs_el_CONTENTS="
 	--exclude=usr/share/${PN}/${PV}/lisp*el
 	--exclude=usr/share/${PN}/${PV}/leim*el
@@ -61,16 +83,18 @@ emacs_el_CONTENTS="
 	--exclude=usr/share/${PN}/${PV}/lisp/nxml/TODO
 	--exclude=usr/share/${PN}/${PV}/lisp/forms-d2.dat
 	usr/share/${PN}/${PV}/lisp
-	usr/share/${PN}/${PV}/leim
-	usr/share/doc/Cygwin/emacs-el.README"
+	usr/share/${PN}/${PV}/leim"
+
 emacs_X11_CONTENTS="
 	usr/bin/emacs-X11.exe
 	etc/postinstall/emacs-X11.sh
-	etc/preremove/emacs-X11.sh
-	usr/share/doc/Cygwin/emacs-X11.README"
+	etc/preremove/emacs-X11.sh"
 
 DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~"
+
 ACLOCAL_FLAGS='-I m4'
+CPPFLAGS=-I/usr/include/ncursesw
+LDFLAGS=-L/usr/lib/ncursesw
 
 src_compile() {
 	cd ${S}
@@ -91,7 +115,7 @@ src_install() {
 	cyginstall
 	dobin src/emacs-nox.exe
 	dobin src/emacs-X11.exe
-	dobin ${C}/make-emacs-shortcut
+	dobin ${S}/make-emacs-shortcut
 	insinto /usr/bin
 	doins ${S}/nt/icons/emacs.ico
 	cd ${D}

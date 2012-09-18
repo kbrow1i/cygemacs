@@ -1,0 +1,14 @@
+Usage notes for emacs on Cygwin
+===============================
+
+    The script /usr/bin/make-emacs-shortcut can be used to create a
+    shortcut for starting emacs.  The shortcut starts emacs under X if
+    an X server is running and in a Cygwin Terminal (running mintty)
+    otherwise.  Edit the shortcut and/or the script if you want
+    different behavior.  The script creates an xml file in
+    /usr/local/bin, so the user who runs the script needs to be able
+    to write to that directory.
+
+    You will need the cygutils package in order to run
+    make-emacs-shortcut, and you will need the run2 package to use the
+    shortcut it creates.
