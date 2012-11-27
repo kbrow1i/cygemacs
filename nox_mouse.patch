@@ -1,0 +1,15 @@
+--- origsrc/emacs-24.2.90/configure.ac	2012-11-24 10:16:34.000000000 -0500
++++ src/emacs-24.2.90/configure.ac	2012-11-24 16:46:58.570381800 -0500
+@@ -4447,10 +4447,11 @@ AC_SUBST(LIB_GCC)
+ ## Common for all window systems
+ if test "$window_system" != "none"; then
+   AC_DEFINE(HAVE_WINDOW_SYSTEM, 1, [Define if you have a window system.])
+-  AC_DEFINE(HAVE_MOUSE, 1, [Define if you have mouse support.])
+   WINDOW_SYSTEM_OBJ="fontset.o fringe.o image.o"
+ fi
+ 
++AC_DEFINE(HAVE_MOUSE, 1, [Define if you have mouse support.])
++
+ AC_SUBST(WINDOW_SYSTEM_OBJ)
+ 
+ AH_TOP([/* GNU Emacs site configuration template file.
