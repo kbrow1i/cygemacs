@@ -1,7 +1,16 @@
 Usage notes for emacs on Cygwin
 ===============================
 
-1. Cygwin's emacs-X11 now supports GNOME's GSettings and GConf
+1. The emacs, emacs-w32, and emacs-X11 packages each provide an emacs
+   binary; these are emacs-nox.exe, emacs-w32.exe, and emacs-X11.exe,
+   respectively, in order of increasing priority.  The postinstall
+   scripts create a symlink /usr/bin/emacs that resolves to the
+   highest-priority binary that you have installed.  Thus the command
+   `emacs' will start emacs-X11.exe if you've installed the emacs-X11
+   package; otherwise, it will start emacs-w32.exe if you've installed
+   emacs-w32; otherwise, it will start emacs-nox.exe.
+
+2. Cygwin's emacs-X11 now supports GNOME's GSettings and GConf
    features.  As a consequence, it is strongly recommended that you
    have a D-Bus session daemon running before starting emacs under
    X11.  Otherwise, emacs will try to start one, and this can cause
@@ -23,7 +32,7 @@ Usage notes for emacs on Cygwin
 
    For more information, see the documentation for dbus-launch.
 
-2. If you start emacs under X11 and specify the window geometry on the
+3. If you start emacs under X11 and specify the window geometry on the
    command line or in ~/.Xdefaults, you may see the following warning:
 
      Gtk-WARNING **: gtk_window_parse_geometry() called on a window
@@ -34,7 +43,13 @@ Usage notes for emacs on Cygwin
 
      http://debbugs.gnu.org/cgi/bugreport.cgi?bug=11177 
 
-3. The script /usr/bin/make-emacs-shortcut can be used to create a
+4. If you have sshd running and want to be able to run emacs-X11 from
+   a remote machine, you need to enable X11 forwarding by adding the
+   following line to /etc/sshd_config:
+
+     X11Forwarding yes
+
+5. The script /usr/bin/make-emacs-shortcut can be used to create a
    shortcut for starting emacs.  The shortcut assumes that you have
    installed the emacs-X11 and emacs-w32 packages.  It starts emacs
    under X if an X server is running, and it starts emacs-w32.exe
