@@ -2,7 +2,7 @@ Usage notes for emacs on Cygwin
 ===============================
 
 1. The emacs, emacs-w32, and emacs-X11 packages each provide an emacs
-   binary; these are emacs-nox.exe, emacs-w32.exe, and emacs-X11.exe,
+   binary.  These are emacs-nox.exe, emacs-w32.exe, and emacs-X11.exe,
    respectively, in order of increasing priority.  The postinstall
    scripts create a symlink /usr/bin/emacs that resolves to the
    highest-priority binary that you have installed.  Thus the command

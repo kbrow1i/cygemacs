@@ -30,7 +30,7 @@ See /usr/share/doc/emacs/README.Cygwin for more information.
 
 CYGWIN NOTES
 ============
-1. The emacs, emacs-w32, and emacs-X11 packages each provide an emacs binary; these are emacs-nox.exe, emacs-w32.exe, and emacs-X11.exe, respectively, in order of increasing priority.  The postinstall scripts create a symlink /usr/bin/emacs that resolves to the highest-priority binary that you have installed.  Thus the command `emacs' will start emacs-X11.exe if you've installed the emacs-X11 package; otherwise, it will start emacs-w32.exe if you've installed emacs-w32; otherwise, it will start emacs-nox.exe.
+1. The emacs, emacs-w32, and emacs-X11 packages each provide an emacs binary.  These are emacs-nox.exe, emacs-w32.exe, and emacs-X11.exe, respectively, in order of increasing priority.  The postinstall scripts create a symlink /usr/bin/emacs that resolves to the highest-priority binary that you have installed.  Thus the command `emacs' will start emacs-X11.exe if you've installed the emacs-X11 package; otherwise, it will start emacs-w32.exe if you've installed emacs-w32; otherwise, it will start emacs-nox.exe.
 
 2. Install emacs-X11 if you want to use the X11 GUI.  You can then type 'emacs&' in an xterm window, and emacs will start in a new window.
 
