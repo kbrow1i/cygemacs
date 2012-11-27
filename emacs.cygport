@@ -1,54 +1,64 @@
 NAME="emacs"
-VERSION=24.2
+VERSION=24.2.90
 RELEASE=1
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
-PKG_NAMES="${PN} ${PN}-el ${PN}-X11"
+PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
 # PKG_HINTS="${PN} ${PN}-el ${PN}-X11"
 
 emacs_SUMMARY="The extensible, customizable, self-documenting real-time display editor."
-emacs_X11_SUMMARY="X11 binaries for Emacs."
+
 emacs_el_SUMMARY="LISP source code for Emacs (including LEIM)."
+
+emacs_X11_SUMMARY="Emacs binaries using the X11 GUI."
+
+emacs_w32_SUMMARY="Emacs binaries using the native Windows GUI."
 
 emacs_DESCRIPTION="Emacs is a powerful, customizable, self-documenting, modeless text
 editor.  Emacs contains special code editing features, a scripting
 language (elisp), and the capability to read mail, news and more without
 leaving the editor.  This package supplies everything needed for a non-X11
 emacs."
-emacs_X11_DESCRIPTION="This package contains the X11 binaries for emacs.  Install
-it if you want to run emacs using the X window system for
-display.  The binaries also can be used in non-X11 mode."
+
 emacs_el_DESCRIPTION="This package contains the LISP source code for the various
 emacs addons including code for input methods for
 internationalization.  Install it if you want to personalize built-in
 emacs functionality in some way on your machine."
 
+emacs_X11_DESCRIPTION="This package contains the X11 binaries for emacs.  Install
+it if you want to run emacs using the X window system for
+display.  The binaries also can be used in non-X11 mode."
+
+emacs_w32_DESCRIPTION="This package contains emacs binaries that use the native Windows GUI
+for display."
+
 emacs_REQUIRES="xemacs-emacs-common alternatives"
-emacs_X11_REQUIRES="alternatives emacs font-adobe-dpi75 font-misc-misc"
 
-SRC_URI="mirror://gnu/emacs/${P}.tar.gz make-emacs-shortcut README.Cygwin"
+# libgtk2.0_0 is temporary
+emacs_X11_REQUIRES="dbus emacs font-adobe-dpi75 font-misc-misc libgtk2.0_0"
+
+emacs_w32_REQUIRES="emacs"
+
+# SRC_URI="mirror://gnu/emacs/${P}.tar.gz make-emacs-shortcut README.Cygwin"
 # SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}-rc1.tar.gz"
-# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.gz"
+SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.gz
+	 make-emacs-shortcut README.Cygwin"
 
-PATCH_URI="
-	adapt_to_new_cygstart.patch
-	cygwin.h.patch
-	xgselect-24.0.97.patch
-	emacsbug.patch
-"
+PATCH_URI="nox_mouse.patch"
 
 DOCS="README.Cygwin"
 
 DEPEND="libtiff-devel
 	libgif-devel
 	libjpeg-devel
+	libXpm-noX-devel
 	pkgconfig(dbus-1)
 	pkgconfig(fontconfig)
 	pkgconfig(freetype2)
 	pkgconfig(gio-2.0)
 	pkgconfig(glib-2.0)
 	pkgconfig(gnutls)
-	pkgconfig(gtk+-2.0)
+	pkgconfig(gtk+-3.0)
 	pkgconfig(librsvg-2.0)
 	pkgconfig(libxml-2.0)
 	pkgconfig(libpng15)
@@ -66,6 +76,9 @@ emacs_CONTENTS="
 	--exclude=usr/bin/emacs-X11.exe
 	--exclude=etc/postinstall/emacs-X11.sh
 	--exclude=etc/preremove/emacs-X11.sh
+	--exclude=usr/bin/emacs-w32.exe
+	--exclude=etc/postinstall/emacs-w32.sh
+	--exclude=etc/preremove/emacs-w32.sh
 	etc/
 	usr/"
 
@@ -90,6 +103,11 @@ emacs_X11_CONTENTS="
 	etc/postinstall/emacs-X11.sh
 	etc/preremove/emacs-X11.sh"
 
+emacs_w32_CONTENTS="
+	usr/bin/emacs-w32.exe
+	etc/postinstall/emacs-w32.sh
+	etc/preremove/emacs-w32.sh"
+
 DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~"
 
 ACLOCAL_FLAGS='-I m4'
@@ -104,9 +122,14 @@ src_compile() {
 	cygmake
 	cp -v src/emacs.exe emacs-nox.exe
 	make distclean
-	cygconf --without-gsettings --without-gconf
+	cygconf --with-w32
+	cygmake
+	cp -v src/emacs.exe emacs-w32.exe
+	make distclean
+	cygconf
 	cygmake
 	mv -v emacs-nox.exe src/emacs-nox.exe
+	mv -v emacs-w32.exe src/emacs-w32.exe
 	cp -v src/emacs.exe src/emacs-X11.exe
 }
 
@@ -114,6 +137,7 @@ src_install() {
 	cd ${B}
 	cyginstall
 	dobin src/emacs-nox.exe
+	dobin src/emacs-w32.exe
 	dobin src/emacs-X11.exe
 	dobin ${S}/make-emacs-shortcut
 	insinto /usr/bin
@@ -123,7 +147,6 @@ src_install() {
 		usr/bin/${P}.exe \
 		usr/bin/emacs.exe \
 		usr/bin/b2m.exe \
-		usr/bin/rcs-checkin \
 		usr/bin/ctags.exe \
 		usr/bin/etags.exe \
 		usr/share/man/man1/ctags* \

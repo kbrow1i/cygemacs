@@ -128,8 +128,9 @@ cat >${XMLFILE} <<"EOF"
   </Global>
   <GDI>
     <Environment />
-    <Target filename="/usr/bin/mintty.exe" startin="~">
-      <Arg>-e /bin/bash -l -c emacs</Arg>
+    <Target filename="/usr/bin/bash.exe" startin="~">
+      <Arg>-l</Arg>
+      <Arg>-c /usr/bin/emacs-w32.exe</Arg>
     </Target>
   </GDI>
   <X11>
