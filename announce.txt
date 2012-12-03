@@ -40,6 +40,8 @@ CYGWIN NOTES
 
   X11Forwarding yes
 
+You might also need to have the cygserver service running.
+
 5. The script /usr/bin/make-emacs-shortcut can be used to create a shortcut for starting emacs.  See /usr/share/doc/emacs/README.Cygwin for details.
 
 Ken Brown

@@ -49,6 +49,8 @@ Usage notes for emacs on Cygwin
 
      X11Forwarding yes
 
+   You might also need to have the cygserver service running.
+
 5. The script /usr/bin/make-emacs-shortcut can be used to create a
    shortcut for starting emacs.  The shortcut assumes that you have
    installed the emacs-X11 and emacs-w32 packages.  It starts emacs
