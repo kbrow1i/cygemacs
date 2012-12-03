@@ -57,8 +57,10 @@ Usage notes for emacs on Cygwin
    under X if an X server is running, and it starts emacs-w32.exe
    otherwise.  The script creates an xml file in /usr/local/bin, so
    the user who runs the script needs to be able to write to that
-   directory.  Edit the shortcut or the script or the xml file if you
-   want different behavior.
+   directory.
+
+   Edit the shortcut or the script or the xml file if you want to
+   modify the default behavior.
 
    You will need the cygutils package in order to run
    make-emacs-shortcut, and you will need the run2 package in order to
