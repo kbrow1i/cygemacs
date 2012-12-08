@@ -22,11 +22,13 @@ has been fixed, and the Cygwin build of emacs-nox.exe now has mouse support, as 
 
 Browse the NEWS file ('C-h n' within emacs) for more information about changes since emacs-24.2.
 
-In this release, for the first time, I've been able to build Cygwin's emacs-X11 with all of the upstream defaults.  In particular, the build uses GTK+-3 instead of GTK+-2, and it supports GNOME's GSettings and GConf features.  A minor consequence of this is that you might see a GTK warning about gtk_window_parse_geometry; this can be ignored.  A more important consequence is that you should have a D-Bus session daemon running before starting emacs under X11.  The simplest way to achieve this is to put the following line at the beginning of your ~/.startxwinrc file:
+In this release, for the first time, I've been able to build Cygwin's emacs-X11 with all of the upstream defaults.  In particular, the build uses GTK+-3 instead of GTK+-2, and it supports GNOME's GSettings and GConf features.  As a consequence, it is important that you have a D-Bus session daemon running before starting emacs under X11.  (Otherwise, emacs will try to start one, and this can cause problems.)  The simplest way to make sure that a D-Bus session daemon is running is to put the following line at the beginning of your ~/.startxwinrc file:
 
   eval `dbus-launch --sh-syntax`
 
 See /usr/share/doc/emacs/README.Cygwin for more information.
+
+A second consequence is that you might see a GTK warning about gtk_window_parse_geometry; this can be ignored.
 
 CYGWIN NOTES
 ============
@@ -43,6 +45,8 @@ CYGWIN NOTES
 You might also need to have the cygserver service running.
 
 5. The script /usr/bin/make-emacs-shortcut can be used to create a shortcut for starting emacs.  See /usr/share/doc/emacs/README.Cygwin for details.
+
+6. The default font for emacs-w32 is not very attractive in my opinion.  See /usr/share/doc/emacs/README.Cygwin for hints as to how to change it.
 
 Ken Brown
 Cygwin emacs maintainer

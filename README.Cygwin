@@ -11,15 +11,15 @@ Usage notes for emacs on Cygwin
    emacs-w32; otherwise, it will start emacs-nox.exe.
 
 2. Cygwin's emacs-X11 now supports GNOME's GSettings and GConf
-   features.  As a consequence, it is strongly recommended that you
-   have a D-Bus session daemon running before starting emacs under
-   X11.  Otherwise, emacs will try to start one, and this can cause
-   problems; see
+   features.  As a consequence, it is important that you have a D-Bus
+   session daemon running before starting emacs under X11.  Otherwise,
+   emacs will try to start one, and this can cause problems; see
 
      http://debbugs.gnu.org/cgi/bugreport.cgi?bug=8855
 
-   The simplest way to make sure a D-Bus session daemon is running is
-   to put the following line at the beginning of your ~/.startxwinc:
+   The simplest way to make sure that a D-Bus session daemon is
+   running is to put the following line at the beginning of your
+   ~/.startxwinc:
 
      eval `dbus-launch --sh-syntax`
 
@@ -65,3 +65,33 @@ Usage notes for emacs on Cygwin
    You will need the cygutils package in order to run
    make-emacs-shortcut, and you will need the run2 package in order to
    use the shortcut it creates.
+
+6. If you don't like the default fonts in the GUI versions of emacs,
+   you can change them via the menu items
+
+     Options -> Set Default Font
+     Options -> Save Options
+
+   This will set the default font in your ~/.emacs and will apply to
+   both emacs-w32 and emacs-X11.  If you want different default fonts
+   for the two programs, use the lisp variable `window-system' to
+   distinguish between them.
+
+   For example, the following code in ~/.emacs makes DejaVu Sans
+   Mono-10 the default font for emacs-w32:
+
+     (if (eq window-system 'w32)
+         (add-to-list 'default-frame-alist
+                      '(font . "DejaVu Sans Mono-10")))
+
+   And the following code in ~/.emacs makes DejaVu Sans Mono-10 the
+   default for emacs-w32 and Droid Sans Mono-11 the default for
+   emacs-X11:
+
+     (cond
+      ((eq window-system 'w32)
+       (add-to-list 'default-frame-alist
+                    '(font . "DejaVu Sans Mono-10")))
+      ((eq window-system 'x)
+       (add-to-list 'default-frame-alist
+                    '(font . "Droid Sans Mono-11"))))
