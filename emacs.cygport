@@ -1,5 +1,5 @@
 NAME="emacs"
-VERSION=24.2.90
+VERSION=24.2.92
 RELEASE=1
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"

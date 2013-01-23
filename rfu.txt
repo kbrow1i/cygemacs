@@ -1,16 +1,18 @@
 D=http://sanibeltranquility.com/cygwin/release/emacs
 wget -x -nH --cut-dirs=2 \
-  ${D}/emacs-24.2.90-1-src.tar.bz2 \
-  ${D}/emacs-24.2.90-1.tar.bz2 \
+  ${D}/emacs-24.2.92-1-src.tar.bz2 \
+  ${D}/emacs-24.2.92-1.tar.bz2 \
   ${D}/setup.hint \
-  ${D}/emacs-X11/emacs-X11-24.2.90-1.tar.bz2 \
+  ${D}/emacs-X11/emacs-X11-24.2.92-1.tar.bz2 \
   ${D}/emacs-X11/setup.hint \
-  ${D}/emacs-w32/emacs-w32-24.2.90-1.tar.bz2 \
+  ${D}/emacs-w32/emacs-w32-24.2.92-1.tar.bz2 \
   ${D}/emacs-w32/setup.hint \
-  ${D}/emacs-el/emacs-el-24.2.90-1.tar.bz2 \
+  ${D}/emacs-el/emacs-el-24.2.92-1.tar.bz2 \
   ${D}/emacs-el/setup.hint \
-  ${D}/emacs-debuginfo/emacs-debuginfo-24.2.90-1.tar.bz2 \
+  ${D}/emacs-debuginfo/emacs-debuginfo-24.2.92-1.tar.bz2 \
   ${D}/emacs-debuginfo/setup.hint
+
+find emacs -name '*24.2.90-1*' | xargs rm 
 
 Thanks.
 

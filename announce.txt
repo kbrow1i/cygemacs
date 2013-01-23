@@ -1,28 +1,15 @@
 The following packages have been updated in the Cygwin distribution as test releases:
 
-*** emacs-24.2.90-1
-*** emacs-X11-24.2.90-1
-*** emacs-el-24.2.90-1
-
-Thanks to the efforts of Daniel Colascione, there is also a new package
-
-*** emacs-w32-24.2.90-1,
-
-again a test release, for users who want to use the native Windows GUI for display.
+*** emacs-24.2.92-1
+*** emacs-X11-24.2.92-1
+*** emacs-w32-24.2.92-1
+*** emacs-el-24.2.92-1
 
 Emacs is a powerful, customizable, self-documenting, modeless text editor.  Emacs contains special code editing features, a scripting language (elisp), and the capability to read mail, news, and more without leaving the editor.
 
-This release is a pretest for the upcoming emacs-24.3.  It contains bugfixes as well as new features.  In particular, the bug reported in
+This release is a pretest for the upcoming emacs-24.3.  It contains bugfixes as well as new features.  Browse the NEWS file ('C-h n' within emacs) for information about upstream changes since emacs-24.2.
 
-  http://cygwin.com/ml/cygwin/2012-10/msg00375.html
-
-has been fixed, and the Cygwin build of emacs-nox.exe now has mouse support, as requested in
-
-  http://cygwin.com/ml/cygwin/2012-10/msg00027.html
-
-Browse the NEWS file ('C-h n' within emacs) for more information about changes since emacs-24.2.
-
-In this release, for the first time, I've been able to build Cygwin's emacs-X11 with all of the upstream defaults.  In particular, the build uses GTK+-3 instead of GTK+-2, and it supports GNOME's GSettings and GConf features.  As a consequence, it is important that you have a D-Bus session daemon running before starting emacs under X11.  (Otherwise, emacs will try to start one, and this can cause problems.)  The simplest way to make sure that a D-Bus session daemon is running is to put the following line at the beginning of your ~/.startxwinrc file:
+emacs-X11 now supports GNOME's GSettings and GConf features.  As a consequence, it is important that you have a D-Bus session daemon running before starting emacs under X11.  (Otherwise, emacs will try to start one, and this can cause problems.)  The simplest way to make sure that a D-Bus session daemon is running is to put the following line at the beginning of your ~/.startxwinrc file:
 
   eval `dbus-launch --sh-syntax`
 
@@ -34,7 +21,7 @@ CYGWIN NOTES
 ============
 1. The emacs, emacs-w32, and emacs-X11 packages each provide an emacs binary.  These are emacs-nox.exe, emacs-w32.exe, and emacs-X11.exe, respectively, in order of increasing priority.  The postinstall scripts create a symlink /usr/bin/emacs that resolves to the highest-priority binary that you have installed.  Thus the command `emacs' will start emacs-X11.exe if you've installed the emacs-X11 package; otherwise, it will start emacs-w32.exe if you've installed emacs-w32; otherwise, it will start emacs-nox.exe.
 
-2. Install emacs-X11 if you want to use the X11 GUI.  You can then type 'emacs&' in an xterm window, and emacs will start in a new window.
+2. Install emacs-X11 if you want to use the X11 GUI.  You can then type `emacs&' in an xterm window, and emacs will start in a new window.
 
 3. Install emacs-w32 if you want to use the native Windows GUI instead of X11.
 
