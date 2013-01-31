@@ -32,7 +32,7 @@ display.  The binaries also can be used in non-X11 mode."
 emacs_w32_DESCRIPTION="This package contains emacs binaries that use the native Windows GUI
 for display."
 
-emacs_REQUIRES="xemacs-emacs-common alternatives"
+emacs_REQUIRES="xemacs-emacs-common alternatives terminfo-extra"
 
 # libgtk2.0_0 is temporary
 emacs_X11_REQUIRES="dbus emacs font-adobe-dpi75 font-misc-misc libgtk2.0_0"
