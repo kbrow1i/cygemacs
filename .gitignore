@@ -2,8 +2,9 @@
 emacs-*-*/
 old/
 save/
-emacs-*.tar.gz
 emacs-*.tar.bz2
+emacs-*.tar.gz
+emacs-*.tar.xz
 /build.sh
 /patch_setup.sh
 /00README.txt

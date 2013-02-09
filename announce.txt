@@ -1,19 +1,38 @@
 The following packages have been updated in the Cygwin distribution as test releases:
 
-*** emacs-24.2.92-1
-*** emacs-X11-24.2.92-1
-*** emacs-w32-24.2.92-1
-*** emacs-el-24.2.92-1
+*** emacs-24.2.93-1
+*** emacs-X11-24.2.93-1
+*** emacs-w32-24.2.93-1
+*** emacs-el-24.2.93-1
 
 Emacs is a powerful, customizable, self-documenting, modeless text editor.  Emacs contains special code editing features, a scripting language (elisp), and the capability to read mail, news, and more without leaving the editor.
 
-This release is a pretest for the upcoming emacs-24.3.  It contains bugfixes as well as new features.  Browse the NEWS file ('C-h n' within emacs) for information about upstream changes since emacs-24.2.
+This release is a pretest for the upcoming emacs-24.3.  It contains bugfixes as well as new features.  In particular, it fixes the bug reported in
 
-emacs-X11 now supports GNOME's GSettings and GConf features.  As a consequence, it is important that you have a D-Bus session daemon running before starting emacs under X11.  (Otherwise, emacs will try to start one, and this can cause problems.)  The simplest way to make sure that a D-Bus session daemon is running is to put the following line at the beginning of your ~/.startxwinrc file:
+  http://cygwin.com/ml/cygwin/2013-02/msg00008.html
+
+Browse the NEWS file (`C-h n' within emacs) for information about upstream changes since emacs-24.2.
+
+emacs-X11 now supports GNOME's GSettings and GConf features.  As a consequence, it is important that you have a D-Bus session daemon running before starting emacs under X11.  Otherwise, emacs will try to start one, and this can cause problems.
+
+A simple way to make sure that a D-Bus session daemon is running is to start it in your ~/.startxwinc file.  If you already have a ~/.startxwinc file that starts an xterm process (and perhaps emacs), just add the following line at the beginning:
 
   eval `dbus-launch --sh-syntax`
 
-See /usr/share/doc/emacs/README.Cygwin for more information.
+Otherwise, create one containing the following two lines:
+
+  eval `dbus-launch --sh-syntax`
+  xterm &
+
+You can then start emacs from the xterm window that opens up.
+
+Alternatively, put the following three lines in ~/.bashrc (assuming you use bash as your shell):
+
+  if [ -n "$DISPLAY" ] && [ -z "$DBUS_SESSION_BUS_ADDRESS" ] ; then
+      eval `dbus-launch --sh-syntax --exit-with-session`
+  fi
+
+For more information, see the documentation for dbus-launch.
 
 A second consequence is that you might see a GTK warning about gtk_window_parse_geometry; this can be ignored.
 
@@ -36,7 +55,7 @@ You might also need to have the cygserver service running.
 6. The default font for emacs-w32 is not very attractive in my opinion.  See /usr/share/doc/emacs/README.Cygwin for hints as to how to change it.
 
 Ken Brown
-Cygwin emacs maintainer
+Cygwin's emacs maintainer
 
                    *** CYGWIN-ANNOUNCE UNSUBSCRIBE INFO ***
 
