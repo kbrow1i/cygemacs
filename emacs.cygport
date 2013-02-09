@@ -1,5 +1,5 @@
 NAME="emacs"
-VERSION=24.2.92
+VERSION=24.2.93
 RELEASE=1
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -32,7 +32,8 @@ display.  The binaries also can be used in non-X11 mode."
 emacs_w32_DESCRIPTION="This package contains emacs binaries that use the native Windows GUI
 for display."
 
-emacs_REQUIRES="xemacs-emacs-common alternatives"
+# libgnutls26 is temporary
+emacs_REQUIRES="xemacs-emacs-common alternatives terminfo-extra libgnutls26"
 
 # libgtk2.0_0 is temporary
 emacs_X11_REQUIRES="dbus emacs font-adobe-dpi75 font-misc-misc libgtk2.0_0"
@@ -41,7 +42,7 @@ emacs_w32_REQUIRES="emacs"
 
 # SRC_URI="mirror://gnu/emacs/${P}.tar.gz make-emacs-shortcut README.Cygwin"
 # SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}-rc1.tar.gz"
-SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.gz
+SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.xz
 	 make-emacs-shortcut README.Cygwin"
 
 PATCH_URI="nox_mouse.patch"
