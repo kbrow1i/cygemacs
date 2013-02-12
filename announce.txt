@@ -29,7 +29,7 @@ You can then start emacs from the xterm window that opens up.
 Alternatively, put the following three lines in ~/.bashrc (assuming you use bash as your shell):
 
   if [ -n "$DISPLAY" ] && [ -z "$DBUS_SESSION_BUS_ADDRESS" ] ; then
-      eval `dbus-launch --sh-syntax --exit-with-session`
+      eval `dbus-launch --sh-syntax`
   fi
 
 For more information, see the documentation for dbus-launch.
