@@ -6,3 +6,5 @@ sbindir=${prefix}/sbin
 
 ${sbindir}/update-alternatives \
 	--install ${bindir}/emacs emacs ${bindir}/emacs-w32.exe 15
+${sbindir}/update-alternatives \
+	--install ${bindir}/emacsclient emacsclient ${bindir}/emacsclient-w32.exe 15

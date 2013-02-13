@@ -6,3 +6,5 @@ sbindir=${prefix}/sbin
 
 ${sbindir}/update-alternatives \
 	--remove emacs ${bindir}/emacs-nox.exe
+${sbindir}/update-alternatives \
+	--remove emacsclient ${bindir}/emacsclient-nox.exe

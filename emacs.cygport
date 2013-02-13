@@ -1,10 +1,9 @@
 NAME="emacs"
 VERSION=24.2.93
-RELEASE=1
+RELEASE=2
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
-# PKG_HINTS="${PN} ${PN}-el ${PN}-X11"
 
 emacs_SUMMARY="The extensible, customizable, self-documenting real-time display editor."
 
@@ -75,9 +74,11 @@ emacs_CONTENTS="
 	--exclude=usr/share/${PN}/${PV}/lisp*el.gz
 	--exclude=usr/share/${PN}/${PV}/leim*el.gz
 	--exclude=usr/bin/emacs-X11.exe
+	--exclude=usr/bin/emacsclient-X11.exe
 	--exclude=etc/postinstall/emacs-X11.sh
 	--exclude=etc/preremove/emacs-X11.sh
 	--exclude=usr/bin/emacs-w32.exe
+	--exclude=usr/bin/emacsclient-w32.exe
 	--exclude=etc/postinstall/emacs-w32.sh
 	--exclude=etc/preremove/emacs-w32.sh
 	etc/
@@ -101,11 +102,13 @@ emacs_el_CONTENTS="
 
 emacs_X11_CONTENTS="
 	usr/bin/emacs-X11.exe
+	usr/bin/emacsclient-X11.exe
 	etc/postinstall/emacs-X11.sh
 	etc/preremove/emacs-X11.sh"
 
 emacs_w32_CONTENTS="
 	usr/bin/emacs-w32.exe
+	usr/bin/emacsclient-w32.exe
 	etc/postinstall/emacs-w32.sh
 	etc/preremove/emacs-w32.sh"
 
@@ -122,16 +125,21 @@ src_compile() {
 	cygconf --with-x=no
 	cygmake
 	cp -v src/emacs.exe emacs-nox.exe
+	cp -v lib-src/emacsclient.exe emacsclient-nox.exe
 	make distclean
 	cygconf --with-w32
 	cygmake
 	cp -v src/emacs.exe emacs-w32.exe
+	cp -v lib-src/emacsclient.exe emacsclient-w32.exe
 	make distclean
 	cygconf
 	cygmake
 	mv -v emacs-nox.exe src/emacs-nox.exe
 	mv -v emacs-w32.exe src/emacs-w32.exe
 	cp -v src/emacs.exe src/emacs-X11.exe
+	mv -v emacsclient-nox.exe lib-src/emacsclient-nox.exe
+	mv -v emacsclient-w32.exe lib-src/emacsclient-w32.exe
+	cp -v lib-src/emacsclient.exe lib-src/emacsclient-X11.exe
 }
 
 src_install() {
@@ -140,6 +148,9 @@ src_install() {
 	dobin src/emacs-nox.exe
 	dobin src/emacs-w32.exe
 	dobin src/emacs-X11.exe
+	dobin lib-src/emacsclient-nox.exe
+	dobin lib-src/emacsclient-w32.exe
+	dobin lib-src/emacsclient-X11.exe
 	dobin ${S}/make-emacs-shortcut
 	insinto /usr/bin
 	doins ${S}/nt/icons/emacs.ico
@@ -147,6 +158,7 @@ src_install() {
 	rm -fv \
 		usr/bin/${P}.exe \
 		usr/bin/emacs.exe \
+		usr/bin/emacsclient.exe \
 		usr/bin/b2m.exe \
 		usr/bin/ctags.exe \
 		usr/bin/etags.exe \

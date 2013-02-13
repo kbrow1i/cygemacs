@@ -8,7 +8,8 @@ Usage notes for emacs on Cygwin
    highest-priority binary that you have installed.  Thus the command
    `emacs' will start emacs-X11.exe if you've installed the emacs-X11
    package; otherwise, it will start emacs-w32.exe if you've installed
-   emacs-w32; otherwise, it will start emacs-nox.exe.
+   emacs-w32; otherwise, it will start emacs-nox.exe.  Similar remarks
+   apply to emacsclient.
 
 2. Cygwin's emacs-X11 now supports GNOME's GSettings and GConf
    features.  As a consequence, it is important that you have a D-Bus

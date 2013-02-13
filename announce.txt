@@ -1,17 +1,17 @@
 The following packages have been updated in the Cygwin distribution as test releases:
 
-*** emacs-24.2.93-1
-*** emacs-X11-24.2.93-1
-*** emacs-w32-24.2.93-1
-*** emacs-el-24.2.93-1
+*** emacs-24.2.93-2
+*** emacs-X11-24.2.93-2
+*** emacs-w32-24.2.93-2
+*** emacs-el-24.2.93-2
+
+This is a rebuild of the 24.2.93-1 packages to fix the emacsclient problem reported in
+
+  http://cygwin.com/ml/cygwin/2013-02/msg00148.html
 
 Emacs is a powerful, customizable, self-documenting, modeless text editor.  Emacs contains special code editing features, a scripting language (elisp), and the capability to read mail, news, and more without leaving the editor.
 
-This release is a pretest for the upcoming emacs-24.3.  It contains bugfixes as well as new features.  In particular, it fixes the bug reported in
-
-  http://cygwin.com/ml/cygwin/2013-02/msg00008.html
-
-Browse the NEWS file (`C-h n' within emacs) for information about upstream changes since emacs-24.2.
+This release is a pretest for the upcoming emacs-24.3.  It contains bugfixes as well as new features.  Browse the NEWS file (`C-h n' within emacs) for information about upstream changes since emacs-24.2.
 
 emacs-X11 now supports GNOME's GSettings and GConf features.  As a consequence, it is important that you have a D-Bus session daemon running before starting emacs under X11.  Otherwise, emacs will try to start one, and this can cause problems.
 
@@ -38,7 +38,7 @@ A second consequence is that you might see a GTK warning about gtk_window_parse_
 
 CYGWIN NOTES
 ============
-1. The emacs, emacs-w32, and emacs-X11 packages each provide an emacs binary.  These are emacs-nox.exe, emacs-w32.exe, and emacs-X11.exe, respectively, in order of increasing priority.  The postinstall scripts create a symlink /usr/bin/emacs that resolves to the highest-priority binary that you have installed.  Thus the command `emacs' will start emacs-X11.exe if you've installed the emacs-X11 package; otherwise, it will start emacs-w32.exe if you've installed emacs-w32; otherwise, it will start emacs-nox.exe.
+1. The emacs, emacs-w32, and emacs-X11 packages each provide an emacs binary.  These are emacs-nox.exe, emacs-w32.exe, and emacs-X11.exe, respectively, in order of increasing priority.  The postinstall scripts create a symlink /usr/bin/emacs that resolves to the highest-priority binary that you have installed.  Thus the command `emacs' will start emacs-X11.exe if you've installed the emacs-X11 package; otherwise, it will start emacs-w32.exe if you've installed emacs-w32; otherwise, it will start emacs-nox.exe.  Similar remarks apply to emacsclient.
 
 2. Install emacs-X11 if you want to use the X11 GUI.  You can then type `emacs&' in an xterm window, and emacs will start in a new window.
 
