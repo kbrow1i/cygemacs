@@ -6,3 +6,5 @@ sbindir=${prefix}/sbin
 
 ${sbindir}/update-alternatives \
 	--remove emacs ${bindir}/emacs-X11.exe
+${sbindir}/update-alternatives \
+	--remove emacsclient ${bindir}/emacsclient-X11.exe
