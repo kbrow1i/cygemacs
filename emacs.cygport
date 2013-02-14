@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=24.2.93
-RELEASE=2
+RELEASE=3
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -44,7 +44,7 @@ emacs_w32_REQUIRES="emacs"
 SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.xz
 	 make-emacs-shortcut README.Cygwin"
 
-PATCH_URI="nox_mouse.patch"
+PATCH_URI="nox_mouse.patch nt_icon.patch"
 
 DOCS="README.Cygwin"
 
@@ -117,6 +117,8 @@ DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~"
 ACLOCAL_FLAGS='-I m4'
 CPPFLAGS=-I/usr/include/ncursesw
 LDFLAGS=-L/usr/lib/ncursesw
+
+MAKEOPTS=" -j8 "
 
 src_compile() {
 	cd ${S}
