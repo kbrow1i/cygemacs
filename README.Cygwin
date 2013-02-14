@@ -19,8 +19,8 @@ Usage notes for emacs on Cygwin
      http://debbugs.gnu.org/cgi/bugreport.cgi?bug=8855
 
    A simple way to make sure that a D-Bus session daemon is running is
-   to start it in your ~/.startxwinc file.  If you already have a
-   ~/.startxwinc file that starts an xterm process (and perhaps
+   to start it in your ~/.startxwinrc file.  If you already have a
+   ~/.startxwinrc file that starts an xterm process (and perhaps
    emacs), just add the following line at the beginning:
 
      eval `dbus-launch --sh-syntax`

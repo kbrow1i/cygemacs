@@ -15,7 +15,7 @@ This release is a pretest for the upcoming emacs-24.3.  It contains bugfixes as 
 
 emacs-X11 now supports GNOME's GSettings and GConf features.  As a consequence, it is important that you have a D-Bus session daemon running before starting emacs under X11.  Otherwise, emacs will try to start one, and this can cause problems.
 
-A simple way to make sure that a D-Bus session daemon is running is to start it in your ~/.startxwinc file.  If you already have a ~/.startxwinc file that starts an xterm process (and perhaps emacs), just add the following line at the beginning:
+A simple way to make sure that a D-Bus session daemon is running is to start it in your ~/.startxwinrc file.  If you already have a ~/.startxwinrc file that starts an xterm process (and perhaps emacs), just add the following line at the beginning:
 
   eval `dbus-launch --sh-syntax`
 
