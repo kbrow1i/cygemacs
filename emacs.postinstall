@@ -1,10 +1,6 @@
 #!/bin/sh
 
-prefix=/usr
-bindir=${prefix}/bin
-sbindir=${prefix}/sbin
-
-${sbindir}/update-alternatives \
-	--install ${bindir}/emacs emacs ${bindir}/emacs-nox.exe 10
-${sbindir}/update-alternatives \
-	--install ${bindir}/emacsclient emacsclient ${bindir}/emacsclient-nox.exe 10
+/usr/sbin/update-alternatives \
+	--install /usr/bin/emacs emacs /usr/bin/emacs-nox.exe 10
+/usr/sbin/update-alternatives \
+	--install /usr/bin/emacsclient emacsclient /usr/bin/emacsclient-nox.exe 10

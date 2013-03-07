@@ -1,10 +1,6 @@
 #!/bin/sh
 
-prefix=/usr
-bindir=${prefix}/bin
-sbindir=${prefix}/sbin
-
-${sbindir}/update-alternatives \
-	--install ${bindir}/emacs emacs ${bindir}/emacs-X11.exe 20
-${sbindir}/update-alternatives \
-	--install ${bindir}/emacsclient emacsclient ${bindir}/emacsclient-X11.exe 20
+/usr/sbin/update-alternatives \
+	--install /usr/bin/emacs emacs /usr/bin/emacs-X11.exe 20
+/usr/sbin/update-alternatives \
+	--install /usr/bin/emacsclient emacsclient /usr/bin/emacsclient-X11.exe 20
