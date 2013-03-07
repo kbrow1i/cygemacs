@@ -1,44 +1,29 @@
 The following packages have been updated in the Cygwin distribution as test releases:
 
-*** emacs-24.2.93-2
-*** emacs-X11-24.2.93-2
-*** emacs-w32-24.2.93-2
-*** emacs-el-24.2.93-2
+*** emacs-24.3_rc1-1
+*** emacs-X11-24.3_rc1-1
+*** emacs-w32-24.3_rc1-1
+*** emacs-el-24.3_rc1-1
 
-This is a rebuild of the 24.2.93-1 packages to fix the emacsclient problem reported in
-
-  http://cygwin.com/ml/cygwin/2013-02/msg00148.html
+This is an upstream release candidate for emacs-24.3.  All emacs users are strongly encouraged to test it.
 
 Emacs is a powerful, customizable, self-documenting, modeless text editor.  Emacs contains special code editing features, a scripting language (elisp), and the capability to read mail, news, and more without leaving the editor.
 
-This release is a pretest for the upcoming emacs-24.3.  It contains bugfixes as well as new features.  Browse the NEWS file (`C-h n' within emacs) for information about upstream changes since emacs-24.2.
+This release contains bugfixes as well as new features.  Browse the NEWS file (`C-h n' within emacs) for information about upstream changes since emacs-24.2.
 
-emacs-X11 now supports GNOME's GSettings and GConf features.  As a consequence, it is important that you have a D-Bus session daemon running before starting emacs under X11.  Otherwise, emacs will try to start one, and this can cause problems.
-
-A simple way to make sure that a D-Bus session daemon is running is to start it in your ~/.startxwinrc file.  If you already have a ~/.startxwinrc file that starts an xterm process (and perhaps emacs), just add the following line at the beginning:
-
-  eval `dbus-launch --sh-syntax`
-
-Otherwise, create one containing the following two lines:
-
-  eval `dbus-launch --sh-syntax`
-  xterm &
-
-You can then start emacs from the xterm window that opens up.
-
-Alternatively, put the following three lines in ~/.bashrc (assuming you use bash as your shell):
-
-  if [ -n "$DISPLAY" ] && [ -z "$DBUS_SESSION_BUS_ADDRESS" ] ; then
-      eval `dbus-launch --sh-syntax`
-  fi
-
-For more information, see the documentation for dbus-launch.
-
-A second consequence is that you might see a GTK warning about gtk_window_parse_geometry; this can be ignored.
+I have dropped the support for GSettings and GConf that was present in earlier test releases, so it is no longer necessary for emacs-X11 users to start a D-Bus session daemon.  I'll try again to support GSettins and GConf in emacs-24.4.
 
 CYGWIN NOTES
 ============
-1. The emacs, emacs-w32, and emacs-X11 packages each provide an emacs binary.  These are emacs-nox.exe, emacs-w32.exe, and emacs-X11.exe, respectively, in order of increasing priority.  The postinstall scripts create a symlink /usr/bin/emacs that resolves to the highest-priority binary that you have installed.  Thus the command `emacs' will start emacs-X11.exe if you've installed the emacs-X11 package; otherwise, it will start emacs-w32.exe if you've installed emacs-w32; otherwise, it will start emacs-nox.exe.  Similar remarks apply to emacsclient.
+1. The emacs, emacs-w32, and emacs-X11 packages each provide an emacs binary.  These are emacs-nox.exe, emacs-w32.exe, and emacs-X11.exe, respectively, in order of increasing priority.  The postinstall scripts use the `alternatives' system to create a symlink /usr/bin/emacs that resolves to the highest-priority binary that you have installed.  Thus the command `emacs' will start emacs-X11.exe if you've installed the emacs-X11 package; otherwise, it will start emacs-w32.exe if you've installed emacs-w32; otherwise, it will start emacs-nox.exe.  Similar remarks apply to emacsclient.
+
+If you have installed both emacs-w32 and emacs-X11 and prefer to give higher priority to emacs-w32, run the script
+
+  /usr/bin/set-emacs-default-w32.sh
+
+You can later restore emacs-X11 as the default by running
+
+  /usr/bin/set-emacs-default-X11.sh
 
 2. Install emacs-X11 if you want to use the X11 GUI.  You can then type `emacs&' in an xterm window, and emacs will start in a new window.
 
