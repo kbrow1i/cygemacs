@@ -32,17 +32,21 @@ emacs_w32_DESCRIPTION="This package contains emacs binaries that use the native 
 for display."
 
 # libgnutls26 is temporary
-emacs_REQUIRES="xemacs-emacs-common alternatives terminfo-extra libgnutls26"
+emacs_REQUIRES="xemacs-emacs-common terminfo-extra libgnutls26"
 
 # libgtk2.0_0 is temporary
-emacs_X11_REQUIRES="dbus emacs font-adobe-dpi75 font-misc-misc libgtk2.0_0"
+emacs_X11_REQUIRES="emacs font-adobe-dpi75 font-misc-misc libgtk2.0_0"
 
 emacs_w32_REQUIRES="emacs"
 
 # SRC_URI="mirror://gnu/emacs/${P}.tar.gz make-emacs-shortcut README.Cygwin"
 # SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}-rc1.tar.gz"
-SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.xz
-	 make-emacs-shortcut README.Cygwin"
+SRC_URI="
+	ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.xz
+	make-emacs-shortcut README.Cygwin
+ 	set-emacs-default-X11.sh
+	set-emacs-default-w32.sh"
+
 
 PATCH_URI="nox_mouse.patch nt_icon.patch"
 
@@ -154,6 +158,8 @@ src_install() {
 	dobin lib-src/emacsclient-w32.exe
 	dobin lib-src/emacsclient-X11.exe
 	dobin ${S}/make-emacs-shortcut
+	dobin ${S}/set-emacs-default-X11.sh
+	dobin ${S}/set-emacs-default-w32.sh
 	insinto /usr/bin
 	doins ${S}/nt/icons/emacs.ico
 	cd ${D}
