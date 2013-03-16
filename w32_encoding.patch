@@ -1,0 +1,271 @@
+--- origsrc/emacs-24.3/src/coding.c	2013-02-12 23:17:58.000000000 -0500
++++ src/emacs-24.3/src/coding.c	2013-03-11 06:15:56.623328500 -0400
+@@ -286,6 +286,10 @@ encode_coding_XXX (struct coding_system
+ #include <config.h>
+ #include <stdio.h>
+ 
++#ifdef HAVE_WCHAR_H
++#include <wchar.h>
++#endif /* HAVE_WCHAR_H */
++
+ #include "lisp.h"
+ #include "character.h"
+ #include "buffer.h"
+@@ -7991,11 +7995,21 @@ from_unicode (Lisp_Object str)
+   return code_convert_string_norecord (str, Qutf_16le, 0);
+ }
+ 
++Lisp_Object
++from_unicode_buffer (const wchar_t* wstr)
++{
++    return from_unicode (
++        make_unibyte_string (
++            (char*) wstr,
++            /* we get one of the two final 0 bytes for free. */
++            1 + sizeof (wchar_t) * wcslen (wstr)));
++}
++
+ wchar_t *
+ to_unicode (Lisp_Object str, Lisp_Object *buf)
+ {
+   *buf = code_convert_string_norecord (str, Qutf_16le, 1);
+-  /* We need to make a another copy (in addition to the one made by
++  /* We need to make another copy (in addition to the one made by
+      code_convert_string_norecord) to ensure that the final string is
+      _doubly_ zero terminated --- that is, that the string is
+      terminated by two zero bytes and one utf-16le null character.
+--- origsrc/emacs-24.3/src/coding.h	2013-01-01 15:37:17.000000000 -0500
++++ src/emacs-24.3/src/coding.h	2013-03-11 06:11:16.658315400 -0400
+@@ -721,6 +721,9 @@ extern wchar_t *to_unicode (Lisp_Object
+    failure modes.  STR itself is not modified.  */
+ extern Lisp_Object from_unicode (Lisp_Object str);
+ 
++/* Convert WSTR to an Emacs string.  */
++extern Lisp_Object from_unicode_buffer (const wchar_t* wstr);
++
+ #endif /* WINDOWSNT || CYGWIN */
+ 
+ /* Macros for backward compatibility.  */
+--- origsrc/emacs-24.3/src/w32fns.c	2013-03-11 06:08:36.457152400 -0400
++++ src/emacs-24.3/src/w32fns.c	2013-03-11 06:21:38.993911000 -0400
+@@ -1728,11 +1728,9 @@ x_set_name (struct frame *f, Lisp_Object
+ 
+   if (FRAME_W32_WINDOW (f))
+     {
+-      if (STRING_MULTIBYTE (name))
+-	name = ENCODE_SYSTEM (name);
+-
+       block_input ();
+-      SetWindowText (FRAME_W32_WINDOW (f), SDATA (name));
++      GUI_FN (SetWindowText) (FRAME_W32_WINDOW (f),
++                              GUI_SDATA (GUI_ENCODE_SYSTEM (name)));
+       unblock_input ();
+     }
+ }
+@@ -1774,11 +1772,9 @@ x_set_title (struct frame *f, Lisp_Objec
+ 
+   if (FRAME_W32_WINDOW (f))
+     {
+-      if (STRING_MULTIBYTE (name))
+-	name = ENCODE_SYSTEM (name);
+-
+       block_input ();
+-      SetWindowText (FRAME_W32_WINDOW (f), SDATA (name));
++      GUI_FN (SetWindowText) (FRAME_W32_WINDOW (f),
++                              GUI_SDATA (GUI_ENCODE_SYSTEM (name)));
+       unblock_input ();
+     }
+ }
+@@ -1828,7 +1824,6 @@ static LRESULT CALLBACK w32_wnd_proc (HW
+ static BOOL
+ w32_init_class (HINSTANCE hinst)
+ {
+-
+   if (w32_unicode_gui)
+     {
+       WNDCLASSW  uwc;
+@@ -6005,14 +6000,6 @@ Value is t if tooltip was open, nil othe
+ #define FILE_NAME_COMBO_BOX cmb13
+ #define FILE_NAME_LIST lst1
+ 
+-#ifdef NTGUI_UNICODE
+-#define GUISTR(x) (L ## x)
+-typedef wchar_t guichar_t;
+-#else /* !NTGUI_UNICODE */
+-#define GUISTR(x) x
+-typedef char guichar_t;
+-#endif /* NTGUI_UNICODE */
+-
+ /* Callback for altering the behavior of the Open File dialog.
+    Makes the Filename text field contain "Current Directory" and be
+    read-only when "Directories" is selected in the filter.  This
+@@ -6229,11 +6216,7 @@ Otherwise, if ONLY-DIR-P is non-nil, the
+       block_input ();
+       file_details->lpfnHook = file_dialog_callback;
+ 
+-#ifdef NTGUI_UNICODE
+-      file_opened = GetOpenFileNameW (file_details);
+-#else /* !NTGUI_UNICODE */
+-      file_opened = GetOpenFileNameA (file_details);
+-#endif /* NTGUI_UNICODE */
++      file_opened = GUI_FN (GetOpenFileName) (file_details);
+       unblock_input ();
+       unbind_to (count, Qnil);
+     }
+@@ -6242,11 +6225,7 @@ Otherwise, if ONLY-DIR-P is non-nil, the
+       {
+         /* Get an Emacs string from the value Windows gave us.  */
+ #ifdef NTGUI_UNICODE
+-        filename = from_unicode (
+-          make_unibyte_string (
+-            (char*) filename_buf,
+-            /* we get one of the two final 0 bytes for free. */
+-            1 + sizeof (wchar_t) * wcslen (filename_buf)));
++        filename = from_unicode_buffer (filename_buf);
+ #else /* !NTGUI_UNICODE */
+         dostounix_filename (filename_buf);
+         filename = DECODE_FILE (build_string (filename_buf));
+@@ -6420,20 +6399,29 @@ an integer representing a ShowWindow fla
+   CHECK_STRING (document);
+ 
+   /* Encode filename, current directory and parameters.  */
+-  current_dir = ENCODE_FILE (BVAR (current_buffer, directory));
+-  document = ENCODE_FILE (document);
++  current_dir = BVAR (current_buffer, directory);
++
++#ifdef CYGWIN
++  current_dir = Fcygwin_convert_file_name_to_windows (current_dir, Qt);
++  if (STRINGP (document))
++    document = Fcygwin_convert_file_name_to_windows (document, Qt);
++#endif /* CYGWIN */
++
++  current_dir = GUI_ENCODE_FILE (current_dir);
++  if (STRINGP (document))
++    document = GUI_ENCODE_FILE (document);
+   if (STRINGP (parameters))
+-    parameters = ENCODE_SYSTEM (parameters);
++    parameters = GUI_ENCODE_SYSTEM (parameters);
+ 
+-  if ((int) ShellExecute (NULL,
+-			  (STRINGP (operation) ?
+-			   SDATA (operation) : NULL),
+-			  SDATA (document),
+-			  (STRINGP (parameters) ?
+-			   SDATA (parameters) : NULL),
+-			  SDATA (current_dir),
+-			  (INTEGERP (show_flag) ?
+-			   XINT (show_flag) : SW_SHOWDEFAULT))
++  if ((int) GUI_FN (ShellExecute) (NULL,
++                                   (STRINGP (operation) ?
++                                    GUI_SDATA (operation) : NULL),
++                                   GUI_SDATA (document),
++                                   (STRINGP (parameters) ?
++                                    GUI_SDATA (parameters) : NULL),
++                                   GUI_SDATA (current_dir),
++                                   (INTEGERP (show_flag) ?
++                                    XINT (show_flag) : SW_SHOWDEFAULT))
+       > 32)
+     return Qt;
+   errstr = w32_strerror (0);
+@@ -6802,6 +6790,7 @@ The following %-sequences are provided:
+ }
+ 
+ 
++#ifdef WINDOWSNT
+ DEFUN ("file-system-info", Ffile_system_info, Sfile_system_info, 1, 1, 0,
+        doc: /* Return storage information about the file system FILENAME is on.
+ Value is a list of floats (TOTAL FREE AVAIL), where TOTAL is the total
+@@ -6897,6 +6886,8 @@ If the underlying system call fails, val
+ 
+   return value;
+ }
++#endif /* WINDOWSNT */
++
+ 
+ DEFUN ("default-printer-name", Fdefault_printer_name, Sdefault_printer_name,
+        0, 0, 0, doc: /* Return the name of Windows default printer device.  */)
+@@ -7623,7 +7614,10 @@ only be necessary if the default setting
+   defsubr (&Sw32_window_exists_p);
+   defsubr (&Sw32_battery_status);
+ 
++#ifdef WINDOWSNT
+   defsubr (&Sfile_system_info);
++#endif
++
+   defsubr (&Sdefault_printer_name);
+   defsubr (&Sset_message_beep);
+ 
+@@ -7725,3 +7719,15 @@ emacs_abort (void)
+       break;
+     }
+ }
++
++#ifdef NTGUI_UNICODE
++
++Lisp_Object
++ntgui_encode_system (Lisp_Object str)
++{
++  Lisp_Object encoded;
++  to_unicode (str, &encoded);
++  return encoded;
++}
++
++#endif /* NTGUI_UNICODE */
+--- origsrc/emacs-24.3/src/w32term.c	2013-01-04 04:38:13.000000000 -0500
++++ src/emacs-24.3/src/w32term.c	2013-03-11 06:11:16.676316400 -0400
+@@ -3173,7 +3173,7 @@ construct_drag_n_drop (struct input_even
+   HDROP hdrop;
+   POINT p;
+   WORD num_files;
+-  char *name;
++  guichar_t *name;
+   int i, len;
+ 
+   result->kind = DRAG_N_DROP_EVENT;
+@@ -3198,12 +3198,17 @@ construct_drag_n_drop (struct input_even
+ 
+   for (i = 0; i < num_files; i++)
+     {
+-      len = DragQueryFile (hdrop, i, NULL, 0);
++      len = GUI_FN (DragQueryFile) (hdrop, i, NULL, 0);
+       if (len <= 0)
+ 	continue;
+-      name = alloca (len + 1);
+-      DragQueryFile (hdrop, i, name, len + 1);
++
++      name = alloca ((len + 1) * sizeof (*name));
++      GUI_FN (DragQueryFile) (hdrop, i, name, len + 1);
++#ifdef NTGUI_UNICODE
++      files = Fcons (from_unicode_buffer (name), files);
++#else
+       files = Fcons (DECODE_FILE (build_string (name)), files);
++#endif /* NTGUI_UNICODE */
+     }
+ 
+   DragFinish (hdrop);
+--- origsrc/emacs-24.3/src/w32term.h	2013-01-01 15:37:17.000000000 -0500
++++ src/emacs-24.3/src/w32term.h	2013-03-11 06:11:16.681316700 -0400
+@@ -772,6 +772,23 @@ extern const char*
+ w32_name_of_message (UINT msg);
+ #endif /* EMACSDEBUG */
+ 
++#ifdef NTGUI_UNICODE
++extern Lisp_Object ntgui_encode_system (Lisp_Object str);
++#define GUISTR(x) (L ## x)
++#define GUI_ENCODE_FILE GUI_ENCODE_SYSTEM
++#define GUI_ENCODE_SYSTEM(x) ntgui_encode_system (x)
++#define GUI_FN(fn) fn ## W
++typedef wchar_t guichar_t;
++#else /* !NTGUI_UNICODE */
++#define GUISTR(x) x
++#define GUI_ENCODE_FILE ENCODE_FILE
++#define GUI_ENCODE_SYSTEM ENCODE_SYSTEM
++#define GUI_FN(fn) fn
++typedef char guichar_t;
++#endif /* NTGUI_UNICODE */
++
++#define GUI_SDATA(x) ((guichar_t*) SDATA (x))
++
+ extern void syms_of_w32term (void);
+ extern void syms_of_w32menu (void);
+ extern void syms_of_w32fns (void);

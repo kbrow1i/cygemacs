@@ -1,17 +1,13 @@
-The following packages have been updated in the Cygwin distribution as test releases:
+The following packages have been updated in the Cygwin distribution:
 
-*** emacs-24.3_rc1-1
-*** emacs-X11-24.3_rc1-1
-*** emacs-w32-24.3_rc1-1
-*** emacs-el-24.3_rc1-1
-
-This is an upstream release candidate for emacs-24.3.  All emacs users are strongly encouraged to test it.
+*** emacs-24.3-1
+*** emacs-X11-24.3-1
+*** emacs-w32-24.3-1
+*** emacs-el-24.3-1
 
 Emacs is a powerful, customizable, self-documenting, modeless text editor.  Emacs contains special code editing features, a scripting language (elisp), and the capability to read mail, news, and more without leaving the editor.
 
-This release contains bugfixes as well as new features.  Browse the NEWS file (`C-h n' within emacs) for information about upstream changes since emacs-24.2.
-
-I have dropped the support for GSettings and GConf that was present in earlier test releases, so it is no longer necessary for emacs-X11 users to start a D-Bus session daemon.  I'll try again to support GSettins and GConf in emacs-24.4.
+This is a new upstream release.  It contains bugfixes as well as new features.  Browse the NEWS file (`C-h n' within emacs) for information about changes since emacs-24.2.
 
 CYGWIN NOTES
 ============
