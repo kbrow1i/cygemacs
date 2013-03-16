@@ -1,6 +1,6 @@
 NAME="emacs"
-VERSION=24.2.93
-RELEASE=2
+VERSION=24.3
+RELEASE=1
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -31,20 +31,23 @@ display.  The binaries also can be used in non-X11 mode."
 emacs_w32_DESCRIPTION="This package contains emacs binaries that use the native Windows GUI
 for display."
 
-# libgnutls26 is temporary
-emacs_REQUIRES="xemacs-emacs-common alternatives terminfo-extra libgnutls26"
+emacs_REQUIRES="xemacs-emacs-common terminfo-extra"
 
-# libgtk2.0_0 is temporary
-emacs_X11_REQUIRES="dbus emacs font-adobe-dpi75 font-misc-misc libgtk2.0_0"
+emacs_X11_REQUIRES="emacs font-adobe-dpi75 font-misc-misc"
 
 emacs_w32_REQUIRES="emacs"
 
-# SRC_URI="mirror://gnu/emacs/${P}.tar.gz make-emacs-shortcut README.Cygwin"
-# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}-rc1.tar.gz"
-SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.xz
-	 make-emacs-shortcut README.Cygwin"
+# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.xz
+# ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-24.3-rc3.tar.xz
 
-PATCH_URI="nox_mouse.patch"
+SRC_URI="
+	mirror://gnu/emacs/${P}.tar.xz
+	make-emacs-shortcut
+	set-emacs-default-X11.sh
+	set-emacs-default-w32.sh
+	README.Cygwin"
+
+PATCH_URI="nox_mouse.patch nt_icon.patch w32_encoding.patch"
 
 DOCS="README.Cygwin"
 
@@ -75,6 +78,7 @@ emacs_CONTENTS="
 	--exclude=usr/share/${PN}/${PV}/leim*el.gz
 	--exclude=usr/bin/emacs-X11.exe
 	--exclude=usr/bin/emacsclient-X11.exe
+	--exclude=usr/bin/set-emacs-default-*.sh
 	--exclude=etc/postinstall/emacs-X11.sh
 	--exclude=etc/preremove/emacs-X11.sh
 	--exclude=usr/bin/emacs-w32.exe
@@ -103,12 +107,14 @@ emacs_el_CONTENTS="
 emacs_X11_CONTENTS="
 	usr/bin/emacs-X11.exe
 	usr/bin/emacsclient-X11.exe
+	usr/bin/set-emacs-default-X11.sh
 	etc/postinstall/emacs-X11.sh
 	etc/preremove/emacs-X11.sh"
 
 emacs_w32_CONTENTS="
 	usr/bin/emacs-w32.exe
 	usr/bin/emacsclient-w32.exe
+	usr/bin/set-emacs-default-w32.sh
 	etc/postinstall/emacs-w32.sh
 	etc/preremove/emacs-w32.sh"
 
@@ -117,6 +123,8 @@ DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~"
 ACLOCAL_FLAGS='-I m4'
 CPPFLAGS=-I/usr/include/ncursesw
 LDFLAGS=-L/usr/lib/ncursesw
+
+MAKEOPTS=" -j8 "
 
 src_compile() {
 	cd ${S}
@@ -132,7 +140,7 @@ src_compile() {
 	cp -v src/emacs.exe emacs-w32.exe
 	cp -v lib-src/emacsclient.exe emacsclient-w32.exe
 	make distclean
-	cygconf
+	cygconf --without-gconf --without-gsettings
 	cygmake
 	mv -v emacs-nox.exe src/emacs-nox.exe
 	mv -v emacs-w32.exe src/emacs-w32.exe
@@ -152,6 +160,8 @@ src_install() {
 	dobin lib-src/emacsclient-w32.exe
 	dobin lib-src/emacsclient-X11.exe
 	dobin ${S}/make-emacs-shortcut
+	dobin ${S}/set-emacs-default-X11.sh
+	dobin ${S}/set-emacs-default-w32.sh
 	insinto /usr/bin
 	doins ${S}/nt/icons/emacs.ico
 	cd ${D}

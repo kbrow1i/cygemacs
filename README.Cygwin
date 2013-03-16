@@ -11,37 +11,16 @@ Usage notes for emacs on Cygwin
    emacs-w32; otherwise, it will start emacs-nox.exe.  Similar remarks
    apply to emacsclient.
 
-2. Cygwin's emacs-X11 now supports GNOME's GSettings and GConf
-   features.  As a consequence, it is important that you have a D-Bus
-   session daemon running before starting emacs under X11.  Otherwise,
-   emacs will try to start one, and this can cause problems; see
+   If you have installed both emacs-w32 and emacs-X11 and prefer to
+   give higher priority to emacs-w32, run the script
 
-     http://debbugs.gnu.org/cgi/bugreport.cgi?bug=8855
+     /usr/bin/set-emacs-default-w32.sh
 
-   A simple way to make sure that a D-Bus session daemon is running is
-   to start it in your ~/.startxwinc file.  If you already have a
-   ~/.startxwinc file that starts an xterm process (and perhaps
-   emacs), just add the following line at the beginning:
+   You can later restore emacs-X11 as the default by running
 
-     eval `dbus-launch --sh-syntax`
+     /usr/bin/set-emacs-default-X11.sh
 
-   Otherwise, create one containing the following two lines:
-
-     eval `dbus-launch --sh-syntax`
-     xterm &
-
-   You can then start emacs from the xterm window that opens up.
-   
-   Alternatively, put the following three lines in ~/.bashrc (assuming
-   you use bash as your shell):
-
-     if [ -n "$DISPLAY" ] && [ -z "$DBUS_SESSION_BUS_ADDRESS" ] ; then
-         eval `dbus-launch --sh-syntax`
-     fi
-
-   For more information, see the documentation for dbus-launch.
-
-3. If you start emacs under X11 and specify the window geometry on the
+2. If you start emacs under X11 and specify the window geometry on the
    command line or in ~/.Xdefaults, you may see the following warning:
 
      Gtk-WARNING **: gtk_window_parse_geometry() called on a window
@@ -52,7 +31,7 @@ Usage notes for emacs on Cygwin
 
      http://debbugs.gnu.org/cgi/bugreport.cgi?bug=11177 
 
-4. If you have sshd running and want to be able to run emacs-X11 from
+3. If you have sshd running and want to be able to run emacs-X11 from
    a remote machine, you need to enable X11 forwarding by adding the
    following line to /etc/sshd_config:
 
@@ -60,7 +39,7 @@ Usage notes for emacs on Cygwin
 
    You might also need to have the cygserver service running.
 
-5. The script /usr/bin/make-emacs-shortcut can be used to create a
+4. The script /usr/bin/make-emacs-shortcut can be used to create a
    shortcut for starting emacs.  The shortcut assumes that you have
    installed the emacs-X11 and emacs-w32 packages.  It starts emacs
    under X if an X server is running, and it starts emacs-w32.exe
@@ -75,7 +54,7 @@ Usage notes for emacs on Cygwin
    make-emacs-shortcut, and you will need the run2 package in order to
    use the shortcut it creates.
 
-6. If you don't like the default fonts in the GUI versions of emacs,
+5. If you don't like the default fonts in the GUI versions of emacs,
    you can change them via the menu items
 
      Options -> Set Default Font
