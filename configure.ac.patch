@@ -1,0 +1,15 @@
+--- origsrc/emacs-24.3/configure.ac	2013-03-24 21:28:35.943276100 +0000
++++ src/emacs-24.3/configure.ac	2013-03-24 21:29:27.469223300 +0000
+@@ -524,10 +524,11 @@ case "${canonical}" in
+     esac
+   ;;
+ 
++    *-pc-cygwin )                opsys=cygwin ;;
++
+   ## Intel 386 machines where we don't care about the manufacturer.
+   i[3456]86-*-* )
+     case "${canonical}" in
+-      *-cygwin )                opsys=cygwin ;;
+       *-darwin* )               opsys=darwin ;;
+       *-sysv4.2uw* )	  	opsys=unixware ;;
+       *-sysv5uw* )	  	opsys=unixware ;;

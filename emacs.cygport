@@ -37,54 +37,49 @@ emacs_X11_REQUIRES="emacs font-adobe-dpi75 font-misc-misc"
 
 emacs_w32_REQUIRES="emacs"
 
-# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.xz
-# ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-24.3-rc3.tar.xz
+SRC_URI="mirror://gnu/emacs/${P}.tar.xz config.guess.patch"
 
-SRC_URI="
-	mirror://gnu/emacs/${P}.tar.xz
-	make-emacs-shortcut
-	set-emacs-default-X11.sh
-	set-emacs-default-w32.sh
-	README.Cygwin"
+PATCH_URI="
+	nox_mouse.patch
+	w32_encoding.patch
+	syms_of_cygw32.patch
+	image_background.patch
+	w32term.w32_init.patch
+	unexcw.patch
+	configure.ac.patch
+	memory_warnings.patch"
 
-PATCH_URI="nox_mouse.patch nt_icon.patch w32_encoding.patch syms_of_cygw32.patch"
-
-DOCS="README.Cygwin"
-
-DEPEND="libtiff-devel
-	libgif-devel
-	libjpeg-devel
-	libXpm-noX-devel
-	pkgconfig(dbus-1)
-	pkgconfig(fontconfig)
-	pkgconfig(freetype2)
-	pkgconfig(gio-2.0)
-	pkgconfig(glib-2.0)
-	pkgconfig(gnutls)
-	pkgconfig(gtk+-3.0)
-	pkgconfig(librsvg-2.0)
-	pkgconfig(libxml-2.0)
-	pkgconfig(libpng15)
-	pkgconfig(ncursesw)
-	pkgconfig(sm)
-	pkgconfig(Wand)
-	pkgconfig(x11)
-	pkgconfig(xft)
-	pkgconfig(xpm)
-	pkgconfig(xrender)"
+# DEPEND="libtiff-devel
+# 	libgif-devel
+# 	libjpeg-devel
+# 	libXpm-noX-devel
+# 	pkgconfig(dbus-1)
+# 	pkgconfig(fontconfig)
+# 	pkgconfig(freetype2)
+# 	pkgconfig(gio-2.0)
+# 	pkgconfig(glib-2.0)
+# 	pkgconfig(gnutls)
+# 	pkgconfig(gtk+-3.0)
+# 	pkgconfig(librsvg-2.0)
+# 	pkgconfig(libxml-2.0)
+# 	pkgconfig(libpng15)
+# 	pkgconfig(ncursesw)
+# 	pkgconfig(sm)
+# 	pkgconfig(Wand)
+# 	pkgconfig(x11)
+# 	pkgconfig(xft)
+# 	pkgconfig(xpm)
+# 	pkgconfig(xrender)"
 
 emacs_CONTENTS="
 	--exclude=usr/share/${PN}/${PV}/lisp*el.gz
 	--exclude=usr/share/${PN}/${PV}/leim*el.gz
 	--exclude=usr/bin/emacs-X11.exe
 	--exclude=usr/bin/emacsclient-X11.exe
-	--exclude=usr/bin/set-emacs-default-*.sh
-	--exclude=etc/postinstall/emacs-X11.sh
-	--exclude=etc/preremove/emacs-X11.sh
 	--exclude=usr/bin/emacs-w32.exe
 	--exclude=usr/bin/emacsclient-w32.exe
-	--exclude=etc/postinstall/emacs-w32.sh
-	--exclude=etc/preremove/emacs-w32.sh
+	--exclude=usr/bin/emacs
+	--exclude=usr/bin/emacsclient
 	etc/
 	usr/"
 
@@ -106,41 +101,35 @@ emacs_el_CONTENTS="
 
 emacs_X11_CONTENTS="
 	usr/bin/emacs-X11.exe
-	usr/bin/emacsclient-X11.exe
-	usr/bin/set-emacs-default-X11.sh
-	etc/postinstall/emacs-X11.sh
-	etc/preremove/emacs-X11.sh"
+	usr/bin/emacsclient-X11.exe"
 
 emacs_w32_CONTENTS="
 	usr/bin/emacs-w32.exe
 	usr/bin/emacsclient-w32.exe
-	usr/bin/set-emacs-default-w32.sh
-	etc/postinstall/emacs-w32.sh
-	etc/preremove/emacs-w32.sh"
+	usr/bin/emacs
+	usr/bin/emacsclient"
 
 DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~"
 
 ACLOCAL_FLAGS='-I m4'
-CPPFLAGS=-I/usr/include/ncursesw
-LDFLAGS=-L/usr/lib/ncursesw
-
 MAKEOPTS=" -j8 "
 
 src_compile() {
 	cd ${S}
 	cygautoreconf
+	patch -p0 < config.guess.patch
 	cd ${B}
 	cygconf --with-x=no
 	cygmake
 	cp -v src/emacs.exe emacs-nox.exe
 	cp -v lib-src/emacsclient.exe emacsclient-nox.exe
-	make distclean
-	cygconf --with-w32
+	make clean
+	cygconf --with-w32 --with-xpm=no
 	cygmake
 	cp -v src/emacs.exe emacs-w32.exe
 	cp -v lib-src/emacsclient.exe emacsclient-w32.exe
-	make distclean
-	cygconf --without-gconf --without-gsettings
+	make clean
+	cygconf --without-gconf --without-gsettings --with-jpeg=no --with-gif=no --with-tiff=no
 	cygmake
 	mv -v emacs-nox.exe src/emacs-nox.exe
 	mv -v emacs-w32.exe src/emacs-w32.exe
@@ -159,11 +148,10 @@ src_install() {
 	dobin lib-src/emacsclient-nox.exe
 	dobin lib-src/emacsclient-w32.exe
 	dobin lib-src/emacsclient-X11.exe
-	dobin ${S}/make-emacs-shortcut
-	dobin ${S}/set-emacs-default-X11.sh
-	dobin ${S}/set-emacs-default-w32.sh
 	insinto /usr/bin
 	doins ${S}/nt/icons/emacs.ico
+	dosym emacs-w32.exe /usr/bin/emacs
+	dosym emacsclient-w32.exe /usr/bin/emacsclient
 	cd ${D}
 	rm -fv \
 		usr/bin/${P}.exe \

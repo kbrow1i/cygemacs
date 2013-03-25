@@ -1,0 +1,11 @@
+--- build-aux/config.guess.orig	2013-03-24 21:33:48.267140000 +0000
++++ build-aux/config.guess	2013-03-24 21:33:48.853173600 +0000
+@@ -798,7 +798,7 @@
+ 		echo ${UNAME_PROCESSOR}-unknown-freebsd`echo ${UNAME_RELEASE}|sed -e 's/[-(].*//'` ;;
+ 	esac
+ 	exit ;;
+-    i*:CYGWIN*:*)
++    *:CYGWIN*:*)
+ 	echo ${UNAME_MACHINE}-pc-cygwin
+ 	exit ;;
+     *:MINGW*:*)
