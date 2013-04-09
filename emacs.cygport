@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=24.3
-RELEASE=3
+RELEASE=4
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -51,7 +51,8 @@ PATCH_URI="
 	w32term.w32_init.patch
 	unexcw.patch
 	configure.ac.patch
-	memory_warnings.patch"
+	memory_warnings.patch
+	24.3-4_nt_icon.patch"
 
 # DEPEND="libtiff-devel
 # 	libgif-devel
