@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=24.3
-RELEASE=4
+RELEASE=5
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -39,9 +39,14 @@ emacs_w32_REQUIRES="emacs"
 
 SRC_URI="
 	mirror://gnu/emacs/${P}.tar.xz
-	config.guess.patch
 	set-emacs-default-X11.sh
-	set-emacs-default-w32.sh"
+	set-emacs-default-w32.sh
+	emacs.postinstall
+	emacs-w32.postinstall
+	emacs-X11.postinstall
+	emacs.preremove
+	emacs-w32.preremove
+	emacs-X11.preremove"
 
 PATCH_URI="
 	nox_mouse.patch
@@ -52,29 +57,32 @@ PATCH_URI="
 	unexcw.patch
 	configure.ac.patch
 	memory_warnings.patch
-	24.3-4_nt_icon.patch"
+	24.3-4_nt_icon.patch
+	nonbootstrap_static_heap.patch"
 
-# DEPEND="libtiff-devel
-# 	libgif-devel
-# 	libjpeg-devel
-# 	libXpm-noX-devel
-# 	pkgconfig(dbus-1)
-# 	pkgconfig(fontconfig)
-# 	pkgconfig(freetype2)
-# 	pkgconfig(gio-2.0)
-# 	pkgconfig(glib-2.0)
-# 	pkgconfig(gnutls)
-# 	pkgconfig(gtk+-3.0)
-# 	pkgconfig(librsvg-2.0)
-# 	pkgconfig(libxml-2.0)
-# 	pkgconfig(libpng15)
-# 	pkgconfig(ncursesw)
-# 	pkgconfig(sm)
-# 	pkgconfig(Wand)
-# 	pkgconfig(x11)
-# 	pkgconfig(xft)
-# 	pkgconfig(xpm)
-# 	pkgconfig(xrender)"
+DEPEND="libtiff-devel
+	libjpeg-devel
+	pkgconfig(dbus-1)
+	pkgconfig(fontconfig)
+	pkgconfig(freetype2)
+	pkgconfig(gio-2.0)
+	pkgconfig(glib-2.0)
+	pkgconfig(gnutls)
+	pkgconfig(gtk+-2.0)
+	pkgconfig(librsvg-2.0)
+	pkgconfig(libxml-2.0)
+	pkgconfig(libpng)
+	pkgconfig(ncurses)
+	pkgconfig(sm)
+	pkgconfig(Wand)
+	pkgconfig(x11)
+	pkgconfig(xft)
+	pkgconfig(xpm)
+	pkgconfig(xrender)"
+
+	# libgif-devel
+	# libXpm-noX-devel or pkgconfig(xpm-nox)
+	# pkgconfig(gtk+-3.0)
 
 emacs_CONTENTS="
 	--exclude=usr/share/${PN}/${PV}/lisp*el.gz
@@ -129,8 +137,8 @@ CFLAGS="-ggdb -O0 -pipe -Wall -Wextra"
 
 src_compile() {
 	cd ${S}
+	cp -v *.postinstall *.preremove ${C}/
 	cygautoreconf
-	patch -p0 < config.guess.patch
 	cd ${B}
 	cygconf --with-x=no
 	cygmake
@@ -142,7 +150,7 @@ src_compile() {
 	cp -v src/emacs.exe emacs-w32.exe
 	cp -v lib-src/emacsclient.exe emacsclient-w32.exe
 	make clean
-	cygconf --without-gconf --without-gsettings --with-jpeg=no --with-gif=no --with-tiff=no
+	cygconf --without-gconf --without-gsettings --with-gif=no
 	cygmake
 	mv -v emacs-nox.exe src/emacs-nox.exe
 	mv -v emacs-w32.exe src/emacs-w32.exe
