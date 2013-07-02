@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=24.3
-RELEASE=5
+RELEASE=6
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -60,7 +60,8 @@ PATCH_URI="
 	24.3-4_nt_icon.patch
 	nonbootstrap_static_heap.patch"
 
-DEPEND="libtiff-devel
+DEPEND="libgif-devel
+	libtiff-devel
 	libjpeg-devel
 	pkgconfig(dbus-1)
 	pkgconfig(fontconfig)
@@ -68,7 +69,7 @@ DEPEND="libtiff-devel
 	pkgconfig(gio-2.0)
 	pkgconfig(glib-2.0)
 	pkgconfig(gnutls)
-	pkgconfig(gtk+-2.0)
+	pkgconfig(gtk+-3.0)
 	pkgconfig(librsvg-2.0)
 	pkgconfig(libxml-2.0)
 	pkgconfig(libpng)
@@ -80,9 +81,7 @@ DEPEND="libtiff-devel
 	pkgconfig(xpm)
 	pkgconfig(xrender)"
 
-	# libgif-devel
 	# libXpm-noX-devel or pkgconfig(xpm-nox)
-	# pkgconfig(gtk+-3.0)
 
 emacs_CONTENTS="
 	--exclude=usr/share/${PN}/${PV}/lisp*el.gz
@@ -137,7 +136,6 @@ CFLAGS="-ggdb -O0 -pipe -Wall -Wextra"
 
 src_compile() {
 	cd ${S}
-	cp -v *.postinstall *.preremove ${C}/
 	cygautoreconf
 	cd ${B}
 	cygconf --with-x=no
@@ -150,7 +148,7 @@ src_compile() {
 	cp -v src/emacs.exe emacs-w32.exe
 	cp -v lib-src/emacsclient.exe emacsclient-w32.exe
 	make clean
-	cygconf --without-gconf --without-gsettings --with-gif=no
+	cygconf --without-gconf --without-gsettings
 	cygmake
 	mv -v emacs-nox.exe src/emacs-nox.exe
 	mv -v emacs-w32.exe src/emacs-w32.exe
