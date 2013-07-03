@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=24.3
-RELEASE=6
+RELEASE=7
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -79,9 +79,8 @@ DEPEND="libgif-devel
 	pkgconfig(x11)
 	pkgconfig(xft)
 	pkgconfig(xpm)
+	pkgconfig(xpm-nox)
 	pkgconfig(xrender)"
-
-	# libXpm-noX-devel or pkgconfig(xpm-nox)
 
 emacs_CONTENTS="
 	--exclude=usr/share/${PN}/${PV}/lisp*el.gz
@@ -131,8 +130,8 @@ emacs_w32_CONTENTS="
 DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~"
 
 ACLOCAL_FLAGS='-I m4'
-MAKEOPTS=" -j8 "
-CFLAGS="-ggdb -O0 -pipe -Wall -Wextra"
+MAKEOPTS=" -j9"
+# CFLAGS="-ggdb -O0 -pipe -Wall -Wextra"
 
 src_compile() {
 	cd ${S}
@@ -143,7 +142,7 @@ src_compile() {
 	cp -v src/emacs.exe emacs-nox.exe
 	cp -v lib-src/emacsclient.exe emacsclient-nox.exe
 	make clean
-	cygconf --with-w32 --with-xpm=no
+	cygconf --with-w32
 	cygmake
 	cp -v src/emacs.exe emacs-w32.exe
 	cp -v lib-src/emacsclient.exe emacsclient-w32.exe
