@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=24.3
-RELEASE=1
+RELEASE=2
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -47,7 +47,7 @@ SRC_URI="
 	set-emacs-default-w32.sh
 	README.Cygwin"
 
-PATCH_URI="nox_mouse.patch nt_icon.patch w32_encoding.patch"
+PATCH_URI="nox_mouse.patch nt_icon.patch w32_encoding.patch 24.3_memalign.patch"
 
 DOCS="README.Cygwin"
 

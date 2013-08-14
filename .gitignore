@@ -8,4 +8,4 @@ emacs-*.tar.xz
 /build.sh
 /patch_setup.sh
 /00README.txt
-
+build64/
