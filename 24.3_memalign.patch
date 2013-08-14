@@ -1,0 +1,51 @@
+--- origsrc/emacs-24.3/src/gmalloc.c	2013-01-01 15:37:17.000000000 -0500
++++ src/emacs-24.3/src/gmalloc.c	2013-08-14 15:23:44.050131300 -0400
+@@ -1558,6 +1558,15 @@ License along with this library.  If not
+ 
+ void *(*__memalign_hook) (size_t size, size_t alignment);
+ 
++/* As of version 1.7.24, Cygwin allows applications to provide their
++   own posix_memalign (but not memalign).  But posix_memalign as
++   defined in this file calls memalign, so we have to rename the
++   latter in order to make sure that posix_memalign calls Emacs's
++   memalign.  */
++#ifdef CYGWIN
++#define memalign emacs_memalign
++#endif
++
+ void *
+ memalign (size_t alignment, size_t size)
+ {
+--- origsrc/emacs-24.3/configure.ac	2013-08-14 15:37:14.596491900 -0400
++++ src/emacs-24.3/configure.ac	2013-08-14 16:09:19.720602700 -0400
+@@ -4052,16 +4052,6 @@ fi
+ 
+ 
+ case $opsys in
+-  dnl Emacs supplies its own malloc, but glib (part of Gtk+) calls
+-  dnl memalign and on Cygwin, that becomes the Cygwin-supplied memalign.
+-  dnl As malloc is not the Cygwin malloc, the Cygwin memalign always
+-  dnl returns ENOSYS.  A workaround is to set G_SLICE=always-malloc. */
+-  cygwin)
+-    AC_DEFINE(G_SLICE_ALWAYS_MALLOC, 1, [Define to set the
+-      G_SLICE environment variable to "always-malloc" at startup, if
+-      using GTK.])
+-    ;;
+-
+   hpux11)
+     dnl It works to open the pty's tty in the parent (Emacs), then
+     dnl close and reopen it in the child.
+--- origsrc/emacs-24.3/src/emacs.c	2013-08-14 15:37:14.611492800 -0400
++++ src/emacs-24.3/src/emacs.c	2013-08-14 16:09:32.328323800 -0400
+@@ -684,11 +684,6 @@ main (int argc, char **argv)
+   stack_base = &dummy;
+ #endif
+ 
+-#ifdef G_SLICE_ALWAYS_MALLOC
+-  /* This is used by the Cygwin build.  */
+-  setenv ("G_SLICE", "always-malloc", 1);
+-#endif
+-
+ #ifdef GNU_LINUX
+   if (!initialized)
+     {

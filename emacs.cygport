@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=24.3
-RELEASE=7
+RELEASE=5
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -31,7 +31,7 @@ display.  The binaries also can be used in non-X11 mode."
 emacs_w32_DESCRIPTION="This package contains emacs binaries that use the native Windows GUI
 for display."
 
-emacs_REQUIRES="xemacs-emacs-common terminfo-extra"
+# emacs_REQUIRES="xemacs-emacs-common terminfo-extra"
 
 emacs_X11_REQUIRES="emacs font-adobe-dpi75 font-misc-misc"
 
@@ -39,29 +39,28 @@ emacs_w32_REQUIRES="emacs"
 
 SRC_URI="
 	mirror://gnu/emacs/${P}.tar.xz
+	make-emacs-shortcut
 	set-emacs-default-X11.sh
 	set-emacs-default-w32.sh
-	emacs.postinstall
-	emacs-w32.postinstall
-	emacs-X11.postinstall
-	emacs.preremove
-	emacs-w32.preremove
-	emacs-X11.preremove"
+	README.Cygwin"
 
 PATCH_URI="
 	nox_mouse.patch
 	w32_encoding.patch
+	configure.ac.patch
 	syms_of_cygw32.patch
 	image_background.patch
 	w32term.w32_init.patch
 	unexcw.patch
-	configure.ac.patch
 	memory_warnings.patch
 	24.3-4_nt_icon.patch
-	nonbootstrap_static_heap.patch"
+	nonbootstrap_static_heap.patch
+	24.3_memalign.patch"
 
-DEPEND="libgif-devel
-	libtiff-devel
+DOCS="README.Cygwin"
+
+DEPEND="libtiff-devel
+	libgif-devel
 	libjpeg-devel
 	pkgconfig(dbus-1)
 	pkgconfig(fontconfig)
@@ -141,12 +140,12 @@ src_compile() {
 	cygmake
 	cp -v src/emacs.exe emacs-nox.exe
 	cp -v lib-src/emacsclient.exe emacsclient-nox.exe
-	make clean
+	make distclean
 	cygconf --with-w32
 	cygmake
 	cp -v src/emacs.exe emacs-w32.exe
 	cp -v lib-src/emacsclient.exe emacsclient-w32.exe
-	make clean
+	make distclean
 	cygconf --without-gconf --without-gsettings
 	cygmake
 	mv -v emacs-nox.exe src/emacs-nox.exe
@@ -166,6 +165,7 @@ src_install() {
 	dobin lib-src/emacsclient-nox.exe
 	dobin lib-src/emacsclient-w32.exe
 	dobin lib-src/emacsclient-X11.exe
+	dobin ${S}/make-emacs-shortcut
 	dobin ${S}/set-emacs-default-X11.sh
 	dobin ${S}/set-emacs-default-w32.sh
 	insinto /usr/bin
