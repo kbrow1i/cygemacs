@@ -47,7 +47,7 @@ SRC_URI="
 	set-emacs-default-w32.sh
 	README.Cygwin"
 
-PATCH_URI="nox_mouse.patch nt_icon.patch w32_encoding.patch 24.3_memalign.patch"
+PATCH_URI="nox_mouse.patch nt_icon.patch w32_encoding.patch 24.3_gslice.patch"
 
 DOCS="README.Cygwin"
 
