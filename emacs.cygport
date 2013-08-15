@@ -55,7 +55,7 @@ PATCH_URI="
 	memory_warnings.patch
 	24.3-4_nt_icon.patch
 	nonbootstrap_static_heap.patch
-	24.3_memalign.patch"
+	24.3_gslice.patch"
 
 DOCS="README.Cygwin"
 
