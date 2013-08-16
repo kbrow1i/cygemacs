@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=24.3
-RELEASE=5
+RELEASE=6
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
