@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=24.3
-RELEASE=6
+RELEASE=7
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -130,6 +130,7 @@ DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~"
 
 ACLOCAL_FLAGS='-I m4'
 MAKEOPTS=" -j9"
+LDFLAGS="-Wl,--stack,0x400000"
 # CFLAGS="-ggdb -O0 -pipe -Wall -Wextra"
 
 src_compile() {
