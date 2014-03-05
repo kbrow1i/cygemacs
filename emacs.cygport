@@ -1,6 +1,6 @@
 NAME="emacs"
-VERSION=24.3
-RELEASE=2
+VERSION=24.3.50
+RELEASE=1
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -31,7 +31,10 @@ display.  The binaries also can be used in non-X11 mode."
 emacs_w32_DESCRIPTION="This package contains emacs binaries that use the native Windows GUI
 for display."
 
-emacs_REQUIRES="xemacs-emacs-common terminfo-extra"
+if [ "${ARCH}" = i686 ]
+then
+    emacs_REQUIRES="xemacs-emacs-common terminfo-extra"
+fi
 
 emacs_X11_REQUIRES="emacs font-adobe-dpi75 font-misc-misc"
 
@@ -45,16 +48,16 @@ SRC_URI="
 	make-emacs-shortcut
 	set-emacs-default-X11.sh
 	set-emacs-default-w32.sh
-	README.Cygwin"
+	README.Cygwin
+"
 
-PATCH_URI="nox_mouse.patch nt_icon.patch w32_encoding.patch syms_of_cygw32.patch"
+PATCH_URI="nonbootstrap_static_heap.patch"
 
 DOCS="README.Cygwin"
 
 DEPEND="libtiff-devel
 	libgif-devel
 	libjpeg-devel
-	libXpm-noX-devel
 	pkgconfig(dbus-1)
 	pkgconfig(fontconfig)
 	pkgconfig(freetype2)
@@ -64,18 +67,18 @@ DEPEND="libtiff-devel
 	pkgconfig(gtk+-3.0)
 	pkgconfig(librsvg-2.0)
 	pkgconfig(libxml-2.0)
-	pkgconfig(libpng15)
+	pkgconfig(libpng)
 	pkgconfig(ncursesw)
 	pkgconfig(sm)
 	pkgconfig(Wand)
 	pkgconfig(x11)
 	pkgconfig(xft)
 	pkgconfig(xpm)
+	pkgconfig(xpm-nox)
 	pkgconfig(xrender)"
 
 emacs_CONTENTS="
 	--exclude=usr/share/${PN}/${PV}/lisp*el.gz
-	--exclude=usr/share/${PN}/${PV}/leim*el.gz
 	--exclude=usr/bin/emacs-X11.exe
 	--exclude=usr/bin/emacsclient-X11.exe
 	--exclude=usr/bin/set-emacs-default-*.sh
@@ -90,19 +93,12 @@ emacs_CONTENTS="
 
 emacs_el_CONTENTS="
 	--exclude=usr/share/${PN}/${PV}/lisp*el
-	--exclude=usr/share/${PN}/${PV}/leim*el
 	--exclude=usr/share/${PN}/${PV}/lisp*elc
-	--exclude=usr/share/${PN}/${PV}/leim*elc
 	--exclude=usr/share/${PN}/${PV}/lisp/COPYING
 	--exclude=usr/share/${PN}/${PV}/lisp/README
-	--exclude=usr/share/${PN}/${PV}/lisp/calc/README
-	--exclude=usr/share/${PN}/${PV}/lisp/calc/README.prev
 	--exclude=usr/share/${PN}/${PV}/lisp/international/README
 	--exclude=usr/share/${PN}/${PV}/lisp/term/README
-	--exclude=usr/share/${PN}/${PV}/lisp/nxml/TODO
-	--exclude=usr/share/${PN}/${PV}/lisp/forms-d2.dat
-	usr/share/${PN}/${PV}/lisp
-	usr/share/${PN}/${PV}/leim"
+	usr/share/${PN}/${PV}/lisp"
 
 emacs_X11_CONTENTS="
 	usr/bin/emacs-X11.exe
@@ -121,10 +117,18 @@ emacs_w32_CONTENTS="
 DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~"
 
 ACLOCAL_FLAGS='-I m4'
-CPPFLAGS=-I/usr/include/ncursesw
-LDFLAGS=-L/usr/lib/ncursesw
 
-MAKEOPTS=" -j8 "
+case ${ARCH} in
+    i686)
+	CPPFLAGS=-I/usr/include/ncursesw
+	LDFLAGS=-L/usr/lib/ncursesw
+	;;
+    x86_64)
+	LDFLAGS="-Wl,--stack,0x400000"
+	;;
+esac
+
+# CFLAGS="-ggdb -O0 -pipe -Wall -Wextra"
 
 src_compile() {
 	cd ${S}
@@ -136,11 +140,12 @@ src_compile() {
 	cp -v lib-src/emacsclient.exe emacsclient-nox.exe
 	make distclean
 	cygconf --with-w32
+	manifestize lib-src/update-game-score.exe
 	cygmake
 	cp -v src/emacs.exe emacs-w32.exe
 	cp -v lib-src/emacsclient.exe emacsclient-w32.exe
 	make distclean
-	cygconf --without-gconf --without-gsettings
+	cygconf # --without-gconf --without-gsettings
 	cygmake
 	mv -v emacs-nox.exe src/emacs-nox.exe
 	mv -v emacs-w32.exe src/emacs-w32.exe
