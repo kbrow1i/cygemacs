@@ -1,11 +1,18 @@
---- origsrc/emacs-24.3/src/sheap.c	2013-01-01 15:37:17.000000000 -0500
-+++ src/emacs-24.3/src/sheap.c	2013-04-11 12:20:20.268993600 -0400
-@@ -25,7 +25,7 @@ along with GNU Emacs.  If not, see <http
- 
- #include <unistd.h>
- 
+--- origsrc/emacs-24.3.50/src/sheap.c	2014-03-03 15:11:12.000000000 -0500
++++ src/emacs-24.3.50/src/sheap.c	2014-03-04 16:57:51.433471500 -0500
+@@ -29,13 +29,13 @@ along with GNU Emacs.  If not, see <http
+ #ifdef ENABLE_CHECKING
+ #define STATIC_HEAP_SIZE	(28 * 1024 * 1024)
+ #else
+-#define STATIC_HEAP_SIZE	(19 * 1024 * 1024)
++#define STATIC_HEAP_SIZE	(11 * 1024 * 1024)
+ #endif
+ #else  /* x86 */
+ #ifdef ENABLE_CHECKING
+ #define STATIC_HEAP_SIZE	(18 * 1024 * 1024)
+ #else
 -#define STATIC_HEAP_SIZE	(13 * 1024 * 1024)
 +#define STATIC_HEAP_SIZE	(10 * 1024 * 1024)
- 
- int debug_sheap = 0;
+ #endif
+ #endif	/* x86 */
  
