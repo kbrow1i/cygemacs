@@ -1,7 +1,5 @@
-# TODO: Create postinstall scripts as part of src_install.
-
 NAME="emacs"
-VERSION=24.3.50
+VERSION=24.3.90
 RELEASE=1
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -42,18 +40,17 @@ emacs_X11_REQUIRES="emacs font-adobe-dpi75 font-misc-misc"
 
 emacs_w32_REQUIRES="emacs"
 
-# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.xz
-# ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-24.3-rc3.tar.xz
+SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.xz"
+# SRC_URI="mirror://gnu/emacs/${P}.tar.xz"
 
-SRC_URI="
-	mirror://gnu/emacs/${P}.tar.xz
+SRC_URI+="
 	make-emacs-shortcut
 	set-emacs-default-X11.sh
 	set-emacs-default-w32.sh
 	README.Cygwin
 "
 
-PATCH_URI="nonbootstrap_static_heap.patch"
+# PATCH_URI="nonbootstrap_static_heap.patch"
 
 DOCS="README.Cygwin"
 
@@ -142,12 +139,11 @@ src_compile() {
 	cp -v lib-src/emacsclient.exe emacsclient-nox.exe
 	make distclean
 	cygconf --with-w32
-	manifestize lib-src/update-game-score.exe
 	cygmake
 	cp -v src/emacs.exe emacs-w32.exe
 	cp -v lib-src/emacsclient.exe emacsclient-w32.exe
 	make distclean
-	cygconf # --without-gconf --without-gsettings
+	cygconf --without-gconf --without-gsettings
 	cygmake
 	mv -v emacs-nox.exe src/emacs-nox.exe
 	mv -v emacs-w32.exe src/emacs-w32.exe
