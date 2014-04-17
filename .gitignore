@@ -6,6 +6,7 @@ emacs-*.tar.bz2
 emacs-*.tar.gz
 emacs-*.tar.xz
 /build.sh
+/build64.sh
 /patch_setup.sh
 /00README.txt
 build64/

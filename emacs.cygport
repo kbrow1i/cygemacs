@@ -199,4 +199,50 @@ src_install() {
 		usr/bin/etags.exe \
 		usr/share/man/man1/ctags* \
 		usr/share/man/man1/etags*
+	cd ${C}
+	cat > emacs.postinstall <<-_EOF
+		/usr/sbin/update-alternatives \\
+		    --install /usr/bin/emacs emacs /usr/bin/emacs-nox.exe 10
+		/usr/sbin/update-alternatives \\
+		    --install /usr/bin/emacsclient emacsclient /usr/bin/emacsclient-nox.exe 10
+		_EOF
+	cat > emacs.preremove <<-_EOF
+		prefix=/usr
+		bindir=\${prefix}/bin
+		sbindir=\${prefix}/sbin
+		\${sbindir}/update-alternatives \\
+		    --remove emacs \${bindir}/emacs-nox.exe
+		\${sbindir}/update-alternatives \\
+		    --remove emacsclient \${bindir}/emacsclient-nox.exe
+		_EOF
+	cat > emacs-w32.postinstall <<-_EOF
+		/usr/sbin/update-alternatives \\
+		    --install /usr/bin/emacs emacs /usr/bin/emacs-w32.exe 15
+		/usr/sbin/update-alternatives \\
+		    --install /usr/bin/emacsclient emacsclient /usr/bin/emacsclient-w32.exe 15
+		_EOF
+	cat > emacs-w32.preremove <<-_EOF
+		prefix=/usr
+		bindir=\${prefix}/bin
+		sbindir=\${prefix}/sbin
+		\${sbindir}/update-alternatives \\
+		    --remove emacs \${bindir}/emacs-w32.exe
+		\${sbindir}/update-alternatives \\
+		    --remove emacsclient \${bindir}/emacsclient-w32.exe
+		_EOF
+	cat > emacs-X11.postinstall <<-_EOF
+		/usr/sbin/update-alternatives \\
+		    --install /usr/bin/emacs emacs /usr/bin/emacs-X11.exe 20
+		/usr/sbin/update-alternatives \\
+		    --install /usr/bin/emacsclient emacsclient /usr/bin/emacsclient-X11.exe 20
+		_EOF
+	cat > emacs-X11.preremove <<-_EOF
+		prefix=/usr
+		bindir=\${prefix}/bin
+		sbindir=\${prefix}/sbin
+		\${sbindir}/update-alternatives \\
+		    --remove emacs \${bindir}/emacs-X11.exe
+		\${sbindir}/update-alternatives \\
+		    --remove emacsclient \${bindir}/emacsclient-X11.exe
+		_EOF
 }
