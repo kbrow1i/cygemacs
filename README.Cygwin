@@ -20,16 +20,15 @@ Usage notes for emacs on Cygwin
 
      /usr/bin/set-emacs-default-X11.sh
 
-2. If you start emacs under X11 and specify the window geometry on the
-   command line or in ~/.Xdefaults, you may see the following warning:
+2. If you start emacs under X11 and it takes a long time to start or
+   quits with a "memory exhausted" error, this might indicate that
+   your font information cache files are out of date (see, for
+   example, http://cygwin.com/ml/cygwin/2013-12/msg00248.html).  Try
+   running the command
 
-     Gtk-WARNING **: gtk_window_parse_geometry() called on a window
-     with no visible children; the window should be set up before
-     gtk_window_parse_geometry() is called.
+     fc-cache -fsv
 
-   This can be ignored; see
-
-     http://debbugs.gnu.org/cgi/bugreport.cgi?bug=11177 
+   as administrator.
 
 3. If you have sshd running and want to be able to run emacs-X11 from
    a remote machine, you need to enable X11 forwarding by adding the

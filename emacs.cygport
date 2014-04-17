@@ -1,6 +1,6 @@
 NAME="emacs"
-VERSION=24.3
-RELEASE=8
+VERSION=24.3.90
+RELEASE=1
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -40,32 +40,17 @@ emacs_X11_REQUIRES="emacs font-adobe-dpi75 font-misc-misc"
 
 emacs_w32_REQUIRES="emacs"
 
-# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.xz
-# ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-24.3-rc3.tar.xz
+SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.xz"
+# SRC_URI="mirror://gnu/emacs/${P}.tar.xz"
 
-SRC_URI="
-	mirror://gnu/emacs/${P}.tar.xz
+SRC_URI+="
 	make-emacs-shortcut
 	set-emacs-default-X11.sh
 	set-emacs-default-w32.sh
-	README.Cygwin"
-
-PATCH_URI="
-	24.3-4_nt_icon.patch
-	24.3_gslice.patch
-	configure.ac.patch
-	gnutls.patch
-	image_background.patch
-	memory_warnings.patch
-	nox_mouse.patch
-	static_heap.patch
-	syms_of_cygw32.patch
-	unexcw.patch
-	w32_encoding.patch
-	w32term.w32_init.patch
+	README.Cygwin
 "
 
-PATCH_URI+="nonbootstrap_static_heap.patch"
+PATCH_URI="nonbootstrap_static_heap.patch"
 
 DOCS="README.Cygwin"
 
@@ -82,7 +67,7 @@ DEPEND="libtiff-devel
 	pkgconfig(librsvg-2.0)
 	pkgconfig(libxml-2.0)
 	pkgconfig(libpng)
-	pkgconfig(ncurses)
+	pkgconfig(ncursesw)
 	pkgconfig(sm)
 	pkgconfig(Wand)
 	pkgconfig(x11)
@@ -93,7 +78,6 @@ DEPEND="libtiff-devel
 
 emacs_CONTENTS="
 	--exclude=usr/share/${PN}/${PV}/lisp*el.gz
-	--exclude=usr/share/${PN}/${PV}/leim*el.gz
 	--exclude=usr/bin/emacs-X11.exe
 	--exclude=usr/bin/emacsclient-X11.exe
 	--exclude=usr/bin/set-emacs-default-*.sh
@@ -108,19 +92,12 @@ emacs_CONTENTS="
 
 emacs_el_CONTENTS="
 	--exclude=usr/share/${PN}/${PV}/lisp*el
-	--exclude=usr/share/${PN}/${PV}/leim*el
 	--exclude=usr/share/${PN}/${PV}/lisp*elc
-	--exclude=usr/share/${PN}/${PV}/leim*elc
 	--exclude=usr/share/${PN}/${PV}/lisp/COPYING
 	--exclude=usr/share/${PN}/${PV}/lisp/README
-	--exclude=usr/share/${PN}/${PV}/lisp/calc/README
-	--exclude=usr/share/${PN}/${PV}/lisp/calc/README.prev
 	--exclude=usr/share/${PN}/${PV}/lisp/international/README
 	--exclude=usr/share/${PN}/${PV}/lisp/term/README
-	--exclude=usr/share/${PN}/${PV}/lisp/nxml/TODO
-	--exclude=usr/share/${PN}/${PV}/lisp/forms-d2.dat
-	usr/share/${PN}/${PV}/lisp
-	usr/share/${PN}/${PV}/leim"
+	usr/share/${PN}/${PV}/lisp"
 
 emacs_X11_CONTENTS="
 	usr/bin/emacs-X11.exe
