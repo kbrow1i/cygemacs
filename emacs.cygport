@@ -54,6 +54,7 @@ PATCH_URI="
 	24.3-4_nt_icon.patch
 	24.3_gslice.patch
 	configure.ac.patch
+	gnutls.patch
 	image_background.patch
 	memory_warnings.patch
 	nox_mouse.patch
