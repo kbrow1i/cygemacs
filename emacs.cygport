@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=24.3
-RELEASE=2
+RELEASE=8
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -31,7 +31,10 @@ display.  The binaries also can be used in non-X11 mode."
 emacs_w32_DESCRIPTION="This package contains emacs binaries that use the native Windows GUI
 for display."
 
-emacs_REQUIRES="xemacs-emacs-common terminfo-extra"
+if [ "${ARCH}" = i686 ]
+then
+    emacs_REQUIRES="xemacs-emacs-common terminfo-extra"
+fi
 
 emacs_X11_REQUIRES="emacs font-adobe-dpi75 font-misc-misc"
 
@@ -47,14 +50,27 @@ SRC_URI="
 	set-emacs-default-w32.sh
 	README.Cygwin"
 
-PATCH_URI="nox_mouse.patch nt_icon.patch w32_encoding.patch 24.3_gslice.patch"
+PATCH_URI="
+	24.3-4_nt_icon.patch
+	24.3_gslice.patch
+	configure.ac.patch
+	image_background.patch
+	memory_warnings.patch
+	nox_mouse.patch
+	static_heap.patch
+	syms_of_cygw32.patch
+	unexcw.patch
+	w32_encoding.patch
+	w32term.w32_init.patch
+"
+
+PATCH_URI+="nonbootstrap_static_heap.patch"
 
 DOCS="README.Cygwin"
 
 DEPEND="libtiff-devel
 	libgif-devel
 	libjpeg-devel
-	libXpm-noX-devel
 	pkgconfig(dbus-1)
 	pkgconfig(fontconfig)
 	pkgconfig(freetype2)
@@ -64,13 +80,14 @@ DEPEND="libtiff-devel
 	pkgconfig(gtk+-3.0)
 	pkgconfig(librsvg-2.0)
 	pkgconfig(libxml-2.0)
-	pkgconfig(libpng15)
-	pkgconfig(ncursesw)
+	pkgconfig(libpng)
+	pkgconfig(ncurses)
 	pkgconfig(sm)
 	pkgconfig(Wand)
 	pkgconfig(x11)
 	pkgconfig(xft)
 	pkgconfig(xpm)
+	pkgconfig(xpm-nox)
 	pkgconfig(xrender)"
 
 emacs_CONTENTS="
@@ -121,10 +138,18 @@ emacs_w32_CONTENTS="
 DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~"
 
 ACLOCAL_FLAGS='-I m4'
-CPPFLAGS=-I/usr/include/ncursesw
-LDFLAGS=-L/usr/lib/ncursesw
 
-MAKEOPTS=" -j8 "
+case ${ARCH} in
+    i686)
+	CPPFLAGS=-I/usr/include/ncursesw
+	LDFLAGS=-L/usr/lib/ncursesw
+	;;
+    x86_64)
+	LDFLAGS="-Wl,--stack,0x400000"
+	;;
+esac
+
+# CFLAGS="-ggdb -O0 -pipe -Wall -Wextra"
 
 src_compile() {
 	cd ${S}

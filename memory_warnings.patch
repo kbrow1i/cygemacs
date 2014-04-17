@@ -1,0 +1,21 @@
+--- origsrc/emacs-24.3/src/emacs.c	2013-03-25 05:40:12.714576100 +0000
++++ src/emacs-24.3/src/emacs.c	2013-03-25 05:41:05.261581600 +0000
+@@ -831,7 +831,8 @@ main (int argc, char **argv)
+ 
+   clearerr (stdin);
+ 
+-#ifndef SYSTEM_MALLOC
++  /* Memory warnings are meaningless on Cygwin before dumping */
++#if !defined (SYSTEM_MALLOC) && !defined (CYGWIN)
+   /* Arrange to get warning messages as memory fills up.  */
+   memory_warnings (0, malloc_warning);
+ 
+@@ -839,7 +840,7 @@ main (int argc, char **argv)
+      Also call realloc and free for consistency.  */
+   free (realloc (malloc (4), 4));
+ 
+-#endif	/* not SYSTEM_MALLOC */
++#endif	/* not SYSTEM_MALLOC and not CYGWIN */
+ 
+ #if defined (MSDOS) || defined (WINDOWSNT)
+   /* We do all file input/output as binary files.  When we need to translate
