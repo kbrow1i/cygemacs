@@ -20,17 +20,11 @@ Usage notes for emacs on Cygwin
 
      /usr/bin/set-emacs-default-X11.sh
 
-2. If you start emacs under X11 and it takes a long time to start or
-   quits with a "memory exhausted" error, this might indicate that
-   your font information cache files are out of date (see, for
-   example, http://cygwin.com/ml/cygwin/2013-12/msg00248.html).  Try
-   running the command
+2. Install emacs-X11 if you want to use the X11 GUI.  You can then type `emacs&' in an xterm window, and emacs will start in a new window.
 
-     fc-cache -fsv
+3. Install emacs-w32 if you want to use the native Windows GUI instead of X11.
 
-   as administrator.
-
-3. If you have sshd running and want to be able to run emacs-X11 from
+4. If you have sshd running and want to be able to run emacs-X11 from
    a remote machine, you need to enable X11 forwarding by adding the
    following line to /etc/sshd_config:
 
@@ -38,7 +32,7 @@ Usage notes for emacs on Cygwin
 
    You might also need to have the cygserver service running.
 
-4. The script /usr/bin/make-emacs-shortcut can be used to create a
+5. The script /usr/bin/make-emacs-shortcut can be used to create a
    shortcut for starting emacs.  The shortcut assumes that you have
    installed the emacs-X11 and emacs-w32 packages.  It starts emacs
    under X if an X server is running, and it starts emacs-w32.exe
@@ -53,7 +47,7 @@ Usage notes for emacs on Cygwin
    make-emacs-shortcut, and you will need the run2 package in order to
    use the shortcut it creates.
 
-5. If you don't like the default fonts in the GUI versions of emacs,
+6. If you don't like the default fonts in the GUI versions of emacs,
    you can change them via the menu items
 
      Options -> Set Default Font
@@ -82,3 +76,13 @@ Usage notes for emacs on Cygwin
       ((eq window-system 'x)
        (add-to-list 'default-frame-alist
                     '(font . "Droid Sans Mono-11"))))
+
+7. If you start emacs under X11 and it takes a long time to start or
+   quits with a "memory exhausted" error, this might indicate that the
+   font cache for the Windows Fonts directory is out of date
+   (http://cygwin.com/ml/cygwin-apps/2014-04/msg00003.html).  If this
+   happens, try running the command
+
+     fc-cache -sv `cygpath -W`/Fonts
+
+   as administrator, to update the cache.
