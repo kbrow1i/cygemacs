@@ -36,7 +36,7 @@ then
     emacs_REQUIRES="xemacs-emacs-common terminfo-extra"
 fi
 
-emacs_X11_REQUIRES="emacs font-adobe-dpi75 font-misc-misc"
+emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 
 emacs_w32_REQUIRES="emacs"
 
