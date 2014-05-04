@@ -168,6 +168,8 @@ src_install() {
 	dobin ${S}/set-emacs-default-w32.sh
 	insinto /usr/bin
 	doins ${S}/nt/icons/emacs.ico
+	insinto /usr/share/${PN}/${PV}/etc
+	doins ${S}/src/.gdbinit
 	cd ${D}
 	rm -fv \
 		usr/bin/${P}.exe \
