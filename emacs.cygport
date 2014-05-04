@@ -51,6 +51,7 @@ SRC_URI+="
 "
 
 PATCH_URI="nonbootstrap_static_heap.patch"
+PATCH_URI+=" 24.3.90-ediff.patch"
 
 DOCS="README.Cygwin"
 

@@ -1,0 +1,60 @@
+--- origsrc/emacs-24.3.90/lisp/vc/ediff-diff.el	2014-04-10 21:56:02.000000000 -0400
++++ src/emacs-24.3.90/lisp/vc/ediff-diff.el	2014-05-03 10:37:39.403698300 -0400
+@@ -818,12 +818,12 @@ one optional arguments, diff-number to r
+ 						     n &optional default)
+   (let ((fine-diff-vector  (ediff-get-fine-diff-vector n buf-type))
+ 	(face (if default
+-		  'default
++		  nil
+ 		(ediff-get-symbol-from-alist
+-		 buf-type ediff-fine-diff-face-alist)
+-		)))
+-    (dolist (overl fine-diff-vector)
+-      (ediff-set-overlay-face overl face))))
++		 buf-type ediff-fine-diff-face-alist))))
++    (mapc (lambda (overl)
++	    (ediff-set-overlay-face overl face))
++	  fine-diff-vector)))
+ 
+ ;; Set overlays over the regions that denote delimiters
+ (defun ediff-set-fine-overlays-for-combined-merge (diff-list reg-num)
+--- origsrc/emacs-24.3.90/lisp/vc/ediff-init.el	2014-04-10 21:56:02.000000000 -0400
++++ src/emacs-24.3.90/lisp/vc/ediff-init.el	2014-05-03 10:37:39.423699500 -0400
+@@ -807,7 +807,7 @@ TYPE-OF-EMACS is either 'xemacs or 'emac
+ 
+ (defun ediff-set-overlay-face (extent face)
+   (ediff-overlay-put extent 'face face)
+-  (ediff-overlay-put extent 'help-echo 'ediff-region-help-echo))
++  (ediff-overlay-put extent 'help-echo (if face 'ediff-region-help-echo)))
+ 
+ (defun ediff-region-help-echo (extent-or-window &optional overlay _point)
+   (unless overlay
+--- origsrc/emacs-24.3.90/lisp/vc/ediff-util.el	2014-04-10 21:56:02.000000000 -0400
++++ src/emacs-24.3.90/lisp/vc/ediff-util.el	2014-05-03 10:37:39.468702000 -0400
+@@ -958,7 +958,7 @@ On a dumb terminal, switches between ASC
+ 	 (message "Auto-refining is OFF")
+ 	 (setq ediff-auto-refine 'off))
+ 	(t ;; nix 'em
+-	 (ediff-set-fine-diff-properties ediff-current-difference 'default)
++	 (ediff-set-fine-diff-properties ediff-current-difference t)
+ 	 (message "Refinements are HIDDEN")
+ 	 (setq ediff-auto-refine 'nix))
+ 	))
+@@ -2973,7 +2973,7 @@ Hit \\[ediff-recenter] to reset the wind
+ 	       ))
+ 
+ 	;; unhighlight fine diffs
+-	(ediff-set-fine-diff-properties ediff-current-difference 'default)
++	(ediff-set-fine-diff-properties ediff-current-difference t)
+ 	(run-hooks 'ediff-unselect-hook))))
+ 
+ 
+@@ -3492,7 +3492,7 @@ Ediff Control Panel to restore highlight
+ 
+     (if (ediff-valid-difference-p ediff-current-difference)
+ 	(progn
+-	  (ediff-set-fine-diff-properties ediff-current-difference 'default)
++	  (ediff-set-fine-diff-properties ediff-current-difference t)
+ 	  (ediff-unhighlight-diff)))
+     (ediff-paint-background-regions 'unhighlight)
+ 
