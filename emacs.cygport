@@ -1,5 +1,5 @@
 NAME="emacs"
-VERSION=24.3.90
+VERSION=24.3.91
 RELEASE=1
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -51,7 +51,6 @@ SRC_URI+="
 "
 
 PATCH_URI="nonbootstrap_static_heap.patch"
-PATCH_URI+=" 24.3.90-ediff.patch"
 
 DOCS="README.Cygwin"
 

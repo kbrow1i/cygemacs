@@ -76,13 +76,3 @@ Usage notes for emacs on Cygwin
       ((eq window-system 'x)
        (add-to-list 'default-frame-alist
                     '(font . "Droid Sans Mono-11"))))
-
-7. If you start emacs under X11 and it takes a long time to start or
-   quits with a "memory exhausted" error, this might indicate that the
-   font cache for the Windows Fonts directory is out of date
-   (http://cygwin.com/ml/cygwin-apps/2014-04/msg00003.html).  If this
-   happens, try running the command
-
-     fc-cache -sv `cygpath -W`/Fonts
-
-   as administrator, to update the cache.
