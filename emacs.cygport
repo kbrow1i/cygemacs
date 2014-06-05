@@ -31,9 +31,11 @@ display.  The binaries also can be used in non-X11 mode."
 emacs_w32_DESCRIPTION="This package contains emacs binaries that use the native Windows GUI
 for display."
 
+emacs_REQUIRES="terminfo-extra"
+
 if [ "${ARCH}" = i686 ]
 then
-    emacs_REQUIRES="xemacs-emacs-common terminfo-extra"
+    emacs_REQUIRES+=" xemacs-emacs-common"
 fi
 
 emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
@@ -118,10 +120,6 @@ DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~"
 ACLOCAL_FLAGS='-I m4'
 
 case ${ARCH} in
-    i686)
-	CPPFLAGS=-I/usr/include/ncursesw
-	LDFLAGS=-L/usr/lib/ncursesw
-	;;
     x86_64)
 	LDFLAGS="-Wl,--stack,0x400000"
 	;;
