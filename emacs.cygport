@@ -4,6 +4,7 @@ RELEASE=1
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
+SRC_URI="emacs-24.3.91.20140622.tar.xz"
 
 emacs_SUMMARY="The extensible, customizable, self-documenting real-time display editor."
 
@@ -42,7 +43,7 @@ emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 
 emacs_w32_REQUIRES="emacs"
 
-SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.xz"
+# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.xz"
 # SRC_URI="mirror://gnu/emacs/${P}.tar.xz"
 
 SRC_URI+="
@@ -127,6 +128,7 @@ esac
 
 # CFLAGS="-ggdb -O0 -pipe -Wall -Wextra"
 CFLAGS+=" -O0"
+CYGCONF_ARGS="--with-file-notification=no"
 
 src_compile() {
 	cd ${S}
