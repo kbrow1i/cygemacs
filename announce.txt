@@ -1,25 +1,17 @@
 The following packages have been updated in the Cygwin distribution as test releases:
 
-*** emacs-24.3.91-1
-*** emacs-X11-24.3.91-1
-*** emacs-w32-24.3.91-1
-*** emacs-el-24.3.91-1
+*** emacs-24.3.93-1
+*** emacs-X11-24.3.93-1
+*** emacs-w32-24.3.93-1
+*** emacs-el-24.3.93-1
 
 Emacs is a powerful, customizable, self-documenting, modeless text editor.  Emacs contains special code editing features, a scripting language (elisp), and the capability to read mail, news, and more without leaving the editor.
 
-This is another pretest of the upcoming emacs-24.4, replacing the current pretest (24.3.90-1).  It is built from a snapshot of the upstream release branch as of yesterday.
+This is another pretest of the upcoming emacs-24.4, replacing the current pretest (24.3.91-1).  It includes a workaround for the bug reported in
 
-This release includes a fix for the bug reported in
+  https://cygwin.com/ml/cygwin/2014-07/msg00387.html
 
-  https://cygwin.com/ml/cygwin/2014-05/msg00303.html
-
-as well as a workaround for the bug reported here:
-
-  https://cygwin.com/ml/cygwin/2014-06/msg00274.html
-
-The workaround consists of disabling a feature that uses Glib to check for file modifications.  Although the reported bug affected only 32-bit Cygwin, I made the change on 64-bit Cygwin also, on the off chance that it might reduce the number of crashes that people are getting on that platform.  If you have been seeing such crashes, please test the new release and let me know if you see any improvement.
-
-As with the previous test release, I have built the binaries without optimization to simplify debugging.
+See http://debbugs.gnu.org/cgi/bugreport.cgi?bug=18222 for details.
 
 CYGWIN NOTES
 ============
@@ -44,8 +36,6 @@ You can later restore emacs-X11 as the default by running
 You might also need to have the cygserver service running.
 
 5. The script /usr/bin/make-emacs-shortcut can be used to create a shortcut for starting emacs.  See /usr/share/doc/emacs/README.Cygwin for details.
-
-6. The default font for emacs-w32 is not very attractive in my opinion.  See /usr/share/doc/emacs/README.Cygwin for hints as to how to change it.
 
 Ken Brown
 Cygwin's emacs maintainer
