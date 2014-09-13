@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=24.3.93
-RELEASE=1
+RELEASE=3
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -53,6 +53,9 @@ SRC_URI+="
 "
 
 PATCH_URI="nonbootstrap_static_heap.patch"
+PATCH_URI+=" hybrid_malloc.patch"
+PATCH_URI+=" splash.patch"
+PATCH_URI+=" strnicmp.patch"
 
 DOCS="README.Cygwin"
 

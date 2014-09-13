@@ -1,17 +1,19 @@
 The following packages have been updated in the Cygwin distribution as test releases:
 
-*** emacs-24.3.93-1
-*** emacs-X11-24.3.93-1
-*** emacs-w32-24.3.93-1
-*** emacs-el-24.3.93-1
+*** emacs-24.3.93-3
+*** emacs-X11-24.3.93-3
+*** emacs-w32-24.3.93-3
+*** emacs-el-24.3.93-3
 
 Emacs is a powerful, customizable, self-documenting, modeless text editor.  Emacs contains special code editing features, a scripting language (elisp), and the capability to read mail, news, and more without leaving the editor.
 
-This is another pretest of the upcoming emacs-24.4, replacing the current pretest (24.3.91-1).  It includes a workaround for the bug reported in
+This is a pretest of the upcoming emacs-24.4, patched to make emacs use Cygwin's malloc instead of the one provided by emacs.  See
 
-  https://cygwin.com/ml/cygwin/2014-07/msg00387.html
+  http://debbugs.gnu.org/cgi/bugreport.cgi?bug=18222
 
-See http://debbugs.gnu.org/cgi/bugreport.cgi?bug=18222 for details.
+for details.
+
+This patch has been applied upstream in the emacs development trunk but not in the emacs-24 branch, so it will not be included in the official release of emacs-24.4.  Nevertheless, I would like to include it in the emacs-24.4 package for Cygwin if it gets enough testing to convince me that it's reliable.  Emacs users are strongly encouraged to test it and report any problems.
 
 CYGWIN NOTES
 ============

@@ -5,14 +5,14 @@
  #define STATIC_HEAP_SIZE	(28 * 1024 * 1024)
  #else
 -#define STATIC_HEAP_SIZE	(19 * 1024 * 1024)
-+#define STATIC_HEAP_SIZE	(11 * 1024 * 1024)
++#define STATIC_HEAP_SIZE	(10 * 1024 * 1024)
  #endif
  #else  /* x86 */
  #ifdef ENABLE_CHECKING
  #define STATIC_HEAP_SIZE	(18 * 1024 * 1024)
  #else
 -#define STATIC_HEAP_SIZE	(13 * 1024 * 1024)
-+#define STATIC_HEAP_SIZE	(7 * 1024 * 1024)
++#define STATIC_HEAP_SIZE	(6 * 1024 * 1024)
  #endif
  #endif	/* x86 */
  
