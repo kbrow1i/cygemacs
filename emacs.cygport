@@ -54,6 +54,7 @@ SRC_URI+="
 
 PATCH_URI="nonbootstrap_static_heap.patch"
 PATCH_URI+=" hybrid_malloc.patch"
+PATCH_URI+=" bt.patch"
 
 DOCS="README.Cygwin"
 
