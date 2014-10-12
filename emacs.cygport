@@ -122,12 +122,6 @@ DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~"
 
 ACLOCAL_FLAGS='-I m4'
 
-case ${ARCH} in
-    x86_64)
-	LDFLAGS="-Wl,--stack,0x400000"
-	;;
-esac
-
 # CFLAGS="-ggdb -O0 -pipe -Wall -Wextra"
 # CFLAGS+=" -O0 -g3"
 CYGCONF_ARGS="--with-file-notification=no"
