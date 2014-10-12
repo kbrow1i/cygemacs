@@ -1,5 +1,5 @@
 --- origsrc/emacs-24.3.93/configure.ac	2014-08-14 21:03:35.000000000 -0400
-+++ src/emacs-24.3.93/configure.ac	2014-08-31 09:18:31.834772600 -0400
++++ src/emacs-24.3.93/configure.ac	2014-09-27 17:15:10.669781800 -0400
 @@ -1984,9 +1984,13 @@ AC_CACHE_CHECK(
  doug_lea_malloc=$emacs_cv_var_doug_lea_malloc
  
@@ -44,7 +44,7 @@
  fi
  
 --- origsrc/emacs-24.3.93/src/alloc.c	2014-06-13 13:34:33.000000000 -0400
-+++ src/emacs-24.3.93/src/alloc.c	2014-08-31 09:18:31.844773200 -0400
++++ src/emacs-24.3.93/src/alloc.c	2014-09-27 17:15:10.677782200 -0400
 @@ -71,7 +71,7 @@ static bool valgrind_p;
     marked objects.  */
  
@@ -91,8 +91,8 @@
    if (spare_memory[0] == 0)
      spare_memory[0] = malloc (SPARE_MEMORY);
    if (spare_memory[1] == 0)
---- origsrc/emacs-24.3.93/src/conf_post.h	2014-08-31 09:16:32.737960700 -0400
-+++ src/emacs-24.3.93/src/conf_post.h	2014-08-31 09:18:31.865774400 -0400
+--- origsrc/emacs-24.3.93/src/conf_post.h	2014-09-27 17:12:16.019792400 -0400
++++ src/emacs-24.3.93/src/conf_post.h	2014-09-27 17:15:10.683782600 -0400
 @@ -79,6 +79,23 @@ typedef bool bool_bf;
  #define vfork fork
  #endif  /* DARWIN_OS */
@@ -118,7 +118,7 @@
     renaming the functions via macros.  The system's stdlib.h has fully
     prototyped declarations, which yields a conflicting definition of
 --- origsrc/emacs-24.3.93/src/emacs.c	2014-03-21 01:34:40.000000000 -0400
-+++ src/emacs-24.3.93/src/emacs.c	2014-08-31 09:18:31.873774800 -0400
++++ src/emacs-24.3.93/src/emacs.c	2014-09-27 17:15:10.689782900 -0400
 @@ -136,7 +136,7 @@ extern int malloc_set_state (void*);
  /* True if the MALLOC_CHECK_ environment variable was set while
     dumping.  Used to work around a bug in glibc's malloc.  */
@@ -183,7 +183,7 @@
    malloc_state_ptr = malloc_get_state ();
  #endif
 --- origsrc/emacs-24.3.93/src/gmalloc.c	2014-08-14 21:03:35.000000000 -0400
-+++ src/emacs-24.3.93/src/gmalloc.c	2014-08-31 09:21:24.193631000 -0400
++++ src/emacs-24.3.93/src/gmalloc.c	2014-09-27 17:19:14.755742700 -0400
 @@ -21,13 +21,18 @@ License along with this library.  If not
  
  #include <config.h>
@@ -236,11 +236,11 @@
 +#ifdef CYGWIN
 +extern void *bss_sbrk (ptrdiff_t size);
 +extern int bss_sbrk_did_unexec;
-+extern char *bss_sbrk_buffer;
-+extern char *bss_sbrk_buffer_end;
++extern void *bss_sbrk_buffer_beg;
++extern void *bss_sbrk_buffer_end;
 +#define DUMPED bss_sbrk_did_unexec
 +#define ALLOCATED_BEFORE_DUMPING(P) \
-+  ((char *) (P) < bss_sbrk_buffer_end && (char *) (P) >= bss_sbrk_buffer)
++  ((P) < bss_sbrk_buffer_end && (P) >= bss_sbrk_buffer_beg)
 +#endif
 +
  #ifdef	__cplusplus
@@ -521,7 +521,7 @@
  
  /* Standard debugging hooks for `malloc'.
 --- origsrc/emacs-24.3.93/src/lisp.h	2014-06-01 20:00:51.000000000 -0400
-+++ src/emacs-24.3.93/src/lisp.h	2014-08-31 09:18:31.887775600 -0400
++++ src/emacs-24.3.93/src/lisp.h	2014-09-27 17:15:10.700783500 -0400
 @@ -274,7 +274,7 @@ enum Lisp_Bits
  #ifndef USE_LSB_TAG
  /* 1.  We know malloc returns a multiple of 8.  */
@@ -541,7 +541,7 @@
  #endif
  extern const char *pending_malloc_warning;
 --- origsrc/emacs-24.3.93/src/ralloc.c	2014-03-21 01:34:40.000000000 -0400
-+++ src/emacs-24.3.93/src/ralloc.c	2014-08-31 09:18:31.893776000 -0400
++++ src/emacs-24.3.93/src/ralloc.c	2014-09-27 17:15:10.703783700 -0400
 @@ -35,9 +35,9 @@ along with GNU Emacs.  If not, see <http
  #define M_TOP_PAD           -2
  extern int mallopt (int, int);
@@ -590,18 +590,20 @@
    first_heap->end = (void *) PAGE_ROUNDUP (first_heap->start);
  
    /* The extra call to real_morecore guarantees that the end of the
---- origsrc/emacs-24.3.93/src/sheap.c	2014-08-31 09:16:32.483946100 -0400
-+++ src/emacs-24.3.93/src/sheap.c	2014-08-31 09:18:31.899776300 -0400
-@@ -44,6 +44,7 @@ int debug_sheap = 0;
+--- origsrc/emacs-24.3.93/src/sheap.c	2014-09-27 17:12:15.814780600 -0400
++++ src/emacs-24.3.93/src/sheap.c	2014-09-27 17:18:06.287826600 -0400
+@@ -44,6 +44,9 @@ int debug_sheap = 0;
  #define BLOCKSIZE 4096
  
  char bss_sbrk_buffer[STATIC_HEAP_SIZE];
-+char *bss_sbrk_buffer_end = bss_sbrk_buffer + STATIC_HEAP_SIZE;
++/* The following two variables are needed in gmalloc.c */
++void *bss_sbrk_buffer_beg = bss_sbrk_buffer;
++void *bss_sbrk_buffer_end = bss_sbrk_buffer + STATIC_HEAP_SIZE;
  char *bss_sbrk_ptr;
  char *max_bss_sbrk_ptr;
  int bss_sbrk_did_unexec;
 --- origsrc/emacs-24.3.93/src/sysdep.c	2014-06-04 11:47:40.000000000 -0400
-+++ src/emacs-24.3.93/src/sysdep.c	2014-08-31 09:18:31.907776800 -0400
++++ src/emacs-24.3.93/src/sysdep.c	2014-09-27 17:15:10.709784100 -0400
 @@ -19,6 +19,14 @@ along with GNU Emacs.  If not, see <http
  
  #include <config.h>
@@ -630,7 +632,7 @@
     Any other returned value must be freed with free. This is used
     only when get_current_dir_name is not defined on the system.  */
 --- origsrc/emacs-24.3.93/src/unexcw.c	2014-03-21 01:34:40.000000000 -0400
-+++ src/emacs-24.3.93/src/unexcw.c	2014-08-31 09:18:31.912777100 -0400
++++ src/emacs-24.3.93/src/unexcw.c	2014-09-27 17:15:10.712784200 -0400
 @@ -34,8 +34,6 @@ extern void report_sheap_usage (int);
  
  extern int bss_sbrk_did_unexec;
@@ -654,7 +656,7 @@
  	  if (debug_unexcw)
  	    printf ("         .bss, mem start %#lx mem length %d\n",
 --- origsrc/emacs-24.3.93/src/xdisp.c	2014-08-02 23:50:09.000000000 -0400
-+++ src/emacs-24.3.93/src/xdisp.c	2014-08-31 09:18:31.928778000 -0400
++++ src/emacs-24.3.93/src/xdisp.c	2014-09-27 17:15:10.722784800 -0400
 @@ -22740,7 +22740,7 @@ decode_mode_spec (struct window *w, regi
  	}
  
