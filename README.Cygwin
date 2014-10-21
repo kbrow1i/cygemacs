@@ -20,7 +20,9 @@ Usage notes for emacs on Cygwin
 
      /usr/bin/set-emacs-default-X11.sh
 
-2. Install emacs-X11 if you want to use the X11 GUI.  You can then type `emacs&' in an xterm window, and emacs will start in a new window.
+2. Install emacs-X11 if you want to use the X11 GUI.  You can then
+   type `emacs&' in an xterm window, and emacs will start in a new
+   window.
 
 3. Install emacs-w32 if you want to use the native Windows GUI instead of X11.
 
@@ -76,3 +78,18 @@ Usage notes for emacs on Cygwin
       ((eq window-system 'x)
        (add-to-list 'default-frame-alist
                     '(font . "Droid Sans Mono-11"))))
+
+7. In view of the mysterious crashes that some users have reported on
+   64-bit Cygwin, I have built the 64-bit emacs packages with
+   optimization -Og instead of the usual -O2, for easier debugging; I
+   have also enabled some extra checking.  I hope there will not be a
+   substantial performance penalty, but we do need to get to the
+   bottom of these crashes.
+
+   If you want to run emacs under gdb, start by giving the following
+   gdb command:
+
+     (gdb) source /usr/share/emacs/24.4/etc/.gdbinit
+
+   This defines some gdb commands that are helpful when debugging
+   emacs.  See /usr/share/emacs/24.4/etc/DEBUG for details.

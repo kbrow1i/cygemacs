@@ -1,18 +1,22 @@
---- origsrc/emacs-24.3/src/sheap.c	2014-04-16 12:37:55.533485800 -0700
-+++ src/emacs-24.3/src/sheap.c	2014-04-17 07:34:20.026415700 -0700
-@@ -29,13 +29,13 @@ along with GNU Emacs.  If not, see <http
+--- origsrc/emacs-24.3.93/src/sheap.c	2014-09-14 11:51:08.649807400 -0400
++++ src/emacs-24.3.93/src/sheap.c	2014-09-14 12:32:24.377410900 -0400
+@@ -27,15 +27,15 @@ along with GNU Emacs.  If not, see <http
+ 
+ #ifdef __x86_64__
  #ifdef ENABLE_CHECKING
- #define STATIC_HEAP_SIZE	(28 * 1024 * 1024)
+-#define STATIC_HEAP_SIZE	(28 * 1024 * 1024)
++#define STATIC_HEAP_SIZE	(11 * 1024 * 1024)
  #else
 -#define STATIC_HEAP_SIZE	(19 * 1024 * 1024)
-+#define STATIC_HEAP_SIZE	(10 * 1024 * 1024)
++#define STATIC_HEAP_SIZE	(11 * 1024 * 1024)
  #endif
  #else  /* x86 */
  #ifdef ENABLE_CHECKING
- #define STATIC_HEAP_SIZE	(18 * 1024 * 1024)
+-#define STATIC_HEAP_SIZE	(18 * 1024 * 1024)
++#define STATIC_HEAP_SIZE	(7 * 1024 * 1024)
  #else
 -#define STATIC_HEAP_SIZE	(13 * 1024 * 1024)
-+#define STATIC_HEAP_SIZE	(6 * 1024 * 1024)
++#define STATIC_HEAP_SIZE	(7 * 1024 * 1024)
  #endif
  #endif	/* x86 */
  

@@ -1,6 +1,6 @@
 NAME="emacs"
-VERSION=24.3.93
-RELEASE=3
+VERSION=24.4
+RELEASE=1
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -42,8 +42,8 @@ emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 
 emacs_w32_REQUIRES="emacs"
 
-SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/${P}.tar.xz"
-# SRC_URI="mirror://gnu/emacs/${P}.tar.xz"
+# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc1.tar.xz"
+SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
 SRC_URI+="
 	make-emacs-shortcut
@@ -53,9 +53,9 @@ SRC_URI+="
 "
 
 PATCH_URI="nonbootstrap_static_heap.patch"
-PATCH_URI+=" hybrid_malloc.patch"
+# PATCH_URI+=" hybrid_malloc.patch"
+# PATCH_URI+=" sound.patch"
 PATCH_URI+=" bt.patch"
-PATCH_URI+=" sound.patch"
 
 DOCS="README.Cygwin"
 
@@ -122,9 +122,14 @@ DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~"
 
 ACLOCAL_FLAGS='-I m4'
 
-# CFLAGS="-ggdb -O0 -pipe -Wall -Wextra"
-# CFLAGS+=" -O0 -g3"
-CYGCONF_ARGS="--with-file-notification=no"
+# Until we track down the mysterious crashes, let's not add any complexity.
+CYGCONF_ARGS="--without-file-notification"
+
+if [ "${ARCH}" = x86_64 ]
+then
+    CYGCONF_ARGS+=" --enable-checking"
+    CFLAGS+=" -Og -g3"
+fi
 
 src_compile() {
 	cd ${S}
