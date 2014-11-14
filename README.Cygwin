@@ -79,14 +79,7 @@ Usage notes for emacs on Cygwin
        (add-to-list 'default-frame-alist
                     '(font . "Droid Sans Mono-11"))))
 
-7. In view of the mysterious crashes that some users have reported on
-   64-bit Cygwin, I have built the 64-bit emacs packages with
-   optimization -Og instead of the usual -O2, for easier debugging; I
-   have also enabled some extra checking.  I hope there will not be a
-   substantial performance penalty, but we do need to get to the
-   bottom of these crashes.
-
-   If you want to run emacs under gdb, start by giving the following
+7. If you want to run emacs under gdb, start by giving the following
    gdb command:
 
      (gdb) source /usr/share/emacs/24.4/etc/.gdbinit

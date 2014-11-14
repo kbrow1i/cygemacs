@@ -1,39 +1,19 @@
 The following packages have been updated in the Cygwin distribution:
 
-*** emacs-24.4-1
-*** emacs-X11-24.4-1
-*** emacs-w32-24.4-1
-*** emacs-el-24.4-1
+* emacs-24.4-2
+* emacs-X11-24.4-2
+* emacs-w32-24.4-2
+* emacs-el-24.4-2
 
 Emacs is a powerful, customizable, self-documenting, modeless text editor.  Emacs contains special code editing features, a scripting language (elisp), and the capability to read mail, news, and more without leaving the editor.
 
-This is a new upstream release.  It contains bugfixes as well as new features.  Browse the NEWS file ('C-h n' within emacs) for information about changes since emacs-24.3.  In particular, there are noticeable changes involving indentation.
+This is a rebuild of release 24.4-1, with two changes to reflect the fact that the cause of the mysterious crashes has been found and fixed (https://cygwin.com/ml/cygwin/2014-10/msg00397.html).  First, the 64-bit packages are now built with the usual optimization and without extra checking.  Second, I have enabled file-notification [*].  I had previously disabled this because it requires Glib, and I didn't want to make Emacs depend on an additional library until the cause of the crashes was found.
 
-In view of the mysterious crashes that some users have reported on 64-bit Cygwin, I have built the 64-bit Emacs packages with more optimization than usual (-Og instead of -O2), for easier debugging; I have also enabled some extra checking.  I hope there will not be a substantial performance penalty, but we do need to get to the bottom of these crashes.  More information about debugging Emacs can be found in /usr/share/doc/emacs/README.Cygwin.
+For more information about emacs-24.4, see the release announcement for emacs-24.4-1:
 
-CYGWIN NOTES
-============
-1. The emacs, emacs-w32, and emacs-X11 packages each provide an Emacs binary.  These are emacs-nox.exe, emacs-w32.exe, and emacs-X11.exe, respectively, in order of increasing priority.  The postinstall scripts use the `alternatives' system to create a symlink /usr/bin/emacs that resolves to the highest-priority binary that you have installed.  Thus the command `emacs' will start emacs-X11.exe if you've installed the emacs-X11 package; otherwise, it will start emacs-w32.exe if you've installed emacs-w32; otherwise, it will start emacs-nox.exe.  Similar remarks apply to emacsclient.
-
-If you have installed both emacs-w32 and emacs-X11 and prefer to give higher priority to emacs-w32, run the script
-
-  /usr/bin/set-emacs-default-w32.sh
-
-You can later restore emacs-X11 as the default by running
-
-  /usr/bin/set-emacs-default-X11.sh
-
-2. Install emacs-X11 if you want to use the X11 GUI.  You can then type `emacs&' in an xterm window, and emacs will start in a new window.
-
-3. Install emacs-w32 if you want to use the native Windows GUI instead of X11.
-
-4. If you have sshd running and want to be able to run emacs-X11 from a remote machine, you need to enable X11 forwarding by adding the following line to /etc/sshd_config:
-
-  X11Forwarding yes
-
-You might also need to have the cygserver service running.
-
-5. The script /usr/bin/make-emacs-shortcut can be used to create a shortcut for starting emacs.  See /usr/share/doc/emacs/README.Cygwin for details.
+  https://cygwin.com/ml/cygwin-announce/2014-10/msg00041.html
 
 Ken Brown
 Cygwin's Emacs maintainer
+
+[*] Emacs now supports notifications of file changes, such as creation, modification, and deletion of files.  For details, browse the NEWS file ('C-h n' within Emacs) and search for "notify".
