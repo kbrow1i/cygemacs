@@ -24,7 +24,8 @@ Usage notes for emacs on Cygwin
    type `emacs&' in an xterm window, and emacs will start in a new
    window.
 
-3. Install emacs-w32 if you want to use the native Windows GUI instead of X11.
+3. Install emacs-w32 if you want to use the native Windows GUI instead
+   of X11.
 
 4. If you have sshd running and want to be able to run emacs-X11 from
    a remote machine, you need to enable X11 forwarding by adding the

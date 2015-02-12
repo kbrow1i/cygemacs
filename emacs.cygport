@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=24.4
-RELEASE=2
+RELEASE=3
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -50,6 +50,12 @@ SRC_URI+="
 	set-emacs-default-X11.sh
 	set-emacs-default-w32.sh
 	README.Cygwin
+	postinstall.sh
+	preremove.sh
+	postinstall-X11.sh
+	preremove-X11.sh
+	postinstall-w32.sh
+	preremove-w32.sh
 "
 
 PATCH_URI="nonbootstrap_static_heap.patch"
@@ -155,60 +161,24 @@ src_install() {
 	dobin lib-src/emacsclient-nox.exe
 	dobin lib-src/emacsclient-w32.exe
 	dobin lib-src/emacsclient-X11.exe
-	dobin ${S}/make-emacs-shortcut
-	dobin ${S}/set-emacs-default-X11.sh
-	dobin ${S}/set-emacs-default-w32.sh
+	cd ${S}
+	dobin make-emacs-shortcut
+	dobin set-emacs-default-X11.sh
+	dobin set-emacs-default-w32.sh
 	insinto /usr/bin
-	doins ${S}/nt/icons/emacs.ico
+	doins nt/icons/emacs.ico
 	insinto /usr/share/${PN}/${PV}/etc
-	doins ${S}/src/.gdbinit
+	doins src/.gdbinit
 	dodir /etc/postinstall /etc/preremove
+	exeinto /etc/postinstall
+	newexe postinstall.sh emacs.sh
+	newexe postinstall-X11.sh emacs-X11.sh
+	newexe postinstall-w32.sh emacs-w32.sh
+	exeinto /etc/preremove
+	newexe preremove.sh emacs.sh
+	newexe preremove-X11.sh emacs-X11.sh
+	newexe preremove-w32.sh emacs-w32.sh
 	cd ${D}
-	cat > etc/postinstall/emacs.sh <<-_EOF
-		/usr/sbin/update-alternatives \\
-		    --install /usr/bin/emacs emacs /usr/bin/emacs-nox.exe 10
-		/usr/sbin/update-alternatives \\
-		    --install /usr/bin/emacsclient emacsclient /usr/bin/emacsclient-nox.exe 10
-		_EOF
-	cat > etc/preremove/emacs.sh <<-_EOF
-		prefix=/usr
-		bindir=\${prefix}/bin
-		sbindir=\${prefix}/sbin
-		\${sbindir}/update-alternatives \\
-		    --remove emacs \${bindir}/emacs-nox.exe
-		\${sbindir}/update-alternatives \\
-		    --remove emacsclient \${bindir}/emacsclient-nox.exe
-		_EOF
-	cat > etc/postinstall/emacs-w32.sh <<-_EOF
-		/usr/sbin/update-alternatives \\
-		    --install /usr/bin/emacs emacs /usr/bin/emacs-w32.exe 15
-		/usr/sbin/update-alternatives \\
-		    --install /usr/bin/emacsclient emacsclient /usr/bin/emacsclient-w32.exe 15
-		_EOF
-	cat > etc/preremove/emacs-w32.sh <<-_EOF
-		prefix=/usr
-		bindir=\${prefix}/bin
-		sbindir=\${prefix}/sbin
-		\${sbindir}/update-alternatives \\
-		    --remove emacs \${bindir}/emacs-w32.exe
-		\${sbindir}/update-alternatives \\
-		    --remove emacsclient \${bindir}/emacsclient-w32.exe
-		_EOF
-	cat > etc/postinstall/emacs-X11.sh <<-_EOF
-		/usr/sbin/update-alternatives \\
-		    --install /usr/bin/emacs emacs /usr/bin/emacs-X11.exe 20
-		/usr/sbin/update-alternatives \\
-		    --install /usr/bin/emacsclient emacsclient /usr/bin/emacsclient-X11.exe 20
-		_EOF
-	cat > etc/preremove/emacs-X11.sh <<-_EOF
-		prefix=/usr
-		bindir=\${prefix}/bin
-		sbindir=\${prefix}/sbin
-		\${sbindir}/update-alternatives \\
-		    --remove emacs \${bindir}/emacs-X11.exe
-		\${sbindir}/update-alternatives \\
-		    --remove emacsclient \${bindir}/emacsclient-X11.exe
-		_EOF
 	rm -fv \
 		usr/bin/${P}.exe \
 		usr/bin/emacs.exe \
