@@ -1,19 +1,13 @@
 The following packages have been updated in the Cygwin distribution:
 
-* emacs-24.4-2
-* emacs-X11-24.4-2
-* emacs-w32-24.4-2
-* emacs-el-24.4-2
+* emacs-24.4-3
+* emacs-X11-24.4-3
+* emacs-w32-24.4-3
+* emacs-el-24.4-3
 
 Emacs is a powerful, customizable, self-documenting, modeless text editor.  Emacs contains special code editing features, a scripting language (elisp), and the capability to read mail, news, and more without leaving the editor.
 
-This is a rebuild of release 24.4-1, with two changes to reflect the fact that the cause of the mysterious crashes has been found and fixed (https://cygwin.com/ml/cygwin/2014-10/msg00397.html).  First, the 64-bit packages are now built with the usual optimization and without extra checking.  Second, I have enabled file-notification [*].  I had previously disabled this because it requires Glib, and I didn't want to make Emacs depend on an additional library until the cause of the crashes was found.
-
-For more information about emacs-24.4, see the release announcement for emacs-24.4-1:
-
-  https://cygwin.com/ml/cygwin-announce/2014-10/msg00041.html
+This is a rebuild of release 24.4-2 to eliminate the dependence on obsolete libraries.
 
 Ken Brown
 Cygwin's Emacs maintainer
-
-[*] Emacs now supports notifications of file changes, such as creation, modification, and deletion of files.  For details, browse the NEWS file ('C-h n' within Emacs) and search for "notify".
