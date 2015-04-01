@@ -1,6 +1,9 @@
 NAME="emacs"
-VERSION=24.4
-RELEASE=3
+VERSION=25.0.50
+
+GIT_REV=40b3dcd
+RELEASE=1.20150328git${GIT_REV}
+
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -43,6 +46,9 @@ emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 emacs_w32_REQUIRES="emacs"
 
 # SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc1.tar.xz"
+
+# The following is a lie.  I'm actually generating the source tarball
+# by running ./make-dist in my git repo.
 SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
 SRC_URI+="
@@ -59,8 +65,6 @@ SRC_URI+="
 "
 
 PATCH_URI="nonbootstrap_static_heap.patch"
-# PATCH_URI+=" hybrid_malloc.patch"
-# PATCH_URI+=" sound.patch"
 PATCH_URI+=" bt.patch"
 
 DOCS="README.Cygwin"
@@ -142,7 +146,7 @@ src_compile() {
 	cp -v src/emacs.exe emacs-w32.exe
 	cp -v lib-src/emacsclient.exe emacsclient-w32.exe
 	make distclean
-	cygconf --without-gconf --without-gsettings
+	cygconf
 	cygmake
 	mv -v emacs-nox.exe src/emacs-nox.exe
 	mv -v emacs-w32.exe src/emacs-w32.exe
@@ -188,4 +192,9 @@ src_install() {
 		usr/bin/etags.exe \
 		usr/share/man/man1/ctags* \
 		usr/share/man/man1/etags*
+}
+
+src_test() {
+    cd ${B}
+    make check
 }
