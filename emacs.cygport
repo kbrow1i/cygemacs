@@ -1,6 +1,6 @@
 NAME="emacs"
-VERSION=24.4
-RELEASE=3
+VERSION=24.5
+RELEASE=1
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -42,7 +42,7 @@ emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 
 emacs_w32_REQUIRES="emacs"
 
-# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc1.tar.xz"
+# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc2.tar.xz"
 SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
 SRC_URI+="
@@ -68,6 +68,7 @@ DOCS="README.Cygwin"
 DEPEND="libtiff-devel
 	libgif-devel
 	libjpeg-devel
+	libm17n-devel
 	pkgconfig(dbus-1)
 	pkgconfig(fontconfig)
 	pkgconfig(freetype2)
@@ -75,6 +76,7 @@ DEPEND="libtiff-devel
 	pkgconfig(glib-2.0)
 	pkgconfig(gnutls)
 	pkgconfig(gtk+-3.0)
+	pkgconfig(libotf)
 	pkgconfig(librsvg-2.0)
 	pkgconfig(libxml-2.0)
 	pkgconfig(libpng)
