@@ -1,13 +1,16 @@
-The following packages have been updated in the Cygwin distribution:
+The following packages have been updated in the Cygwin distribution as
+test releases:
 
-* emacs-24.5-1
-* emacs-X11-24.5-1
-* emacs-w32-24.5-1
-* emacs-el-24.5-1
+* emacs-24.5-2
+* emacs-X11-24.5-2
+* emacs-w32-24.5-2
+* emacs-el-24.5-2
 
 Emacs is a powerful, customizable, self-documenting, modeless text editor.  Emacs contains special code editing features, a scripting language (elisp), and the capability to read mail, news, and more without leaving the editor.
 
-This is a new upstream release.  It is mainly a bugfix release, but there are also a few minor changes.  Browse the NEWS file ('C-h n' within emacs) for details.
+This is a rebuild of the 24.5-1 packages, patched to make CPU profiling work.  (This has apparently never worked on Cygwin.)  If you would like to test this, read the "Profiling" section of the elisp manual for instructions.  Short version: M-x profiler-start, do some work, then M-x profiler-report.
+
+If people report that profiling works, and if no regressions are reported, I'll promote this release to "current" in a week or two.
 
 CYGWIN NOTES
 ============
@@ -22,7 +25,7 @@ You can later restore emacs-X11 as the default by running
 
   /usr/bin/set-emacs-default-X11.sh
 
-2. Install emacs-X11 if you want to use the X11 GUI.  You can then type `emacs&' in an xterm window, and emacs will start in a new window.
+2. Install emacs-X11 if you want to use the X11 GUI.  You can then type 'emacs&' in an xterm window, and emacs will start in a new window.
 
 3. Install emacs-w32 if you want to use the native Windows GUI instead of X11.
 

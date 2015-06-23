@@ -1,0 +1,30 @@
+--- origsrc/emacs-24.5/src/profiler.c	2015-06-23 08:44:25.069785600 -0400
++++ src/emacs-24.5/src/profiler.c	2015-06-23 08:50:46.470718600 -0400
+@@ -218,6 +218,12 @@ static EMACS_INT current_sampling_interv
+ 
+ /* Signal handler for sampling profiler.  */
+ 
++/* timer_getoverrun is not implemented on Cygwin, but the following
++   seems to be good enough for profiling. */
++#ifdef CYGWIN
++#define timer_getoverrun(x) 0
++#endif
++
+ static void
+ handle_profiler_signal (int signal)
+ {
+--- origsrc/emacs-24.5/src/syssignal.h	2015-04-02 03:23:06.000000000 -0400
++++ src/emacs-24.5/src/syssignal.h	2015-06-23 08:48:50.695677700 -0400
+@@ -28,6 +28,12 @@ extern void init_signals (bool);
+ #define FORWARD_SIGNAL_TO_MAIN_THREAD
+ #endif
+ 
++/* On Cygwin as of 2015-06-22 SIGEV_SIGNAL is defined as an enum
++   constant but not as a macro. */
++#if defined CYGWIN && !defined SIGEV_SIGNAL
++#define SIGEV_SIGNAL SIGEV_SIGNAL
++#endif
++
+ #if defined HAVE_TIMER_SETTIME && defined SIGEV_SIGNAL
+ # define HAVE_ITIMERSPEC
+ #endif

@@ -1,0 +1,60 @@
+From dc30fb9247d5d9d98ae1c3501d3ffa90e2001a46 Mon Sep 17 00:00:00 2001
+From: Ken Brown <kbrown@cornell.edu>
+Date: Mon, 22 Jun 2015 15:26:44 -0400
+Subject: [PATCH 1/2] Improve diagnostics of profiler-cpu-start
+
+* src/profiler.c (setup_cpu_timer): Change return type to 'int';
+return -1 if the sampling interval is invalid.
+(Fprofiler_cpu_start): Improve error message if 'setup_cpu_timer'
+fails.  (Bug#20843)
+---
+ src/profiler.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/src/profiler.c b/src/profiler.c
+index 1b49afe..185382c 100644
+--- a/src/profiler.c
++++ b/src/profiler.c
+@@ -250,7 +250,7 @@ deliver_profiler_signal (int signal)
+   deliver_process_signal (signal, handle_profiler_signal);
+ }
+ 
+-static enum profiler_cpu_running
++static int
+ setup_cpu_timer (Lisp_Object sampling_interval)
+ {
+   struct sigaction action;
+@@ -263,7 +263,7 @@ setup_cpu_timer (Lisp_Object sampling_interval)
+ 			  ? ((EMACS_INT) TYPE_MAXIMUM (time_t) * billion
+ 			     + (billion - 1))
+ 			  : EMACS_INT_MAX)))
+-    return NOT_RUNNING;
++    return -1;
+ 
+   current_sampling_interval = XINT (sampling_interval);
+   interval = make_timespec (current_sampling_interval / billion,
+@@ -336,9 +336,18 @@ See also `profiler-log-size' and `profiler-max-stack-depth'.  */)
+ 			  profiler_max_stack_depth);
+     }
+ 
+-  profiler_cpu_running = setup_cpu_timer (sampling_interval);
+-  if (! profiler_cpu_running)
+-    error ("Invalid sampling interval");
++  int status = setup_cpu_timer (sampling_interval);
++  if (status == -1)
++    {
++      profiler_cpu_running = NOT_RUNNING;
++      error ("Invalid sampling interval");
++    }
++  else
++    {
++      profiler_cpu_running = status;
++      if (! profiler_cpu_running)
++	error ("Unable to start profiler timer");
++    }
+ 
+   return Qt;
+ }
+-- 
+2.1.4
+
