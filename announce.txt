@@ -1,16 +1,16 @@
 The following packages have been updated in the Cygwin distribution as
 test releases:
 
-* emacs-24.5-2
-* emacs-X11-24.5-2
-* emacs-w32-24.5-2
-* emacs-el-24.5-2
+* emacs-24.5-3
+* emacs-X11-24.5-3
+* emacs-w32-24.5-3
+* emacs-el-24.5-3
 
 Emacs is a powerful, customizable, self-documenting, modeless text editor.  Emacs contains special code editing features, a scripting language (elisp), and the capability to read mail, news, and more without leaving the editor.
 
-This is a rebuild of the 24.5-1 packages, patched to make CPU profiling work.  (This has apparently never worked on Cygwin.)  If you would like to test this, read the "Profiling" section of the elisp manual for instructions.  Short version: M-x profiler-start, do some work, then M-x profiler-report.
+This is a rebuild of the 24.5-2 packages, patched to allow native Windows paths like C:\foo or C:/foo in situations where file names are expected.
 
-If people report that profiling works, and if no regressions are reported, I'll promote this release to "current" in a week or two.
+If you are interested in this feature, please try the test release and let me know whether it works the way you expect.  If you are not interested in this feature, please try the test release anyway to make sure I haven't broken anything.
 
 CYGWIN NOTES
 ============

@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=24.5
-RELEASE=2
+RELEASE=3
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
@@ -64,6 +64,7 @@ PATCH_URI="nonbootstrap_static_heap.patch"
 PATCH_URI+=" bt.patch"
 PATCH_URI+=" 0001-Improve-diagnostics-of-profiler-cpu-start.patch"
 PATCH_URI+=" 24.5-2-Enable-CPU-profiling-on-Cygwin.patch"
+PATCH_URI+=" 24.5-3-allow_windows_path.patch"
 
 DOCS="README.Cygwin"
 
