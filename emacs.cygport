@@ -1,8 +1,6 @@
 NAME="emacs"
-VERSION=25.0.50
-
-GIT_REV=40b3dcd
-RELEASE=1.20150328git${GIT_REV}
+VERSION=25.0.93
+RELEASE=1
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -45,11 +43,15 @@ emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 
 emacs_w32_REQUIRES="emacs"
 
-# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc1.tar.xz"
+SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}.tar.xz"
 
 # The following is a lie.  I'm actually generating the source tarball
-# by running ./make-dist in my git repo.
-SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
+# by running './make-dist --snapshot --xz --tests' in my git repo.
+# Note: It’s possible to have an outdated loaddefs.el in this way.
+# See admin/make-tarball.txt for more careful instructions on making
+# the tarball.  It might suffice to run ’make -C lisp autoloads’
+# first.
+# SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
 SRC_URI+="
 	make-emacs-shortcut
@@ -128,7 +130,7 @@ emacs_w32_CONTENTS="
 	etc/postinstall/emacs-w32.sh
 	etc/preremove/emacs-w32.sh"
 
-DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~"
+DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~ emacs.1"
 
 ACLOCAL_FLAGS='-I m4'
 
