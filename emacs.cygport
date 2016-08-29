@@ -1,18 +1,18 @@
 NAME="emacs"
-VERSION=25.0.93
-RELEASE=1
+VERSION=25.1
+RELEASE=0.2.rc2
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
 PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
 
-emacs_SUMMARY="The extensible, customizable, self-documenting real-time display editor."
+emacs_SUMMARY="The extensible, customizable, self-documenting real-time display editor"
 
-emacs_el_SUMMARY="LISP source code for Emacs (including LEIM)."
+emacs_el_SUMMARY="LISP source code for Emacs (including LEIM)"
 
-emacs_X11_SUMMARY="Emacs binaries using the X11 GUI."
+emacs_X11_SUMMARY="Emacs binaries using the X11 GUI"
 
-emacs_w32_SUMMARY="Emacs binaries using the native Windows GUI."
+emacs_w32_SUMMARY="Emacs binaries using the native Windows GUI"
 
 emacs_DESCRIPTION="Emacs is a powerful, customizable, self-documenting, modeless text
 editor.  Emacs contains special code editing features, a scripting
@@ -43,7 +43,7 @@ emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 
 emacs_w32_REQUIRES="emacs"
 
-SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}.tar.xz"
+SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc2.tar.xz"
 
 # The following is a lie.  I'm actually generating the source tarball
 # by running './make-dist --snapshot --xz --tests' in my git repo.
@@ -68,6 +68,8 @@ SRC_URI+="
 
 PATCH_URI="nonbootstrap_static_heap.patch"
 PATCH_URI+=" bt.patch"
+PATCH_URI+=" endsession.patch"
+PATCH_URI+=" getsockopt.patch"
 
 DOCS="README.Cygwin"
 
@@ -175,7 +177,6 @@ src_install() {
 	doins nt/icons/emacs.ico
 	insinto /usr/share/${PN}/${PV}/etc
 	doins src/.gdbinit
-	dodir /etc/postinstall /etc/preremove
 	exeinto /etc/postinstall
 	newexe postinstall.sh emacs.sh
 	newexe postinstall-X11.sh emacs-X11.sh
