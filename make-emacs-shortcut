@@ -119,6 +119,10 @@ fi
 
 cat >${XMLFILE} <<"EOF"
 <?xml version="1.0" encoding="us-ascii"?>
+
+<!-- This file was created by the script /usr/bin/make-emacs-shortcut. -->
+<!-- See /usr/share/doc/emacs/README.Cygwin for more information. -->
+
 <Run2Config
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="run2.xsd">
