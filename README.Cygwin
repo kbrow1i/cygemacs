@@ -83,7 +83,7 @@ Usage notes for emacs on Cygwin
 7. If you want to run emacs under gdb, start by giving the following
    gdb command:
 
-     (gdb) source /usr/share/emacs/24.4/etc/.gdbinit
+     (gdb) source /usr/share/emacs/25.1/etc/.gdbinit
 
    This defines some gdb commands that are helpful when debugging
-   emacs.  See /usr/share/emacs/24.4/etc/DEBUG for details.
+   emacs.  See /usr/share/emacs/25.1/etc/DEBUG for details.

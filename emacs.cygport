@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=25.1
-RELEASE=0.2.rc2
+RELEASE=1
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -43,15 +43,15 @@ emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 
 emacs_w32_REQUIRES="emacs"
 
-SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc2.tar.xz"
+SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
-# The following is a lie.  I'm actually generating the source tarball
-# by running './make-dist --snapshot --xz --tests' in my git repo.
-# Note: It’s possible to have an outdated loaddefs.el in this way.
-# See admin/make-tarball.txt for more careful instructions on making
-# the tarball.  It might suffice to run ’make -C lisp autoloads’
-# first.
-# SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
+# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc2.tar.xz"
+
+# Can generate a source tarball by running './make-dist --snapshot
+# --xz --tests' in git repo.  Note: It’s possible to have an
+# outdated loaddefs.el in this way.  See admin/make-tarball.txt for
+# more careful instructions on making the tarball.  It might suffice
+# to run ’make -C lisp autoloads’ first.
 
 SRC_URI+="
 	make-emacs-shortcut
