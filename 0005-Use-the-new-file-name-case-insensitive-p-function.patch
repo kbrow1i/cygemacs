@@ -1,0 +1,107 @@
+From cbed42838e44e54460a27e643858d34b53f74c99 Mon Sep 17 00:00:00 2001
+From: Ken Brown <kbrown@cornell.edu>
+Date: Sun, 13 Nov 2016 22:00:24 -0500
+Subject: [PATCH 5/5] Use the new 'file-name-case-insensitive-p' function
+
+* lisp/international/mule.el (auto-coding-alist-lookup):
+* lisp/files.el (file-truename):
+(abbreviate-file-name, set-auto-mode, file-relative-name):
+* package.el (package-untar-buffer): Use
+'file-name-case-insensitive-p' instead of 'system-type' to test
+case-insensitivity.
+---
+ lisp/emacs-lisp/package.el |  2 +-
+ lisp/files.el              | 19 +++++++++----------
+ lisp/international/mule.el |  2 +-
+ 3 files changed, 11 insertions(+), 12 deletions(-)
+
+diff --git a/lisp/emacs-lisp/package.el b/lisp/emacs-lisp/package.el
+index f669c31..ef129e9 100644
+--- a/lisp/emacs-lisp/package.el
++++ b/lisp/emacs-lisp/package.el
+@@ -792,7 +792,7 @@ package-untar-buffer
+   (tar-mode)
+   ;; Make sure everything extracts into DIR.
+   (let ((regexp (concat "\\`" (regexp-quote (expand-file-name dir)) "/"))
+-        (case-fold-search (memq system-type '(windows-nt ms-dos cygwin))))
++        (case-fold-search (file-name-case-insensitive-p dir)))
+     (dolist (tar-data tar-parse-info)
+       (let ((name (expand-file-name (tar-header-name tar-data))))
+         (or (string-match regexp name)
+diff --git a/lisp/files.el b/lisp/files.el
+index 8277877..7cfb20d 100644
+--- a/lisp/files.el
++++ b/lisp/files.el
+@@ -1212,7 +1212,7 @@ file-truename
+ 	    (setq dirfile (directory-file-name dir))
+ 	    ;; If these are equal, we have the (or a) root directory.
+ 	    (or (string= dir dirfile)
+-		(and (memq system-type '(windows-nt ms-dos cygwin nacl))
++		(and (file-name-case-insensitive-p dir)
+ 		     (eq (compare-strings dir 0 nil dirfile 0 nil t) t))
+ 		;; If this is the same dir we last got the truename for,
+ 		;; save time--don't recalculate.
+@@ -1793,10 +1793,7 @@ abbreviate-file-name
+ 			     (substring filename (1- (match-end 0))))))
+ 	(setq filename (substring filename (1- (match-end 0)))))
+     ;; Avoid treating /home/foo as /home/Foo during `~' substitution.
+-    ;; To fix this right, we need a `file-name-case-sensitive-p'
+-    ;; function, but we don't have that yet, so just guess.
+-    (let ((case-fold-search
+-	   (memq system-type '(ms-dos windows-nt darwin cygwin))))
++    (let ((case-fold-search (file-name-case-insensitive-p filename)))
+       ;; If any elt of directory-abbrev-alist matches this name,
+       ;; abbreviate accordingly.
+       (dolist (dir-abbrev directory-abbrev-alist)
+@@ -2898,7 +2895,9 @@ set-auto-mode
+     (unless done
+       (if buffer-file-name
+ 	  (let ((name buffer-file-name)
+-		(remote-id (file-remote-p buffer-file-name)))
++		(remote-id (file-remote-p buffer-file-name))
++		(case-insensitive-p (file-name-case-insensitive-p
++				     buffer-file-name)))
+ 	    ;; Remove backup-suffixes from file name.
+ 	    (setq name (file-name-sans-versions name))
+ 	    ;; Remove remote file name identification.
+@@ -2908,12 +2907,12 @@ set-auto-mode
+ 	    (while name
+ 	      ;; Find first matching alist entry.
+ 	      (setq mode
+-		    (if (memq system-type '(windows-nt cygwin))
+-			;; System is case-insensitive.
++		    (if case-insensitive-p
++			;; Filesystem is case-insensitive.
+ 			(let ((case-fold-search t))
+ 			  (assoc-default name auto-mode-alist
+ 					 'string-match))
+-		      ;; System is case-sensitive.
++		      ;; Filesystem is case-sensitive.
+ 		      (or
+ 		       ;; First match case-sensitively.
+ 		       (let ((case-fold-search nil))
+@@ -4691,7 +4690,7 @@ file-relative-name
+     (setq filename (expand-file-name filename))
+     (let ((fremote (file-remote-p filename))
+ 	  (dremote (file-remote-p directory))
+-	  (fold-case (or (memq system-type '(ms-dos cygwin windows-nt))
++	  (fold-case (or (file-name-case-insensitive-p filename)
+ 			 read-file-name-completion-ignore-case)))
+       (if ;; Conditions for separate trees
+ 	  (or
+diff --git a/lisp/international/mule.el b/lisp/international/mule.el
+index 21ab7e1..5bc0e9c 100644
+--- a/lisp/international/mule.el
++++ b/lisp/international/mule.el
+@@ -1864,7 +1864,7 @@ set-auto-coding-for-load
+ (defun auto-coding-alist-lookup (filename)
+   "Return the coding system specified by `auto-coding-alist' for FILENAME."
+   (let ((alist auto-coding-alist)
+-	(case-fold-search (memq system-type '(windows-nt ms-dos cygwin)))
++	(case-fold-search (file-name-case-insensitive-p filename))
+ 	coding-system)
+     (while (and alist (not coding-system))
+       (if (string-match (car (car alist)) filename)
+-- 
+2.8.3
+
