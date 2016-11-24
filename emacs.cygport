@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=25.1.50
-RELEASE=2
+RELEASE=3
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -43,7 +43,7 @@ emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 
 emacs_w32_REQUIRES="emacs"
 
-SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
+# SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
 # SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc2.tar.xz"
 
@@ -52,6 +52,10 @@ SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 # outdated loaddefs.el in this way.  See admin/make-tarball.txt for
 # more careful instructions on making the tarball.  It might suffice
 # to run ’make -C lisp autoloads’ first.
+
+GIT_URI="git://git.savannah.gnu.org/emacs.git"
+GIT_BRANCH="emacs-25"
+inherit git
 
 SRC_URI+="
 	make-emacs-shortcut
@@ -71,9 +75,9 @@ PATCH_URI+=" bt.patch"
 PATCH_URI+=" endsession.patch"
 PATCH_URI+=" getsockopt.patch"
 PATCH_URI+=" no_mmap_for_buffers.patch"
-PATCH_URI+=" 0001-Check-case-sensitivity-when-renaming-files.patch"
-PATCH_URI+=" 0002-Silence-tramp-warning.patch"
-PATCH_URI+=" 0005-Use-the-new-file-name-case-insensitive-p-function.patch"
+# PATCH_URI+=" 0001-Check-case-sensitivity-when-renaming-files.patch"
+# PATCH_URI+=" 0002-Silence-tramp-warning.patch"
+# PATCH_URI+=" 0005-Use-the-new-file-name-case-insensitive-p-function.patch"
 
 DOCS="README.Cygwin"
 
