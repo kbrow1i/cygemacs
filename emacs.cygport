@@ -70,7 +70,7 @@ SRC_URI+="
 	preremove-w32.sh
 "
 
-PATCH_URI="nonbootstrap_static_heap.patch"
+# PATCH_URI="nonbootstrap_static_heap.patch"
 PATCH_URI+=" bt.patch"
 PATCH_URI+=" endsession.patch"
 PATCH_URI+=" getsockopt.patch"
