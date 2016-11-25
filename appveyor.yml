@@ -1,5 +1,5 @@
 version: '{build}'
-# skip_tags: true
+skip_tags: true
 environment:
   CYGWIN_MIRROR: http://cygwin.mirror.constant.com
   CACHE: C:\cache
@@ -20,8 +20,6 @@ cache:
 - C:\cache
 build_script:
 - SET PATH=%CYGWIN_ROOT%/bin
-- '%CYGWIN_ROOT%\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER; cygport emacs.cygport fetch all test"'
-# test: off
+- '%CYGWIN_ROOT%\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER; ./appveyor.sh"'
 artifacts:
-- path: icu-*\log
-# deploy: off
+- path: artifact.tar.xz
