@@ -16,7 +16,7 @@ cygport emacs.cygport inst
 echo packaging...
 cygport emacs.cygport pkg
 
-echo testing...
-cygport emacs.cygport test
+# echo testing...
+# cygport emacs.cygport test
 
 tar -cJf artifact.tar.xz emacs-*/dist emacs-*/log
