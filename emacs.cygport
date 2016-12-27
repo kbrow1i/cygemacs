@@ -1,6 +1,8 @@
 NAME="emacs"
-VERSION=25.1.90
+VERSION=26.0.50
 RELEASE=1
+
+# git eff2375
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -43,9 +45,10 @@ emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 
 emacs_w32_REQUIRES="emacs"
 
-# SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
+# Actually used git snapshot.
+SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
-SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}.tar.xz"
+# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}.tar.xz"
 
 # Can generate a source tarball by running './make-dist --snapshot
 # --xz --tests' in git repo.  Note: It’s possible to have an
@@ -72,12 +75,6 @@ SRC_URI+="
 
 PATCH_URI="nonbootstrap_static_heap.patch"
 PATCH_URI+=" bt.patch"
-PATCH_URI+=" endsession.patch"
-PATCH_URI+=" getsockopt.patch"
-PATCH_URI+=" no_mmap_for_buffers.patch"
-# PATCH_URI+=" 0001-Check-case-sensitivity-when-renaming-files.patch"
-# PATCH_URI+=" 0002-Silence-tramp-warning.patch"
-# PATCH_URI+=" 0005-Use-the-new-file-name-case-insensitive-p-function.patch"
 
 DOCS="README.Cygwin"
 
