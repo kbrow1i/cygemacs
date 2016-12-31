@@ -1,5 +1,5 @@
 NAME="emacs"
-VERSION=25.1.90
+VERSION=25.1.91
 RELEASE=1
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
