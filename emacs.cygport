@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=25.1.91
-RELEASE=1
+RELEASE=2
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -75,9 +75,7 @@ PATCH_URI+=" bt.patch"
 PATCH_URI+=" endsession.patch"
 PATCH_URI+=" getsockopt.patch"
 PATCH_URI+=" no_mmap_for_buffers.patch"
-# PATCH_URI+=" 0001-Check-case-sensitivity-when-renaming-files.patch"
-# PATCH_URI+=" 0002-Silence-tramp-warning.patch"
-# PATCH_URI+=" 0005-Use-the-new-file-name-case-insensitive-p-function.patch"
+PATCH_URI+=" 25.1.91-gnupg_info.patch"
 
 DOCS="README.Cygwin"
 
@@ -140,7 +138,7 @@ emacs_w32_CONTENTS="
 	etc/postinstall/emacs-w32.sh
 	etc/preremove/emacs-w32.sh"
 
-DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~ emacs.1"
+DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~ emacs.1 *.info"
 
 ACLOCAL_FLAGS='-I m4'
 
