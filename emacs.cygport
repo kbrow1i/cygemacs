@@ -1,8 +1,8 @@
 NAME="emacs"
 VERSION=26.0.50
-RELEASE=3
+RELEASE=4
 
-# git 8a16581
+# git f1d34d9
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -46,7 +46,7 @@ emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 emacs_w32_REQUIRES="emacs"
 
 # Actually used git snapshot.
-SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
+# SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
 # SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}.tar.xz"
 
@@ -56,9 +56,9 @@ SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 # more careful instructions on making the tarball.  It might suffice
 # to run ’make -C lisp autoloads’ first.
 
-# GIT_URI="git://git.savannah.gnu.org/emacs.git"
+GIT_URI="git://git.savannah.gnu.org/emacs.git"
 # GIT_BRANCH="emacs-25"
-# inherit git
+inherit git
 
 SRC_URI+="
 	make-emacs-shortcut

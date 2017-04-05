@@ -1,22 +1,15 @@
 #!/bin/sh
-set -e
 
-echo fetching...
-cygport emacs.cygport fetch
+exit_status=0
 
-echo prepping...
-cygport emacs.cygport prep
+cygport emacs.cygport fetch prep compile || exit_status=1
 
-echo compiling...
-cygport emacs.cygport compile
-
-echo installing...
-cygport emacs.cygport inst
-
-echo packaging...
-cygport emacs.cygport pkg
-
-# echo testing...
-# cygport emacs.cygport test
+if [ $exit_status -eq 0 ]
+then
+    cygport emacs.cygport test
+    cygport emacs.cygport inst pkg || exit_status=1
+fi
 
 tar -cJf artifact.tar.xz emacs-*/dist emacs-*/log
+
+exit $exit_status
