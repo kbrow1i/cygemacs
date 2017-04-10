@@ -1,8 +1,8 @@
 NAME="emacs"
 VERSION=26.0.50
-RELEASE=4
+RELEASE=5
 
-# git f1d34d9
+# git 9e1f45d
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
