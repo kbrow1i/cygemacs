@@ -27,7 +27,19 @@ Usage notes for emacs on Cygwin
 3. Install emacs-w32 if you want to use the native Windows GUI instead
    of X11.
 
-4. If you have sshd running and want to be able to run emacs-X11 from
+4. If you use the Emacs Rmail library, consider installing Cygwin's
+   mailutils package.  It provides a utility /usr/bin/movemail.exe
+   that has more features and is more secure than the version provided
+   by emacs (and installed under /usr/libexec/emacs).
+
+   If you use the Emacs MH-E library, consider installing Cygwin's
+   mailutils-mh package.  To use it, put the line
+
+     (load "mailutils-mh")
+
+   in your site-start.el or ~/.emacs file.
+
+5. If you have sshd running and want to be able to run emacs-X11 from
    a remote machine, you need to enable X11 forwarding by adding the
    following line to /etc/sshd_config:
 
@@ -35,7 +47,7 @@ Usage notes for emacs on Cygwin
 
    You might also need to have the cygserver service running.
 
-5. The script /usr/bin/make-emacs-shortcut can be used to create a
+6. The script /usr/bin/make-emacs-shortcut can be used to create a
    shortcut for starting emacs.  The shortcut assumes that you have
    installed the emacs-X11 and emacs-w32 packages.  It starts emacs
    under X if an X server is running, and it starts emacs-w32.exe
@@ -50,7 +62,7 @@ Usage notes for emacs on Cygwin
    make-emacs-shortcut, and you will need the run2 package in order to
    use the shortcut it creates.
 
-6. If you don't like the default fonts in the GUI versions of emacs,
+7. If you don't like the default fonts in the GUI versions of emacs,
    you can change them via the menu items
 
      Options -> Set Default Font
@@ -80,7 +92,7 @@ Usage notes for emacs on Cygwin
        (add-to-list 'default-frame-alist
                     '(font . "Droid Sans Mono-11"))))
 
-7. If you want to run emacs under gdb, start by giving the following
+8. If you want to run emacs under gdb, start by giving the following
    gdb command:
 
      (gdb) source /usr/share/emacs/25.1/etc/.gdbinit

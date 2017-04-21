@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=25.2
-RELEASE=0.1
+RELEASE=1
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -43,9 +43,9 @@ emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 
 emacs_w32_REQUIRES="emacs"
 
-# SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
+SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
-SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc2.tar.xz"
+# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc2.tar.xz"
 
 # Can generate a source tarball by running './make-dist --snapshot
 # --xz --tests' in git repo.  Note: It’s possible to have an
