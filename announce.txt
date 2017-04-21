@@ -1,7 +1,7 @@
-From cygwin-announce-emacs-25.2-1 Fri Mar 24 10:22:19 2017
+From cygwin-announce-emacs-25.2-1 Fri Apr 21 16:38:26 2017
 From: Ken Brown <kbrown@cornell.edu>
 To: cygwin-announce@cygwin.com
-Date: Fri, 24 Mar 2017 10:22:19 -0400
+Date: Fri, 21 Apr 2017 16:38:26 -0400
 Subject: emacs 25.2-1
 
 The following packages have been uploaded to the Cygwin distribution:
