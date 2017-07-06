@@ -1,6 +1,6 @@
 NAME="emacs"
 VERSION=25.2
-RELEASE=1
+RELEASE=2
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -75,7 +75,6 @@ PATCH_URI+=" bt.patch"
 PATCH_URI+=" endsession.patch"
 PATCH_URI+=" getsockopt.patch"
 PATCH_URI+=" no_mmap_for_buffers.patch"
-PATCH_URI+=" 25.1.91-gnupg_info.patch"
 
 DOCS="README.Cygwin"
 
