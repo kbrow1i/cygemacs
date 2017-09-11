@@ -1,26 +1,27 @@
-From cygwin-announce-emacs-25.2-1 Fri Apr 21 16:38:26 2017
+From cygwin-announce-emacs-25.3-1 Mon Sep 11 17:44:17 2017
 From: Ken Brown <kbrown@cornell.edu>
 To: cygwin-announce@cygwin.com
-Date: Fri, 21 Apr 2017 16:38:26 -0400
-Subject: emacs 25.2-1
+Date: Mon, 11 Sep 2017 17:44:17 -0400
+Subject: emacs 25.3-1
 
 The following packages have been uploaded to the Cygwin distribution:
 
-* emacs-25.2-1
-* emacs-el-25.2-1
-* emacs-X11-25.2-1
-* emacs-w32-25.2-1
+* emacs-25.3-1
+* emacs-el-25.3-1
+* emacs-X11-25.3-1
+* emacs-w32-25.3-1
 
 Emacs is a powerful, customizable, self-documenting, modeless text
 editor.  Emacs contains special code editing features, a scripting
 language (elisp), and the capability to read mail, news, and more
 without leaving the editor.
 
-This is an update to the latest upstream release.  It should be
-identical to the 25.2-0.1 release except for documentation changes.
-Compared to emacs-25.1, this is mainly a bugfix release, but there are
-some other changes.  Browse the NEWS file ('C-h n' within emacs) for
-details.
+This is an update to the latest upstream release.  It is an emergency
+release to fix a security vulnerability.  See
+
+  http://lists.gnu.org/archive/html/info-gnu-emacs/2017-09/msg00000.html
+
+for details.
 
 CYGWIN NOTES
 ============
