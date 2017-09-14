@@ -89,6 +89,7 @@ DEPEND="libtiff-devel
 	pkgconfig(gnutls)
 	pkgconfig(gtk+-3.0)
 	pkgconfig(librsvg-2.0)
+	pkgconfig(lcms2)
 	pkgconfig(libxml-2.0)
 	pkgconfig(libpng)
 	pkgconfig(ncursesw)
