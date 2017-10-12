@@ -1,5 +1,7 @@
+### Check README.Cygwin, nonbootstrap_static....
+
 NAME="emacs"
-VERSION=25.3
+VERSION=26.0.90
 RELEASE=1
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
@@ -72,9 +74,6 @@ SRC_URI+="
 
 PATCH_URI="nonbootstrap_static_heap.patch"
 PATCH_URI+=" bt.patch"
-PATCH_URI+=" endsession.patch"
-PATCH_URI+=" getsockopt.patch"
-PATCH_URI+=" no_mmap_for_buffers.patch"
 
 DOCS="README.Cygwin"
 
