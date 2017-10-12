@@ -1,8 +1,8 @@
-NAME="emacs"
-VERSION=26.0.50
-RELEASE=5
+### Check README.Cygwin, nonbootstrap_static....
 
-# git 9e1f45d
+NAME="emacs"
+VERSION=26.0.90
+RELEASE=1
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -45,10 +45,9 @@ emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 
 emacs_w32_REQUIRES="emacs"
 
-# Actually used git snapshot.
 # SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
-# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}.tar.xz"
+SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}.tar.xz"
 
 # Can generate a source tarball by running './make-dist --snapshot
 # --xz --tests' in git repo.  Note: It’s possible to have an
@@ -56,9 +55,9 @@ emacs_w32_REQUIRES="emacs"
 # more careful instructions on making the tarball.  It might suffice
 # to run ’make -C lisp autoloads’ first.
 
-GIT_URI="git://git.savannah.gnu.org/emacs.git"
+# GIT_URI="git://git.savannah.gnu.org/emacs.git"
 # GIT_BRANCH="emacs-25"
-inherit git
+# inherit git
 
 SRC_URI+="
 	make-emacs-shortcut
@@ -73,7 +72,7 @@ SRC_URI+="
 	preremove-w32.sh
 "
 
-# PATCH_URI="nonbootstrap_static_heap.patch"
+PATCH_URI="nonbootstrap_static_heap.patch"
 PATCH_URI+=" bt.patch"
 
 DOCS="README.Cygwin"
@@ -89,6 +88,7 @@ DEPEND="libtiff-devel
 	pkgconfig(gnutls)
 	pkgconfig(gtk+-3.0)
 	pkgconfig(librsvg-2.0)
+	pkgconfig(lcms2)
 	pkgconfig(libxml-2.0)
 	pkgconfig(libpng)
 	pkgconfig(ncursesw)
@@ -137,14 +137,13 @@ emacs_w32_CONTENTS="
 	etc/postinstall/emacs-w32.sh
 	etc/preremove/emacs-w32.sh"
 
-DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~ emacs.1"
+DIFF_EXCLUDES="loaddefs.el config.in *.elc loaddefs.el~ subdirs.el~ config.in~ emacs.1 *.info"
 
 ACLOCAL_FLAGS='-I m4'
 
 src_compile() {
 	cd ${S}
-	# cygautoreconf
-	./autogen.sh
+	cygautoreconf
 	cd ${B}
 	cygconf --with-x=no
 	cygmake
