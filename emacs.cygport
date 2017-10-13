@@ -34,11 +34,6 @@ for display."
 
 emacs_REQUIRES="terminfo-extra"
 
-if [ "${ARCH}" = i686 ]
-then
-    emacs_REQUIRES+=" xemacs-emacs-common"
-fi
-
 emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 
 emacs_w32_REQUIRES="emacs"
@@ -193,7 +188,6 @@ src_install() {
 		usr/bin/${P}.exe \
 		usr/bin/emacs.exe \
 		usr/bin/emacsclient.exe \
-		usr/bin/b2m.exe \
 		usr/bin/ctags.exe \
 		usr/bin/etags.exe \
 		usr/share/man/man1/ctags* \
