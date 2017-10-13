@@ -27,14 +27,8 @@ Usage notes for emacs on Cygwin
 3. Install emacs-w32 if you want to use the native Windows GUI instead
    of X11.
 
-4. If you use the Emacs Rmail library, you might need to install
-   Cygwin's mailutils package.  It provides a utility
-   /usr/bin/movemail.exe that has more features and is more secure
-   than the version that was provided by earlier versions of emacs
-   (and installed under /usr/libexec/emacs).
-
-   If you use the Emacs MH-E library, consider installing Cygwin's
-   mailutils-mh package.  To use it, put the line
+4. If you use the Emacs MH-E library for email, consider installing
+   Cygwin's mailutils-mh package.  To use it, put the line
 
      (load "mailutils-mh")
 

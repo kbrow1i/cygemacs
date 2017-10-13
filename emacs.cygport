@@ -32,7 +32,7 @@ display.  The binaries also can be used in non-X11 mode."
 emacs_w32_DESCRIPTION="This package contains emacs binaries that use the native Windows GUI
 for display."
 
-emacs_REQUIRES="terminfo-extra"
+emacs_REQUIRES="terminfo-extra mailutils"
 
 emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 
