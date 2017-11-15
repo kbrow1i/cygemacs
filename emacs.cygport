@@ -2,7 +2,7 @@
 
 NAME="emacs"
 VERSION=26.0.90
-RELEASE=2
+RELEASE=3
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
