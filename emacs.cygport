@@ -1,6 +1,6 @@
 NAME="emacs"
-VERSION=26.0.90
-RELEASE=1
+VERSION=26.0.91
+RELEASE=2
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -67,6 +67,7 @@ SRC_URI+="
 
 PATCH_URI="nonbootstrap_static_heap.patch"
 PATCH_URI+=" bt.patch"
+PATCH_URI+=" 0001-Add-battery-support-to-all-Cygwin-builds.patch"
 
 DOCS="README.Cygwin"
 
