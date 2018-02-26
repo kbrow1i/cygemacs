@@ -1,3 +1,5 @@
+# Check patches, README.
+
 NAME="emacs"
 VERSION=26.0.91
 RELEASE=2
