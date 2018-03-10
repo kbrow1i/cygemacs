@@ -2,17 +2,19 @@
 
 NAME="emacs"
 VERSION=26.0.91
-RELEASE=2
+RELEASE=3
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
-PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32"
+PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32 ${PN}-lucid"
 
 emacs_SUMMARY="The extensible, customizable, self-documenting real-time display editor"
 
 emacs_el_SUMMARY="LISP source code for Emacs (including LEIM)"
 
-emacs_X11_SUMMARY="Emacs binaries using the X11 GUI"
+emacs_X11_SUMMARY="Emacs binaries using the X11 GUI with the GTK+ toolkit"
+
+emacs_lucid_SUMMARY="Emacs binaries using the X11 GUI with the Lucid toolkit"
 
 emacs_w32_SUMMARY="Emacs binaries using the native Windows GUI"
 
@@ -27,9 +29,15 @@ emacs addons including code for input methods for
 internationalization.  Install it if you want to personalize built-in
 emacs functionality in some way on your machine."
 
-emacs_X11_DESCRIPTION="This package contains the X11 binaries for emacs.  Install
-it if you want to run emacs using the X window system for
-display.  The binaries also can be used in non-X11 mode."
+emacs_X11_DESCRIPTION="This package contains the X11 binaries for emacs with the default GTK+
+toolkit.  Install it if you want to run emacs using the X window
+system and GTK+ for display.  The binaries also can be used in non-X11
+mode."
+
+emacs_lucid_DESCRIPTION="This package contains the X11 binaries for emacs with the Lucid
+toolkit.  Install it if you want to run emacs using the X window
+system and Lucid for display.  The binaries also can be used in
+non-X11 mode."
 
 emacs_w32_DESCRIPTION="This package contains emacs binaries that use the native Windows GUI
 for display."
@@ -38,11 +46,13 @@ emacs_REQUIRES="terminfo-extra mailutils"
 
 emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
 
+emacs_lucid_REQUIRES="emacs font-bitstream-vera-ttf"
+
 emacs_w32_REQUIRES="emacs"
 
-SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
+# SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
-# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc2.tar.xz"
+SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}.tar.xz"
 
 # Can generate a source tarball by running './make-dist --snapshot
 # --xz --tests' in git repo.  Note: It’s possible to have an
@@ -56,13 +66,14 @@ SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
 SRC_URI+="
 	make-emacs-shortcut
-	set-emacs-default-X11.sh
-	set-emacs-default-w32.sh
+	set-emacs-default-nox.sh
 	README.Cygwin
 	postinstall.sh
 	preremove.sh
 	postinstall-X11.sh
 	preremove-X11.sh
+	postinstall-lucid.sh
+	preremove-lucid.sh
 	postinstall-w32.sh
 	preremove-w32.sh
 "
@@ -83,14 +94,15 @@ DEPEND="libtiff-devel
 	pkgconfig(glib-2.0)
 	pkgconfig(gnutls)
 	pkgconfig(gtk+-3.0)
-	pkgconfig(librsvg-2.0)
 	pkgconfig(lcms2)
-	pkgconfig(libxml-2.0)
 	pkgconfig(libpng)
+	pkgconfig(librsvg-2.0)
+	pkgconfig(libxml-2.0)
 	pkgconfig(ncursesw)
 	pkgconfig(sm)
 	pkgconfig(Wand)
 	pkgconfig(x11)
+	pkgconfig(xaw3d)
 	pkgconfig(xft)
 	pkgconfig(xpm)
 	pkgconfig(xpm-nox)
@@ -100,13 +112,19 @@ emacs_CONTENTS="
 	--exclude=usr/share/${PN}/${PV}/lisp*el.gz
 	--exclude=usr/bin/emacs-X11.exe
 	--exclude=usr/bin/emacsclient-X11.exe
-	--exclude=usr/bin/set-emacs-default-*.sh
+	--exclude=usr/bin/set-emacs-default-w32.sh
+	--exclude=usr/bin/set-emacs-default-lucid.sh
+	--exclude=usr/bin/set-emacs-default-X11.sh
 	--exclude=etc/postinstall/emacs-X11.sh
 	--exclude=etc/preremove/emacs-X11.sh
 	--exclude=usr/bin/emacs-w32.exe
 	--exclude=usr/bin/emacsclient-w32.exe
 	--exclude=etc/postinstall/emacs-w32.sh
 	--exclude=etc/preremove/emacs-w32.sh
+	--exclude=usr/bin/emacs-lucid.exe
+	--exclude=usr/bin/emacsclient-lucid.exe
+	--exclude=etc/postinstall/emacs-lucid.sh
+	--exclude=etc/preremove/emacs-lucid.sh
 	etc/
 	usr/"
 
@@ -125,6 +143,13 @@ emacs_X11_CONTENTS="
 	usr/bin/set-emacs-default-X11.sh
 	etc/postinstall/emacs-X11.sh
 	etc/preremove/emacs-X11.sh"
+
+emacs_lucid_CONTENTS="
+	usr/bin/emacs-lucid.exe
+	usr/bin/emacsclient-lucid.exe
+	usr/bin/set-emacs-default-lucid.sh
+	etc/postinstall/emacs-lucid.sh
+	etc/preremove/emacs-lucid.sh"
 
 emacs_w32_CONTENTS="
 	usr/bin/emacs-w32.exe
@@ -151,13 +176,20 @@ src_compile() {
 	cp -v src/emacs.exe emacs-w32.exe
 	cp -v lib-src/emacsclient.exe emacsclient-w32.exe
 	make distclean
+	cygconf --with-gconf=no --with-x-toolkit=lucid
+	cygmake
+	cp -v src/emacs.exe emacs-lucid.exe
+	cp -v lib-src/emacsclient.exe emacsclient-lucid.exe
+	make distclean
 	cygconf --with-gconf=no
 	cygmake
 	mv -v emacs-nox.exe src/emacs-nox.exe
 	mv -v emacs-w32.exe src/emacs-w32.exe
+	mv -v emacs-lucid.exe src/emacs-lucid.exe
 	cp -v src/emacs.exe src/emacs-X11.exe
 	mv -v emacsclient-nox.exe lib-src/emacsclient-nox.exe
 	mv -v emacsclient-w32.exe lib-src/emacsclient-w32.exe
+	mv -v emacsclient-lucid.exe lib-src/emacsclient-lucid.exe
 	cp -v lib-src/emacsclient.exe lib-src/emacsclient-X11.exe
 }
 
@@ -166,14 +198,15 @@ src_install() {
 	cyginstall
 	dobin src/emacs-nox.exe
 	dobin src/emacs-w32.exe
+	dobin src/emacs-lucid.exe
 	dobin src/emacs-X11.exe
 	dobin lib-src/emacsclient-nox.exe
 	dobin lib-src/emacsclient-w32.exe
+	dobin lib-src/emacsclient-lucid.exe
 	dobin lib-src/emacsclient-X11.exe
 	cd ${S}
 	dobin make-emacs-shortcut
-	dobin set-emacs-default-X11.sh
-	dobin set-emacs-default-w32.sh
+	dobin set-emacs-default-nox.sh
 	insinto /usr/bin
 	doins nt/icons/emacs.ico
 	insinto /usr/share/${PN}/${PV}/etc
@@ -181,10 +214,12 @@ src_install() {
 	exeinto /etc/postinstall
 	newexe postinstall.sh emacs.sh
 	newexe postinstall-X11.sh emacs-X11.sh
+	newexe postinstall-lucid.sh emacs-lucid.sh
 	newexe postinstall-w32.sh emacs-w32.sh
 	exeinto /etc/preremove
 	newexe preremove.sh emacs.sh
 	newexe preremove-X11.sh emacs-X11.sh
+	newexe preremove-lucid.sh emacs-lucid.sh
 	newexe preremove-w32.sh emacs-w32.sh
 	cd ${D}
 	rm -fv \
@@ -195,6 +230,10 @@ src_install() {
 		usr/bin/etags.exe \
 		usr/share/man/man1/ctags* \
 		usr/share/man/man1/etags*
+	cd usr/bin
+	ln -s set-emacs-default-nox.sh set-emacs-default-w32.sh
+	ln -s set-emacs-default-nox.sh set-emacs-default-X11.sh
+	ln -s set-emacs-default-nox.sh set-emacs-default-lucid.sh
 }
 
 src_test() {
