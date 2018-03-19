@@ -10,56 +10,51 @@ The following packages have been uploaded to the Cygwin distribution:
 * emacs-el-25.3-1
 * emacs-X11-25.3-1
 * emacs-w32-25.3-1
+* emacs-lucid-25.3-1 [*]
 
 Emacs is a powerful, customizable, self-documenting, modeless text
 editor.  Emacs contains special code editing features, a scripting
 language (elisp), and the capability to read mail, news, and more
 without leaving the editor.
 
-This is an update to the latest upstream release.  It is an emergency
-release to fix a security vulnerability.  See
+This is an update to the latest upstream release.  Browse the NEWS
+file ('C-h n' within emacs) for changes since the last release.
 
-  http://lists.gnu.org/archive/html/info-gnu-emacs/2017-09/msg00000.html
-
-for details.
 
 CYGWIN NOTES
 ============
 
-1. The emacs, emacs-w32, and emacs-X11 packages each provide an Emacs
-   binary.  These are emacs-nox.exe, emacs-w32.exe, and emacs-X11.exe,
-   respectively, in order of increasing priority.  The postinstall
-   scripts use the 'alternatives' system to create a symlink
+1. The emacs, emacs-w32, emacs-X11, and emacs-lucid packages each
+   provide an emacs binary.  These are emacs-nox.exe, emacs-w32.exe,
+   emacs-X11.exe, and emacs-lucid.exe, respectively, in order of
+   increasing priority.  The postinstall scripts create a symlink
    /usr/bin/emacs that resolves to the highest-priority binary that
-   you have installed.  Thus the command 'emacs' will start
-   emacs-X11.exe if you've installed the emacs-X11 package; otherwise,
-   it will start emacs-w32.exe if you've installed emacs-w32;
-   otherwise, it will start emacs-nox.exe.  Similar remarks apply to
-   emacsclient.
+   you have installed.  Thus the command `emacs' will start
+   emacs-lucid.exe if you've installed the emacs-lucid package;
+   otherwise, it will start emacs-X11.exe if you've installed
+   emacs-X11; otherwise, it will start emacs-w32.exe if you've
+   installed emacs-w32; otherwise, it will start emacs-nox.exe.
+   Similar remarks apply to emacsclient.
 
-   If you have installed both emacs-w32 and emacs-X11 and prefer to
-   give higher priority to emacs-w32, run the script
+   If you have installed more than one emacs package and don't like
+   the default resolution of /usr/bin/emacs, you can run one of the
+   /usr/bin/set-emacs-default-*.sh scripts to change it.  For example,
 
      /usr/bin/set-emacs-default-w32.sh
 
-   You can later restore emacs-X11 as the default by running
+   will make /usr/bin/emacs resolve to /usr/bin/emacs-w32.exe,
+   regardless of which packages you've installed.
 
-     /usr/bin/set-emacs-default-X11.sh
-
-2. Install emacs-X11 if you want to use the X11 GUI.  You can then
-   type 'emacs&' in an xterm window, and emacs will start in a new
-   window.
+2. Install emacs-X11 if you want to use the X11 GUI with the (default)
+   GTK+ toolkit.  You can then type `emacs&' in an xterm window, and
+   emacs-X11.exe will start in a new window.  If you prefer the Lucid
+   toolkit, install emacs-lucid instead.
 
 3. Install emacs-w32 if you want to use the native Windows GUI instead
    of X11.
 
-4. If you use the Emacs Rmail library, consider installing Cygwin's
-   mailutils package.  It provides a utility /usr/bin/movemail.exe
-   that has more features and is more secure than the version provided
-   by emacs (and installed under /usr/libexec/emacs).
-
-   If you use the Emacs MH-E library, consider installing Cygwin's
-   mailutils-mh package.  To use it, put the line
+4. If you use the Emacs MH-E library for email, consider installing
+   Cygwin's mailutils-mh package.  To use it, put the line
 
      (load "mailutils-mh")
 
@@ -79,3 +74,5 @@ CYGWIN NOTES
 
 Ken Brown
 Cygwin's Emacs maintainer
+
+[*] The emacs-lucid package is new with this release.
