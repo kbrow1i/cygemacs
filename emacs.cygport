@@ -2,7 +2,7 @@
 
 NAME="emacs"
 VERSION=26.0.91
-RELEASE=3
+RELEASE=4
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -44,9 +44,9 @@ for display."
 
 emacs_REQUIRES="terminfo-extra mailutils"
 
-emacs_X11_REQUIRES="emacs font-bitstream-vera-ttf"
+emacs_X11_REQUIRES="emacs bitstream-vera-fonts"
 
-emacs_lucid_REQUIRES="emacs font-bitstream-vera-ttf"
+emacs_lucid_REQUIRES="emacs bitstream-vera-fonts"
 
 emacs_w32_REQUIRES="emacs"
 
