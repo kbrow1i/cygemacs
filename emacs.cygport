@@ -1,8 +1,8 @@
 # Check patches, README.
 
 NAME="emacs"
-VERSION=26.0.91
-RELEASE=4
+VERSION=26.1
+RELEASE=0.1
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -52,7 +52,7 @@ emacs_w32_REQUIRES="emacs"
 
 # SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
-SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}.tar.xz"
+SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc1.tar.xz"
 
 # Can generate a source tarball by running './make-dist --snapshot
 # --xz --tests' in git repo.  Note: It’s possible to have an
