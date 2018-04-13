@@ -2,7 +2,7 @@
 
 NAME="emacs"
 VERSION=26.1
-RELEASE=0.1
+RELEASE=0.2
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -81,6 +81,7 @@ SRC_URI+="
 PATCH_URI="nonbootstrap_static_heap.patch"
 PATCH_URI+=" bt.patch"
 PATCH_URI+=" 0001-Add-battery-support-to-all-Cygwin-builds.patch"
+PATCH_URI+=" dont_wait_for_visible_frames.patch"
 
 DOCS="README.Cygwin"
 
@@ -179,12 +180,12 @@ src_compile() {
 	cp -v src/emacs.exe emacs-w32.exe
 	cp -v lib-src/emacsclient.exe emacsclient-w32.exe
 	make distclean
-	cygconf --with-gconf=no --with-x-toolkit=lucid
+	cygconf --with-x-toolkit=lucid
 	cygmake
 	cp -v src/emacs.exe emacs-lucid.exe
 	cp -v lib-src/emacsclient.exe emacsclient-lucid.exe
 	make distclean
-	cygconf --with-gconf=no
+	cygconf
 	cygmake
 	mv -v emacs-nox.exe src/emacs-nox.exe
 	mv -v emacs-w32.exe src/emacs-w32.exe
