@@ -85,8 +85,8 @@ DOCS="README.Cygwin"
 
 DEPEND="libtiff-devel
 	libgif-devel
+	libiconv-devel
 	libjpeg-devel
-	libXaw3d-devel
 	pkgconfig(dbus-1)
 	pkgconfig(fontconfig)
 	pkgconfig(freetype2)
