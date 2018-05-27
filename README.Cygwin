@@ -22,10 +22,11 @@ Usage notes for emacs on Cygwin
    will make /usr/bin/emacs resolve to /usr/bin/emacs-w32.exe,
    regardless of which packages you've installed.
 
-2. Install emacs-X11 if you want to use the X11 GUI with the (default)
-   GTK+ toolkit.  You can then type `emacs&' in an xterm window, and
-   emacs-X11.exe will start in a new window.  If you prefer the Lucid
-   toolkit, install emacs-lucid instead.
+2. Install emacs-X11 if you want to use the X11 GUI with the GTK+
+   toolkit.  (This is the default toolkit.)  You can then type
+   'emacs&' in an xterm window, and emacs-X11.exe will start in a new
+   window.  If you prefer the Lucid toolkit, install emacs-lucid
+   instead.
 
 3. Install emacs-w32 if you want to use the native Windows GUI instead
    of X11.
@@ -67,8 +68,8 @@ Usage notes for emacs on Cygwin
      Options -> Save Options
 
    This will set the default font in your ~/.emacs and will apply to
-   both emacs-w32 and emacs-X11.  If you want different default fonts
-   for the two programs, use the lisp variable `window-system' to
+   all GUI versions of emacs.  If you want different default fonts for
+   the w32 and X11 GUIs, use the lisp variable `window-system' to
    distinguish between them.
 
    For example, the following code in ~/.emacs makes DejaVu Sans
@@ -80,7 +81,7 @@ Usage notes for emacs on Cygwin
 
    And the following code in ~/.emacs makes DejaVu Sans Mono-10 the
    default for emacs-w32 and Droid Sans Mono-11 the default for
-   emacs-X11:
+   emacs-X11 and emacs-lucid:
 
      (cond
       ((eq window-system 'w32)

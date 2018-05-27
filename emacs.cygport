@@ -1,8 +1,6 @@
-# Check patches, README.
-
 NAME="emacs"
 VERSION=26.1
-RELEASE=0.2
+RELEASE=1
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -50,9 +48,9 @@ emacs_lucid_REQUIRES="emacs bitstream-vera-fonts"
 
 emacs_w32_REQUIRES="emacs"
 
-# SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
+SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
-SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc1.tar.xz"
+# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc1.tar.xz"
 
 # Can generate a source tarball by running './make-dist --snapshot
 # --xz --tests' in git repo.  Note: It’s possible to have an
@@ -234,10 +232,14 @@ src_install() {
 		usr/bin/etags.exe \
 		usr/share/man/man1/ctags* \
 		usr/share/man/man1/etags*
-	cd usr/bin
-	ln -s set-emacs-default-nox.sh set-emacs-default-w32.sh
-	ln -s set-emacs-default-nox.sh set-emacs-default-X11.sh
-	ln -s set-emacs-default-nox.sh set-emacs-default-lucid.sh
+	# cd usr/bin
+	# ln -s set-emacs-default-nox.sh set-emacs-default-w32.sh
+	# ln -s set-emacs-default-nox.sh set-emacs-default-X11.sh
+	# ln -s set-emacs-default-nox.sh set-emacs-default-lucid.sh
+	dosym set-emacs-default-nox.sh usr/bin/set-emacs-default-w32.sh
+	dosym set-emacs-default-nox.sh usr/bin/set-emacs-default-X11.sh
+	dosym set-emacs-default-nox.sh usr/bin/set-emacs-default-lucid.sh
+	
 }
 
 src_test() {

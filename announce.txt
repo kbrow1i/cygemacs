@@ -1,16 +1,16 @@
-From cygwin-announce-emacs-25.3-1 Mon Sep 11 17:44:17 2017
+From cygwin-announce-emacs-26.1-1 Mon Sep 11 17:44:17 2017
 From: Ken Brown <kbrown@cornell.edu>
 To: cygwin-announce@cygwin.com
 Date: Mon, 11 Sep 2017 17:44:17 -0400
-Subject: emacs 25.3-1
+Subject: emacs 26.1-1
 
 The following packages have been uploaded to the Cygwin distribution:
 
-* emacs-25.3-1
-* emacs-el-25.3-1
-* emacs-X11-25.3-1
-* emacs-w32-25.3-1
-* emacs-lucid-25.3-1 [*]
+* emacs-26.1-1
+* emacs-el-26.1-1
+* emacs-X11-26.1-1
+* emacs-w32-26.1-1
+* emacs-lucid-26.1-1 [*]
 
 Emacs is a powerful, customizable, self-documenting, modeless text
 editor.  Emacs contains special code editing features, a scripting
@@ -29,7 +29,7 @@ CYGWIN NOTES
    emacs-X11.exe, and emacs-lucid.exe, respectively, in order of
    increasing priority.  The postinstall scripts create a symlink
    /usr/bin/emacs that resolves to the highest-priority binary that
-   you have installed.  Thus the command `emacs' will start
+   you have installed.  Thus the command 'emacs' will start
    emacs-lucid.exe if you've installed the emacs-lucid package;
    otherwise, it will start emacs-X11.exe if you've installed
    emacs-X11; otherwise, it will start emacs-w32.exe if you've
@@ -45,10 +45,11 @@ CYGWIN NOTES
    will make /usr/bin/emacs resolve to /usr/bin/emacs-w32.exe,
    regardless of which packages you've installed.
 
-2. Install emacs-X11 if you want to use the X11 GUI with the (default)
-   GTK+ toolkit.  You can then type `emacs&' in an xterm window, and
-   emacs-X11.exe will start in a new window.  If you prefer the Lucid
-   toolkit, install emacs-lucid instead.
+2. Install emacs-X11 if you want to use the X11 GUI with the GTK+
+   toolkit.  (This is the default toolkit.)  You can then type
+   'emacs&' in an xterm window, and emacs-X11.exe will start in a new
+   window.  If you prefer the Lucid toolkit, install emacs-lucid
+   instead.
 
 3. Install emacs-w32 if you want to use the native Windows GUI instead
    of X11.
