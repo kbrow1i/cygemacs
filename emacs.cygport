@@ -232,13 +232,9 @@ src_install() {
 		usr/bin/etags.exe \
 		usr/share/man/man1/ctags* \
 		usr/share/man/man1/etags*
-	# cd usr/bin
-	# ln -s set-emacs-default-nox.sh set-emacs-default-w32.sh
-	# ln -s set-emacs-default-nox.sh set-emacs-default-X11.sh
-	# ln -s set-emacs-default-nox.sh set-emacs-default-lucid.sh
-	dosym set-emacs-default-nox.sh usr/bin/set-emacs-default-w32.sh
-	dosym set-emacs-default-nox.sh usr/bin/set-emacs-default-X11.sh
-	dosym set-emacs-default-nox.sh usr/bin/set-emacs-default-lucid.sh
+	dosym set-emacs-default-nox.sh /usr/bin/set-emacs-default-w32.sh
+	dosym set-emacs-default-nox.sh /usr/bin/set-emacs-default-X11.sh
+	dosym set-emacs-default-nox.sh /usr/bin/set-emacs-default-lucid.sh
 	
 }
 
