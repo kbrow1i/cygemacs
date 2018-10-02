@@ -1,5 +1,5 @@
 NAME="emacs"
-VERSION=26.1
+VERSION=27.0.50
 RELEASE=1
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
@@ -58,9 +58,10 @@ SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 # more careful instructions on making the tarball.  It might suffice
 # to run ’make -C lisp autoloads’ first.
 
-# GIT_URI="git://git.savannah.gnu.org/emacs.git"
+GIT_URI="git://git.savannah.gnu.org/emacs.git"
 # GIT_BRANCH="emacs-25"
-# inherit git
+# GIT_URI="57c4bc146b"
+inherit git
 
 SRC_URI+="
 	make-emacs-shortcut
@@ -76,10 +77,8 @@ SRC_URI+="
 	preremove-w32.sh
 "
 
-PATCH_URI="nonbootstrap_static_heap.patch"
+# PATCH_URI="nonbootstrap_static_heap.patch"
 PATCH_URI+=" bt.patch"
-PATCH_URI+=" 0001-Add-battery-support-to-all-Cygwin-builds.patch"
-PATCH_URI+=" dont_wait_for_visible_frames.patch"
 
 DOCS="README.Cygwin"
 
