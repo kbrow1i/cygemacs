@@ -6,16 +6,18 @@ Usage notes for emacs on Cygwin
    emacs-X11.exe, and emacs-lucid.exe, respectively, in order of
    increasing priority.  The postinstall scripts create a symlink
    /usr/bin/emacs that resolves to the highest-priority binary that
-   you have installed.  Thus the command `emacs' will start
+   you have installed.  Thus the command 'emacs' will start
    emacs-lucid.exe if you've installed the emacs-lucid package;
    otherwise, it will start emacs-X11.exe if you've installed
    emacs-X11; otherwise, it will start emacs-w32.exe if you've
-   installed emacs-w32; otherwise, it will start emacs-nox.exe.
-   Similar remarks apply to emacsclient.
+   installed emacs-w32; otherwise, it will start emacs-nox.exe if
+   you've installed emacs.  Similar remarks apply to emacsclient.
 
-   If you have installed more than one emacs package and don't like
-   the default resolution of /usr/bin/emacs, you can run one of the
-   /usr/bin/set-emacs-default-*.sh scripts to change it.  For example,
+   You only need to install one of these four packages, but you can
+   install more if you want.  If you have installed more than one and
+   don't like the default resolution of /usr/bin/emacs, you can run
+   one of the /usr/bin/set-emacs-default-*.sh scripts to change it.
+   For example,
 
      /usr/bin/set-emacs-default-w32.sh
 

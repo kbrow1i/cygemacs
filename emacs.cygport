@@ -1,14 +1,15 @@
 NAME="emacs"
 VERSION=26.1
-RELEASE=1
+RELEASE=2
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
-PKG_NAMES="${PN} ${PN}-el ${PN}-X11 ${PN}-w32 ${PN}-lucid"
+PKG_NAMES="${PN} ${PN}-common ${PN}-X11 ${PN}-w32 ${PN}-lucid"
 
 emacs_SUMMARY="The extensible, customizable, self-documenting real-time display editor"
 
-emacs_el_SUMMARY="LISP source code for Emacs (including LEIM)"
+emacs_common_SUMMARY="Common files needed for all Emacs packages"
+emacs_common_OBSOLETES="emacs-el"
 
 emacs_X11_SUMMARY="Emacs binaries using the X11 GUI with the GTK+ toolkit"
 
@@ -16,37 +17,47 @@ emacs_lucid_SUMMARY="Emacs binaries using the X11 GUI with the Lucid toolkit"
 
 emacs_w32_SUMMARY="Emacs binaries using the native Windows GUI"
 
-emacs_DESCRIPTION="Emacs is a powerful, customizable, self-documenting, modeless text
+DESCRIPTION="Emacs is a powerful, customizable, self-documenting, modeless text
 editor.  Emacs contains special code editing features, a scripting
 language (elisp), and the capability to read mail, news and more without
-leaving the editor.  This package supplies everything needed for a non-X11
-emacs."
+leaving the editor."
 
-emacs_el_DESCRIPTION="This package contains the LISP source code for the various
-emacs addons including code for input methods for
-internationalization.  Install it if you want to personalize built-in
-emacs functionality in some way on your machine."
+emacs_DESCRIPTION="${DESCRIPTION}
 
-emacs_X11_DESCRIPTION="This package contains the X11 binaries for emacs with the default GTK+
-toolkit.  Install it if you want to run emacs using the X window
-system and GTK+ for display.  The binaries also can be used in non-X11
-mode."
+This package provides binaries for a non-GUI emacs."
 
-emacs_lucid_DESCRIPTION="This package contains the X11 binaries for emacs with the Lucid
+emacs_common_DESCRIPTION="${DESCRIPTION}
+
+This package contains elisp source files and documentation for emacs,
+emacs-X11, emacs-lucid, and emacs-w32."
+
+emacs_X11_DESCRIPTION="${DESCRIPTION}
+
+This package provides binaries for an X11 emacs with the GTK+ toolkit.
+Install it if you want to run emacs using the X window system and GTK+
+for display.  The binaries also can be used in non-X11 mode."
+
+emacs_lucid_DESCRIPTION="${DESCRIPTION}
+
+This package provides binaries for an X11 emacs with the Lucid
 toolkit.  Install it if you want to run emacs using the X window
 system and Lucid for display.  The binaries also can be used in
 non-X11 mode."
 
-emacs_w32_DESCRIPTION="This package contains emacs binaries that use the native Windows GUI
+emacs_w32_DESCRIPTION="${DESCRIPTION}
+
+This package provides emacs binaries that use the native Windows GUI
 for display."
 
-emacs_REQUIRES="terminfo-extra mailutils"
+emacs_common_REQUIRES="terminfo-extra mailutils"
 
-emacs_X11_REQUIRES="emacs bitstream-vera-fonts"
+emacs_REQUIRES="emacs-common"
 
-emacs_lucid_REQUIRES="emacs bitstream-vera-fonts"
+emacs_X11_REQUIRES="emacs-common bitstream-vera-fonts"
 
-emacs_w32_REQUIRES="emacs"
+emacs_lucid_REQUIRES="emacs-common bitstream-vera-fonts"
+
+emacs_w32_REQUIRES="emacs-common"
 
 SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
@@ -110,34 +121,20 @@ DEPEND="libtiff-devel
 	pkgconfig(xpm-nox)
 	pkgconfig(xrender)"
 
-emacs_CONTENTS="
-	--exclude=usr/share/${PN}/${PV}/lisp*el.gz
-	--exclude=usr/bin/emacs-X11.exe
-	--exclude=usr/bin/emacsclient-X11.exe
-	--exclude=usr/bin/set-emacs-default-w32.sh
-	--exclude=usr/bin/set-emacs-default-lucid.sh
-	--exclude=usr/bin/set-emacs-default-X11.sh
-	--exclude=etc/postinstall/emacs-X11.sh
-	--exclude=etc/preremove/emacs-X11.sh
-	--exclude=usr/bin/emacs-w32.exe
-	--exclude=usr/bin/emacsclient-w32.exe
-	--exclude=etc/postinstall/emacs-w32.sh
-	--exclude=etc/preremove/emacs-w32.sh
-	--exclude=usr/bin/emacs-lucid.exe
-	--exclude=usr/bin/emacsclient-lucid.exe
-	--exclude=etc/postinstall/emacs-lucid.sh
-	--exclude=etc/preremove/emacs-lucid.sh
-	etc/
-	usr/"
+emacs_common_CONTENTS="
+	usr/bin/ebrowse.exe
+	usr/bin/emacs.ico
+	usr/bin/make-emacs-shortcut
+	usr/bin/set-emacs-default-nox.sh
+	usr/lib/systemd/
+	usr/libexec/
+	usr/share/"
 
-emacs_el_CONTENTS="
-	--exclude=usr/share/${PN}/${PV}/lisp*el
-	--exclude=usr/share/${PN}/${PV}/lisp*elc
-	--exclude=usr/share/${PN}/${PV}/lisp/COPYING
-	--exclude=usr/share/${PN}/${PV}/lisp/README
-	--exclude=usr/share/${PN}/${PV}/lisp/international/README
-	--exclude=usr/share/${PN}/${PV}/lisp/term/README
-	usr/share/${PN}/${PV}/lisp"
+emacs_CONTENTS="
+	etc/postinstall/emacs.sh
+	etc/preremove/emacs.sh
+	usr/bin/emacs-nox.exe
+	usr/bin/emacsclient-nox.exe"
 
 emacs_X11_CONTENTS="
 	usr/bin/emacs-X11.exe
@@ -170,42 +167,33 @@ src_compile() {
 	cd ${B}
 	cygconf --with-x=no
 	cygmake
-	cp -v src/emacs.exe emacs-nox.exe
-	cp -v lib-src/emacsclient.exe emacsclient-nox.exe
-	make distclean
+	mkdir build-w32
+	cd build-w32
 	cygconf --with-w32
 	cygmake
-	cp -v src/emacs.exe emacs-w32.exe
-	cp -v lib-src/emacsclient.exe emacsclient-w32.exe
-	make distclean
+	cd ..
+	mkdir build-lucid
+	cd build-lucid
 	cygconf --with-x-toolkit=lucid
 	cygmake
-	cp -v src/emacs.exe emacs-lucid.exe
-	cp -v lib-src/emacsclient.exe emacsclient-lucid.exe
-	make distclean
+	cd ..
+	mkdir build-gtk
+	cd build-gtk
 	cygconf
 	cygmake
-	mv -v emacs-nox.exe src/emacs-nox.exe
-	mv -v emacs-w32.exe src/emacs-w32.exe
-	mv -v emacs-lucid.exe src/emacs-lucid.exe
-	cp -v src/emacs.exe src/emacs-X11.exe
-	mv -v emacsclient-nox.exe lib-src/emacsclient-nox.exe
-	mv -v emacsclient-w32.exe lib-src/emacsclient-w32.exe
-	mv -v emacsclient-lucid.exe lib-src/emacsclient-lucid.exe
-	cp -v lib-src/emacsclient.exe lib-src/emacsclient-X11.exe
 }
 
 src_install() {
 	cd ${B}
 	cyginstall
-	dobin src/emacs-nox.exe
-	dobin src/emacs-w32.exe
-	dobin src/emacs-lucid.exe
-	dobin src/emacs-X11.exe
-	dobin lib-src/emacsclient-nox.exe
-	dobin lib-src/emacsclient-w32.exe
-	dobin lib-src/emacsclient-lucid.exe
-	dobin lib-src/emacsclient-X11.exe
+	newbin src/emacs.exe emacs-nox.exe
+	newbin build-w32/src/emacs.exe emacs-w32.exe
+	newbin build-lucid/src/emacs.exe emacs-lucid.exe
+	newbin build-gtk/src/emacs.exe emacs-X11.exe
+	newbin lib-src/emacsclient.exe emacsclient-nox.exe
+	newbin build-w32/lib-src/emacsclient.exe emacsclient-w32.exe
+	newbin build-lucid/lib-src/emacsclient.exe emacsclient-lucid.exe
+	newbin build-gtk/lib-src/emacsclient.exe emacsclient-X11.exe
 	cd ${S}
 	dobin make-emacs-shortcut
 	dobin set-emacs-default-nox.sh
