@@ -59,6 +59,14 @@ emacs_lucid_REQUIRES="emacs-common bitstream-vera-fonts"
 
 emacs_w32_REQUIRES="emacs-common"
 
+emacs_PROVIDES="emacs-bin"
+
+emacs_X11_PROVIDES="emacs-bin"
+
+emacs_lucid_PROVIDES="emacs-bin"
+
+emacs_w32_PROVIDES="emacs-bin"
+
 SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
 # SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc1.tar.xz"
