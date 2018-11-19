@@ -1,6 +1,6 @@
 NAME="emacs"
-VERSION=26.1
-RELEASE=2
+VERSION=26.1.90
+RELEASE=1
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -59,17 +59,10 @@ emacs_lucid_REQUIRES="emacs-common bitstream-vera-fonts"
 
 emacs_w32_REQUIRES="emacs-common"
 
-emacs_PROVIDES="emacs-bin"
-
-emacs_X11_PROVIDES="emacs-bin"
-
-emacs_lucid_PROVIDES="emacs-bin"
-
-emacs_w32_PROVIDES="emacs-bin"
-
-SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
+# SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
 # SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc1.tar.xz"
+SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}.tar.xz"
 
 # Can generate a source tarball by running './make-dist --snapshot
 # --xz --tests' in git repo.  Note: It’s possible to have an
@@ -98,7 +91,6 @@ SRC_URI+="
 PATCH_URI="nonbootstrap_static_heap.patch"
 PATCH_URI+=" bt.patch"
 PATCH_URI+=" 0001-Add-battery-support-to-all-Cygwin-builds.patch"
-PATCH_URI+=" dont_wait_for_visible_frames.patch"
 
 DOCS="README.Cygwin"
 
@@ -134,6 +126,7 @@ emacs_common_CONTENTS="
 	usr/bin/emacs.ico
 	usr/bin/make-emacs-shortcut
 	usr/bin/set-emacs-default-nox.sh
+	usr/include/
 	usr/lib/systemd/
 	usr/libexec/
 	usr/share/"
