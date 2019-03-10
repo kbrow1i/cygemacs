@@ -1,6 +1,6 @@
 NAME="emacs"
-VERSION=26.1.90
-RELEASE=1
+VERSION=26.1.92
+RELEASE=3
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
 CATEGORY="Editors Interpreters"
@@ -19,7 +19,7 @@ emacs_w32_SUMMARY="Emacs binaries using the native Windows GUI"
 
 DESCRIPTION="Emacs is a powerful, customizable, self-documenting, modeless text
 editor.  Emacs contains special code editing features, a scripting
-language (elisp), and the capability to read mail, news and more without
+language (elisp), and the capability to read mail, news, and more without
 leaving the editor."
 
 emacs_DESCRIPTION="${DESCRIPTION}
@@ -61,8 +61,7 @@ emacs_w32_REQUIRES="emacs-common"
 
 # SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
-# SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc1.tar.xz"
-SRC_URI="ftp://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}.tar.xz"
+SRC_URI="https://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}.tar.xz"
 
 # Can generate a source tarball by running './make-dist --snapshot
 # --xz --tests' in git repo.  Note: It’s possible to have an
@@ -91,6 +90,7 @@ SRC_URI+="
 PATCH_URI="nonbootstrap_static_heap.patch"
 PATCH_URI+=" bt.patch"
 PATCH_URI+=" 0001-Add-battery-support-to-all-Cygwin-builds.patch"
+PATCH_URI+=" 0001-Use-a-runtime-test-for-timerfd-on-Cygwin-Bug-34618.patch"
 
 DOCS="README.Cygwin"
 
@@ -168,18 +168,14 @@ src_compile() {
 	cd ${B}
 	cygconf --with-x=no
 	cygmake
-	mkdir build-w32
+	mkdir build-w32 build-lucid build-gtk
 	cd build-w32
 	cygconf --with-w32
 	cygmake
-	cd ..
-	mkdir build-lucid
-	cd build-lucid
+	cd ../build-lucid
 	cygconf --with-x-toolkit=lucid
 	cygmake
-	cd ..
-	mkdir build-gtk
-	cd build-gtk
+	cd ../build-gtk
 	cygconf
 	cygmake
 }

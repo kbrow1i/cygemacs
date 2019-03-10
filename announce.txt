@@ -1,26 +1,32 @@
-From cygwin-announce-emacs-26.1-2 Mon May 28 13:43:41 2018
+From cygwin-announce-emacs-26.1.92-3 Sun Mar 10 11:34:38 2019
 From: Ken Brown <kbrown@cornell.edu>
 To: cygwin-announce@cygwin.com
-Date: Mon, 28 May 2018 13:43:41 -0400
-Message-Id: <20180528134341.968-1-kbrown@cornell.edu>
-Subject: emacs 26.1-2
+Date: Sun, 10 Mar 2019 11:34:38 -0400
+Message-Id: <20190310113438.42921-1-kbrown@cornell.edu>
+Subject: emacs 26.1.92-3 (TEST)
 
-The following packages have been uploaded to the Cygwin distribution:
+The following packages have been uploaded to the Cygwin distribution
+as test releases:
 
-* emacs-common-26.1-2
-* emacs-26.1-2
-* emacs-X11-26.1-2
-* emacs-w32-26.1-2
-* emacs-lucid-26.1-2
+* emacs-26.1.92-3
+* emacs-common-26.1.92-3
+* emacs-X11-26.1.92-3
+* emacs-w32-26.1.92-3
+* emacs-lucid-26.1.92-3
 
 Emacs is a powerful, customizable, self-documenting, modeless text
 editor.  Emacs contains special code editing features, a scripting
 language (elisp), and the capability to read mail, news, and more
 without leaving the editor.
 
-This is an update to the latest upstream release.  Browse the NEWS
-file ('C-h n' within emacs) for changes since the last release.
+This is a pretest for the upcoming release of emacs-26.2.  Browse the
+NEWS file ('C-h n' within emacs) for changes since the last release,
+although this is not yet complete.
 
+This build uses the timerfd functions that were introduced in
+cygwin-3.0.0, so it will not run on earlier releases of Cygwin.  And
+it will not run well on Cygwin releases prior to cygwin-3.0.3, which
+contains fixes for some timer-related bugs.
 
 CYGWIN NOTES
 ============
@@ -83,4 +89,3 @@ CYGWIN NOTES
 
 Ken Brown
 Cygwin's Emacs maintainer
-
