@@ -1,27 +1,25 @@
-From cygwin-announce-emacs-26.1.92-3 Sun Mar 10 11:34:38 2019
+From cygwin-announce-emacs-26.2-1 Mon Apr 15 15:43:26 2019
 From: Ken Brown <kbrown@cornell.edu>
 To: cygwin-announce@cygwin.com
-Date: Sun, 10 Mar 2019 11:34:38 -0400
-Message-Id: <20190310113438.42921-1-kbrown@cornell.edu>
-Subject: emacs 26.1.92-3 (TEST)
+Date: Mon, 15 Apr 2019 15:43:26 -0400
+Message-Id: <20190415154326.10646-1-kbrown@cornell.edu>
+Subject: emacs 26.2-1
 
-The following packages have been uploaded to the Cygwin distribution
-as test releases:
+The following packages have been uploaded to the Cygwin distribution:
 
-* emacs-26.1.92-3
-* emacs-common-26.1.92-3
-* emacs-X11-26.1.92-3
-* emacs-w32-26.1.92-3
-* emacs-lucid-26.1.92-3
+* emacs-26.2-1
+* emacs-common-26.2-1
+* emacs-X11-26.2-1
+* emacs-w32-26.2-1
+* emacs-lucid-26.2-1
 
 Emacs is a powerful, customizable, self-documenting, modeless text
 editor.  Emacs contains special code editing features, a scripting
 language (elisp), and the capability to read mail, news, and more
 without leaving the editor.
 
-This is a pretest for the upcoming release of emacs-26.2.  Browse the
-NEWS file ('C-h n' within emacs) for changes since the last release,
-although this is not yet complete.
+This is an update to the latest upstream release.  Browse the NEWS
+file ('C-h n' within emacs) for changes since the last release.
 
 This build uses the timerfd functions that were introduced in
 cygwin-3.0.0, so it will not run on earlier releases of Cygwin.  And
@@ -54,10 +52,10 @@ CYGWIN NOTES
    will make /usr/bin/emacs resolve to /usr/bin/emacs-w32.exe,
    regardless of which packages you've installed.
 
-2. The emacs-common package is new with this release.  It contains the
-   files that are needed by all four of the binary packages mentioned
-   above.  It also contains the elisp source files, which were
-   previously in a separate (now obsolete) emacs-el package.
+2. The emacs-common package is new.  It contains the files that are
+   needed by all four of the binary packages mentioned above.  It also
+   contains the elisp source files, which were previously in a
+   separate (now obsolete) emacs-el package.
 
 3. Install emacs-X11 if you want to use the X11 GUI with the GTK+
    toolkit.  (This is the default toolkit.)  You can then type
