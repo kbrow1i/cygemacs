@@ -1,5 +1,5 @@
 NAME="emacs"
-VERSION=26.2
+VERSION=26.2.90
 RELEASE=1
 
 HOMEPAGE="http://www.gnu.org/software/emacs/"
@@ -59,8 +59,9 @@ emacs_lucid_REQUIRES="emacs-common bitstream-vera-fonts"
 
 emacs_w32_REQUIRES="emacs-common"
 
-SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
+# SRC_URI="mirror://gnu/emacs/emacs-${VERSION}.tar.xz"
 
+SRC_URI="https://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}.tar.xz"
 # SRC_URI="https://alpha.gnu.org/gnu/emacs/pretest/emacs-${VERSION}-rc1.tar.xz"
 
 # Can generate a source tarball by running './make-dist --snapshot
